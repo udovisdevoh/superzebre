@@ -42,6 +42,9 @@ class DataBaseController:
         #return project from SQL
         pass
     
+    def delete(self,projectName):
+        pass
+    
 if __name__ == '__main__':
     dataBaseController = DataBaseController(127,"test");
     dataBaseController.runCommand("CREATE TABLE test (id INTEGER PRIMARY KEY, name VARCHAR(50), email VARCHAR(50))")
