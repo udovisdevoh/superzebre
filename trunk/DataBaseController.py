@@ -34,6 +34,13 @@ class DataBaseController:
     
     def runCommand(self,text):
         self.cursor.execute(text);
+        
+    def save(self,project):
+        pass
+    
+    def load(self,projectName):
+        #return project from SQL
+        pass
     
 if __name__ == '__main__':
     dataBaseController = DataBaseController(127,"test");
