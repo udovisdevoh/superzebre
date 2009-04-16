@@ -7,6 +7,7 @@ class ProjetForm:
     def __init__(self, master,type,title,texte):
         #rajouter le parent pour que le bouton puisse appeler le controleur
         self.master = master 
+        self.type=type
         # va chercher le root du parent
         self.tLevel = Toplevel(self.master.root)
         self.tLevel.title(title)
@@ -29,10 +30,10 @@ class ProjetForm:
         leNom = self.nom.get()
         #vérifie que le nom de projet ne sois pas vide
         if leNom != "":
-            if type == "create": 
+            if self.type == 'c': 
                 #appelle la méthode du controleur pour créer un nouveau projet
                 self.master.parent.createProject(leNom)
-            if type == "load":
+            if self.type == 'l':
                 #appelle la méthode du controleur pour loader un projet
                 self.master.parent.loadProject(leNom) 
             #ferme le topLevel
