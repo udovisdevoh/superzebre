@@ -26,16 +26,14 @@ class Client:
         #self.projetCourant.motClasses.verbe = ""
         #self.projetCourant.motClasses.nom = ""
         #self.projetCourant.motClasses.adjectif = ""
-        print self.nomProjet
     def saveProject(self):
         self.serv.save(self.projetCourant,self.nomProjet)
     def loadProject(self):
         self.projetCourant = self.serv.load(self.nomProjet)
     def editAnalyseTextuelle(self):
         self.form.analyse()      
-    def loadText(self,texte):
-        #self.form.loadText()
-        pass      
+    def loadTexte(self,texte):
+        self.projetCourant.texte = texte
 
 if __name__ == "__main__":
     s = xmlrpclib.ServerProxy('http://localhost:8006')
