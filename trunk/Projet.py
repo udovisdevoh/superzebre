@@ -1,6 +1,7 @@
 #-*- coding: iso-8859-1 -*-
+from MotsClasses import *
 class Projet(object):
     def __init__(self):
         self.nomProjet = ""
-        self.motClasses = MotClasses()
+        self.motsClasses = MotsClasses()
         self.texte = ""
