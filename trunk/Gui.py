@@ -48,7 +48,8 @@ class Gui(object):
         button.pack()
 		
     def edit(self):
-		self.analyseTextuelleForm = AnalyseTextuelleForm(self, "SuperZèbre-Analyse Textuelle")
+        self.imgLabel.destroy()
+        self.analyseTextuelleForm = AnalyseTextuelleForm(self, "SuperZèbre-Analyse Textuelle")
     def importText(self):
         self.fileForm = FileForm(self,"Importer un texte")
     def load(self):
