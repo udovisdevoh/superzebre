@@ -51,12 +51,12 @@ class Gui(object):
     def importText(self):
         self.fileForm = FileForm(self,"Importer un texte")
     def load(self):
-        self.projetForm = CreationProjetForm(self,"load","Récupération de projet","Veuillez entrer le nom du Projet : ")    
+        self.projetForm = ProjetForm(self,'l',"Récupération de projet","Veuillez entrer le nom du Projet : ")    
     def save(self):
         self.parent.saveProject()
     
     def new(self):
-        self.projetForm = CreationProjetForm(self,"create","Creation de projet","Veuillez entrer le nom de votre Projet : ")    
+        self.projetForm = ProjetForm(self,'c',"Creation de projet","Veuillez entrer le nom de votre Projet : ")    
     def quit(self):
         sys.exit()
         
