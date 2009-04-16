@@ -2,11 +2,13 @@
 import xmlrpclib
 from Gui import *
 from Projet import *
+from AnalyseTextuelle import *
 
 class Client:
     def __init__(self):
         self.vue = Gui(self)
         self.projetCourant = ""
+        self.analyseTexte = AnalyseTextuelle()
     def connect(self,serv):
         self.serv = serv
         self.numClient = self.serv.connect()
@@ -34,7 +36,8 @@ class Client:
         self.form.analyse()      
     def loadTexte(self,texte):
         self.projetCourant.texte = texte
-
+    def ajouterMots(self,mot,type):
+        self.analyseTexte.classerMot(mot,type)
 if __name__ == "__main__":
     s = xmlrpclib.ServerProxy('http://localhost:8006')
     c = Client()
