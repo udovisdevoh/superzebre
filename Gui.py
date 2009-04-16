@@ -1,6 +1,8 @@
 #-*- coding: iso-8859-1 -*-
 import sys
 from Tkinter import *
+from CreationProjetForm import *
+from FileForm import *
 
 class Gui(object):
     def __init__(self, parent):
@@ -44,21 +46,17 @@ class Gui(object):
         button = Button(about, text = "Fermer", command=about.destroy)
         button.pack()
 		
-	def edit(self):
+    def edit(self):
 		self.parent.editAnalyseTextuelle()
-    
-	def importText(self):
-		self.parent.loadText()
-	
+    def importText(self):
+        self.fileForm = FileForm(self,"Importer un texte")
     def load(self):
-        self.parent.loadProject()
-    
+        self.projetForm = CreationProjetForm(self,"load","Récupération de projet","Veuillez entrer le nom du Projet : ")    
     def save(self):
         self.parent.saveProject()
     
     def new(self):
-        self.parent.createProject()
-    
+        self.projetForm = CreationProjetForm(self,"create","Creation de projet","Veuillez entrer le nom de votre Projet : ")    
     def quit(self):
         sys.exit()
         
