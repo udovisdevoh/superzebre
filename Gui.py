@@ -3,6 +3,7 @@ import sys
 from Tkinter import *
 from ProjetForm import *
 from FileForm import *
+from AnalyseTextuelleForm import *
 
 class Gui(object):
     def __init__(self, parent):
@@ -11,12 +12,12 @@ class Gui(object):
         self.root = Tk()
         self.root.title("SuperZèbre")
         self.mainMenu()
-        #self.addImage()
+        self.addImage()
         
     def addImage(self):
-        img = PhotoImage(file = "zebre.gif")
-        imgLabel = Label(self.root,image=img)
-        imgLabel.pack()
+        self.img = PhotoImage(file = "zebre.gif")
+        self.imgLabel = Label(self.root,image=self.img)
+        self.imgLabel.pack(side = TOP)
     
     def mainMenu(self):
         menu = Menu(self.root)
@@ -47,7 +48,7 @@ class Gui(object):
         button.pack()
 		
     def edit(self):
-		self.parent.editAnalyseTextuelle()
+		self.analyseTextuelleForm = AnalyseTextuelleForm(self, "SuperZèbre-Analyse Textuelle")
     def importText(self):
         self.fileForm = FileForm(self,"Importer un texte")
     def load(self):
@@ -61,6 +62,10 @@ class Gui(object):
         sys.exit()
         
 if __name__ == "__main__":
-    g = GUI()
-    g.root.mainloop()
+    from Client import *
+    from Gui import *
+    c = Client()
+    c.vue.mainMenu()
+    c.vue.addImage()
+    c.vue.root.mainloop()
     
