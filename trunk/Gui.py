@@ -1,7 +1,7 @@
 #-*- coding: iso-8859-1 -*-
 import sys
 from Tkinter import *
-from CreationProjetForm import *
+from ProjetForm import *
 from FileForm import *
 
 class Gui(object):
