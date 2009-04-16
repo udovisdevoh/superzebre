@@ -67,6 +67,5 @@ if __name__ == "__main__":
     from Gui import *
     c = Client()
     c.vue.mainMenu()
-    c.vue.addImage()
     c.vue.root.mainloop()
     
