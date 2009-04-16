@@ -4,7 +4,6 @@ from MotsClasses import *
 class AnalyseTextuelle(object):
 
     def __init__(self):
-        self.vue = AnalyseTextuelleForm()
         self.motsClasses = MotsClasses()
 
     def getMotsClasses(self):
@@ -12,11 +11,11 @@ class AnalyseTextuelle(object):
 
     def classerMot(self, mot, genre):     
         if genre == 1:
-            motsClasses.ajouterNom(mot)
+            self.motsClasses.ajouterNom(mot)
         elif genre == 2:
-            motsClasses.ajouterVerbe(mot)
+            self.motsClasses.ajouterVerbe(mot)
         elif genre == 3:
-            motsClasses.ajouterAdjectif(mot)
+            self.motsClasses.ajouterAdjectif(mot)
         else:
             print "Erreur lors du classement du mot, genre erroné"
             
