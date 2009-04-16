@@ -18,7 +18,7 @@ class AnalyseTextuelleForm:
         self.button = Button(self.frameBottom, text="QUIT", fg="red", command=self.frameBottom.quit)
         self.button.pack(side=BOTTOM,anchor=E)
         
-        self.frameTop.pack(side=TOP)
+        self.frameTop.pack(side=TOP,pady=50)
         self.frameBottom.pack(side = BOTTOM)
         self.frameCentre.pack()
          
@@ -29,6 +29,10 @@ class AnalyseTextuelleForm:
         
         self.texte = Text(self.frameTop,height=10)
         self.texte.insert(END, "hello, ")
+        self.texte.pack(side=LEFT)
+        self.textebar = Scrollbar(self.frameTop, orient=VERTICAL , command=self.texte.yview)
+        self.textebar.pack(side = LEFT , fill = Y)
+        self.texte.configure(yscrollcommand = self.textebar.set)
            
         self.bVerbe.pack(anchor=E,) 
         self.bNom.pack(anchor=CENTER) 
@@ -36,7 +40,7 @@ class AnalyseTextuelleForm:
         
         self.bSaute.pack(side=BOTTOM,anchor=W,pady=20)
         
-        self.texte.pack(side=TOP,pady=50)
+        
         self.canvas.pack(side=BOTTOM,pady=20)  
           
     
