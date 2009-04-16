@@ -28,7 +28,7 @@ class AnalyseTextuelleForm:
         self.bSaute= Button(self.frameCentre,text="Sauter un mot",width=20)
         
         self.texte = Text(self.frameTop,height=10)
-        self.texte.insert(END, "hello, ")
+        self.texte.insert(END, self.parent.parent.projetCourant.texte)
         self.texte.pack(side=LEFT)
         self.textebar = Scrollbar(self.frameTop, orient=VERTICAL , command=self.texte.yview)
         self.textebar.pack(side = LEFT , fill = Y)
