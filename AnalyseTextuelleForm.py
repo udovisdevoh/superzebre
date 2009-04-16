@@ -1,13 +1,14 @@
 #-*- coding: iso-8859-1 -*-
 from Tkinter import *
 
-class App:
-
-    def __init__(self, master):
-        master.title("Analyse Textuelle")
-        self.frameTop = Frame(master)
-        self.frameBottom= Frame(master)
-        self.frameCentre = Frame(master)
+class AnalyseTextuelleForm:
+    def __init__(self, parent, title):
+        self.parent = parent
+        self.master = parent.root
+        self.master.title(title)
+        self.frameTop = Frame(self.master)
+        self.frameBottom= Frame(self.master)
+        self.frameCentre = Frame(self.master)
         
         self.canvas = Canvas(self.frameBottom, width=800, height=400)
         self.canvas.create_rectangle(4,4,266,400,width=2,fill="white")
@@ -39,9 +40,9 @@ class App:
         self.canvas.pack(side=BOTTOM,pady=20)  
           
     
-        
-root = Tk()
-
-app = App(root)
-
-root.mainloop()
+if __name__=="__main__":
+    from Client import *
+    from Gui import *
+    c = Client()
+    c.vue.test = AnalyseTextuelleForm(c.vue,"test")      
+    c.vue.test.master.mainloop()
