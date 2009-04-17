@@ -61,7 +61,13 @@ class Gui(object):
         self.projetForm = ProjetForm(self,'c',"Creation de projet","Veuillez entrer le nom de votre Projet : ")    
     def quit(self):
         sys.exit()
-        
+    def message(self,title,text):
+        mes= Toplevel(self.root)
+        mes.title(title)
+        msg = Message(mes, text=text, width=600,padx = 50, pady=20)   
+        msg.pack()
+        button = Button(mes, text = "Ok", command=mes.destroy,width = 10)
+        button.pack()   
 if __name__ == "__main__":
     from Client import *
     from Gui import *
