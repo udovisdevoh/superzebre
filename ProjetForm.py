@@ -32,12 +32,12 @@ class ProjetForm:
         if leNom != "":
             if self.type == 'c': 
                 #appelle la méthode du controleur pour créer un nouveau projet
+                self.tLevel.destroy()
                 self.master.parent.createProject(leNom)
             if self.type == 'l':
                 #appelle la méthode du controleur pour loader un projet
+                self.tLevel.destroy()
                 self.master.parent.loadProject(leNom) 
-            #ferme le topLevel
-            self.tLevel.destroy()
 
 #Ajouter la commende suivant pour que le reste ne s'exécute pas si se n'est pas le main
 if __name__ == "__main__":
