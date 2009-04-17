@@ -7,7 +7,7 @@ class AnalyseTextuelle(object):
         self.motsClasses = MotsClasses()
 
     def getMotsClasses(self):
-        return motsClasses
+        return self.motsClasses
 
     def classerMot(self, mot, genre):     
         if genre == 1:
