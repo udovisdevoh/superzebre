@@ -25,17 +25,19 @@ class Client:
         self.projetCourant = Projet()
         self.projetCourant.texte = ""
         self.projetCourant.nomProjet = nomProject
-        #self.projetCourant.motClasses.verbe = ""
-        #self.projetCourant.motClasses.nom = ""
-        #self.projetCourant.motClasses.adjectif = ""
+        self.vue.message("Projet " + nomProject,"Le projet "+ nomProject +" a bien été créer")
     def saveProject(self):
         self.serv.save(self.projetCourant,self.nomProjet)
     def loadProject(self):
         self.projetCourant = self.serv.load(self.nomProjet)
     def editAnalyseTextuelle(self):
-        self.form.analyse()      
+        tmp = self.analyseTexte.getMotsClasses()
+        self.projetCourant.motsClasses.noms =tmp.noms[:]
+        self.projetCourant.motsClasses.verbes =tmp.verbes[:]
+        self.projetCourant.motsClasses.adjectifs =tmp.adjectifs[:]      
     def loadTexte(self,texte):
         self.projetCourant.texte = texte
+        self.vue.message("Projet " + self.projetCourant.nomProjet,"Le texte a bien été charger sur le projet")
     def ajouterMots(self,mot,type):
         self.analyseTexte.classerMot(mot,type)
 if __name__ == "__main__":
