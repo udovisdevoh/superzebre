@@ -49,6 +49,9 @@ class Gui(object):
 		
     def edit(self):
         self.imgLabel.destroy()
+        self.parent.analyseTexte.motsClasses.verbes = self.parent.projetCourant.motsClasses.verbes[:]
+        self.parent.analyseTexte.motsClasses.noms = self.parent.projetCourant.motsClasses.noms[:]
+        self.parent.analyseTexte.motsClasses.adjectifs = self.parent.projetCourant.motsClasses.adjectifs[:]
         self.analyseTextuelleForm = AnalyseTextuelleForm(self, "SuperZèbre-Analyse Textuelle")
     def importText(self):
         self.fileForm = FileForm(self,"Importer un texte")
