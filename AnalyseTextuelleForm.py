@@ -12,31 +12,33 @@ class AnalyseTextuelleForm:
         self.frameBottom = Frame(self.master)
         self.frameBoutonValide = Frame(self.master)
         
-        self.verbe = Text(self.frameBottom,height=25,width=30)
+        self.verbe = Text(self.frameBottom,height=20,width=30)
         self.verbe.pack(side=LEFT)
         self.verbebar = Scrollbar(self.frameBottom, orient=VERTICAL , command=self.verbe.yview)
         self.verbebar.pack(side = LEFT , fill = Y)
         self.verbe.configure(yscrollcommand = self.verbebar.set)
-        self.nom = Text(self.frameBottom,height=25,width=30)
+        self.nom = Text(self.frameBottom,height=20,width=30)
         self.nom.pack(side=LEFT)
         self.nombar = Scrollbar(self.frameBottom, orient=VERTICAL , command=self.nom.yview)
         self.nombar.pack(side = LEFT , fill = Y)
         self.nom.configure(yscrollcommand = self.nombar.set)
-        self.adj = Text(self.frameBottom,height=25,width=30)
+        self.adj = Text(self.frameBottom,height=20,width=30)
         self.adj.pack(side=LEFT)
         self.adjbar = Scrollbar(self.frameBottom, orient=VERTICAL , command=self.adj.yview)
         self.adjbar.pack(side = LEFT , fill = Y)
         self.adj.configure(yscrollcommand = self.adjbar.set)
           
-    
-        self.button = Button(self.frameBoutonValide, text="QUIT", fg="red", command=self.frameBottom.quit)
-        self.button.pack(side=RIGHT)
+        self.cancel = Button(self.frameBoutonValide, text="Cancel", fg="red",command=self.canceller)
+        self.valide = Button(self.frameBoutonValide, text="Valider", fg="green",command = self.valider)
+        self.cancel.pack(side=LEFT)
+        self.valide.pack(side=RIGHT)
+        
         
         self.frameTop.pack(side=TOP,pady=40)
         self.frameSaute.pack(side = TOP)
         self.frameBouton.pack(side = TOP,pady = 10)
         self.frameBottom.pack(side = TOP,padx = 10)
-        self.frameBoutonValide.pack(side = TOP , pady = 15)
+        self.frameBoutonValide.pack(side = TOP , pady = 15,ipadx = 345)
         
          
         self.bVerbe = Button(self.frameBouton,text="Verbes",width=36,command=self.addVerbe)
@@ -56,6 +58,12 @@ class AnalyseTextuelleForm:
         self.bAdj.pack(side = LEFT)
         
         self.bSaute.pack(side=BOTTOM,anchor=W)
+        for i in self.parent.parent.projetCourant.motsClasses.verbes:
+            self.verbe.insert(END, i+"\n")
+        for i in self.parent.parent.projetCourant.motsClasses.noms:
+            self.nom.insert(END, i+"\n")
+        for i in self.parent.parent.projetCourant.motsClasses.adjectifs:
+            self.adj.insert(END, i+"\n")
     
     def addVerbe(self):
         verbe = self.texte.get("sel.first", "sel.last")
@@ -69,8 +77,16 @@ class AnalyseTextuelleForm:
         adj = self.texte.get("sel.first", "sel.last")
         self.adj.insert(END, adj+"\n")
         self.parent.parent.ajouterMots(adj,3)       
-
-
+    def canceller(self):
+        self.frameTop.destroy()
+        self.frameBouton.destroy()
+        self.frameSaute.destroy()
+        self.frameBottom.destroy()
+        self.frameBoutonValide.destroy()
+        self.parent.addImage()
+    def valider(self):
+        self.parent.parent.editAnalyseTextuelle()
+        self.canceller()
 
     
 if __name__=="__main__":
