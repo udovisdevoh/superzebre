@@ -1,80 +1,86 @@
 #-*- coding: iso-8859-1 -*-
 import sys
+from Client import * 
 from Tkinter import *
-from ProjetForm import *
+from TextForm import *
 from FileForm import *
-from AnalyseTextuelleForm import *
+from TextAnalysisForm import *
 
-class Gui(object):
-    def __init__(self, parent):
-        self.parent = parent
-        self.projetActif = ""
+class Gui:
+    def __init__(self, parentClient):
+        self.parentClient = parentClient
         self.root = Tk()
+        self.root.minsize(800,600)
         self.root.title("SuperZèbre")
-        self.mainMenu()
-        self.addImage()
         
-    def addImage(self):
-        self.img = PhotoImage(file = "zebre.gif")
-        self.imgLabel = Label(self.root,image=self.img)
-        self.imgLabel.pack(side = TOP)
-    
-    def mainMenu(self):
+    def showMainMenu(self):
         menu = Menu(self.root)
         self.root.config(menu=menu)
-        
         filemenu = Menu(menu)
         menu.add_cascade(label="File", menu=filemenu)
-        filemenu.add_command(label="New", command=self.new)
-        filemenu.add_command(label="Load...", command=self.load)
-        filemenu.add_command(label="Save", command=self.save)
-        filemenu.add_command(label="Importer un texte", command=self.importText)
-        filemenu.add_command(label="Modifier une Analyse", command=self.edit)
+        filemenu.add_command(label="New", command=self.createNewProject)
+        filemenu.add_command(label="Load...", command=self.loadProject)
+        filemenu.add_command(label="Save", command=self.saveCurrentProject)
+        filemenu.add_command(label="Importer un texte", command=self.loadText)
+        filemenu.add_command(label="Faire/Modifier analyse textuelle", command=self.tryBeginPerformTextAnalysis)
         filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=self.quit)
-
+        filemenu.add_command(label="Exit", command=sys.exit)
         helpmenu = Menu(menu)
         menu.add_cascade(label="Help", menu=helpmenu)
-        helpmenu.add_command(label="About...", command=self.help)
+        helpmenu.add_command(label="About...", command=self.showAboutWindow)
     
-    def help(self):
-        about = Toplevel(self.root)
-        about.title("About")
-
-        msg = Message(about, text="Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n",width=300)
-        msg.pack()
+    def createNewProject(self):
+        projectName = self.getInputDialog("Project name:")
+        if projectName.strip() == "":
+            self.showMessage("Erreur","Vous devez entrer un nom valide")
+            return
+        self.parentClient.createNewProject(projectName)
+    
+    def loadProject(self):
+        projectName = self.getInputDialog("Project name:")
+        if projectName.strip() == "":
+            self.showMessage("Erreur","Vous devez entrer un nom valide")
+            return
+        self.parentClient.loadProject(projectName)
+    
+    def saveCurrentProject(self):
+        self.parentClient.saveCurrentProject()
+    
+    def loadText(self):
+        self.parentClient.tryLoadTextFileIntoProject()
+    
+    def tryBeginPerformTextAnalysis(self):
+        self.parentClient.tryPerformTextAnalysis()
+    
+    def showAboutWindow(self):
+        self.showMessage("About","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
         
-        button = Button(about, text = "Fermer", command=about.destroy)
-        button.pack()
-		
-    def edit(self):
-        self.imgLabel.destroy()
-        self.parent.analyseTexte.motsClasses.verbes = self.parent.projetCourant.motsClasses.verbes[:]
-        self.parent.analyseTexte.motsClasses.noms = self.parent.projetCourant.motsClasses.noms[:]
-        self.parent.analyseTexte.motsClasses.adjectifs = self.parent.projetCourant.motsClasses.adjectifs[:]
-        self.analyseTextuelleForm = AnalyseTextuelleForm(self, "SuperZèbre-Analyse Textuelle")
-    def importText(self):
-        self.fileForm = FileForm(self,"Importer un texte")
-    def load(self):
-        self.projetForm = ProjetForm(self,'l',"Récupération de projet","Veuillez entrer le nom du Projet : ")    
-    def save(self):
-        self.parent.saveProject()
-    
-    def new(self):
-        self.projetForm = ProjetForm(self,'c',"Creation de projet","Veuillez entrer le nom de votre Projet : ")    
-    def quit(self):
-        sys.exit()
-    def message(self,title,text):
-        mes= Toplevel(self.root)
-        mes.title(title)
-        msg = Message(mes, text=text, width=600,padx = 50, pady=20)   
+    def showMessage(self,title,text):
+        messageBox = Toplevel(self.root)
+        messageBox.title(title)
+        msg = Message(messageBox, text=text,width=300)
         msg.pack()
-        button = Button(mes, text = "Ok", command=mes.destroy,width = 10)
-        button.pack()   
-if __name__ == "__main__":
-    from Client import *
-    from Gui import *
-    c = Client()
-    c.vue.mainMenu()
-    c.vue.root.mainloop()
+        button = Button(messageBox, text = "Fermer", command=messageBox.destroy)
+        button.pack()
+        
+    def getSortedWordsFromTextAnalysisForm(self, text, sortedWords):
+        textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle", text, sortedWords)
+        return textAnalysisForm.sortedWords
     
+    def getInputDialog(self,message):
+        textForm = TextForm(self.root,message)
+        self.root.wait_window(textForm.top)
+        return textForm.outputValue
+        
+    def getFileContentFromDialog(self,title,fileType,fileExtension):
+        fileForm = FileForm(self.root,title,fileType,fileExtension)
+        try:
+            return fileForm.fileContent
+        except AttributeError:
+            return None
+        
+if __name__ == "__main__":
+    print "Testing the GUI..."
+    gui = Gui(None)
+    gui.showMainMenu()
+    gui.root.mainloop()
