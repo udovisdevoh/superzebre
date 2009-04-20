@@ -1,20 +1,26 @@
 #-*- coding: iso-8859-1 -*-
 from Tkinter import *
+from Client import *
+from Gui import *
 import tkFileDialog
 
 class FileForm:
-    def __init__(self,master,title):
-        self.master = master
-        self.file = tkFileDialog.askopenfile(parent = master.root,filetypes=[("Text file","*.txt")],initialdir="c:\\",mode='rb',title=title)
+    def __init__(self,root,title,fileType,fileExtension):
+        #self.file = tkFileDialog.askopenfile(parent = root,filetypes=[(fileType,fileExtension)],initialdir="c:\\",mode='rb',title=title)
+        self.file = tkFileDialog.askopenfile(parent = root,filetypes=[(fileType,fileExtension)],mode='rb',title=title)
         if self.file != None:
-            texte = self.file.read()
+            self.fileContent = self.file.read()
+            self.fileContent = str(self.fileContent)
+            self.fileContent = self.fileContent.replace("\r"," ")
+            self.fileContent = self.fileContent.replace("\n"," ")
+            self.fileContent = self.fileContent.replace("\t"," ")
+            
+            while self.fileContent.find("  ") != -1:
+                self.fileContent = self.fileContent.replace("  "," ")
+            
             self.file.close()
-            if title == "test":
-                print texte
-            else:
-                self.master.parent.loadTexte(texte)
-if __name__=="__main__":
-    from Client import *
-    from Gui import *
-    c = Client()
-    c.vue.test = FileForm(c.vue,"test")
+            
+if __name__ == "__main__":
+    root = Tk()
+    fileForm = FileForm(root,"File input","Fichier texte","*.txt")
+    print fileForm.fileContent

@@ -2,20 +2,18 @@
 from sqlite3 import dbapi2 as SQLite
 import xmlrpclib as XMLRPCLib
 from SimpleXMLRPCServer import SimpleXMLRPCServer
-
-#AUTH_CAN_READ = 0
-#AUTH_CAN_WRITE_TEXTANALYSIS = 1
-#AUTH_CAN_WRITE_CRCS = 2
-#AUTH_CAN_WRITE_CALENDAR
+import base64
 
 class DataBaseController:
     def __init__(self, port, dataBaseName):
         self.port = port
         self.host = "localhost"
-        self.server = SimpleXMLRPCServer((self.host, self.port))
         self.dataBase = SQLite.connect(dataBaseName + ".db")
-        self.server.register_instance(self)
         self.cursor = self.dataBase.cursor()
+        try:
+            self.runCommand("CREATE TABLE project (id TEXT, data TEXT)")
+        except SQLite.OperationalError:
+            print "warning! couldn't create table"
         
     def connect(self,user,password):
         #CE BLOC N'EST QU'UN EXEMPLE DE L'UTILISATION
@@ -35,17 +33,29 @@ class DataBaseController:
     def runCommand(self,text):
         self.cursor.execute(text);
         
-    def save(self,project):
-        pass
+    def readValueFromKey(self,tableName,key):
+        print "reading table " + tableName
+        key = key.strip()
+        key = key.lower()
+        self.cursor.execute("SELECT data FROM '" + tableName + "' WHERE id = '" + key + "'")
+        row = self.cursor.fetchone()
+        if row == None:
+            print "key " + key + " not found in table " + tableName
+            return -1
+        print "key " + key + " found in table " + tableName
+        value = str(row[0])
+        value = base64.urlsafe_b64decode(value)
+        return value
     
-    def load(self,projectName):
-        #return project from SQL
-        pass
-    
-    def delete(self,projectName):
-        pass
+    def writeKeyValue(self,tableName,key,value):
+        value = base64.urlsafe_b64encode(value)
+        key = key.strip()
+        key = key.lower()
+        self.cursor.execute("REPLACE into 'project' (id,data) values ('" + key + "','" + value + "');");
+        self.dataBase.commit()
     
 if __name__ == '__main__':
-    dataBaseController = DataBaseController(127,"test");
-    dataBaseController.runCommand("CREATE TABLE test (id INTEGER PRIMARY KEY, name VARCHAR(50), email VARCHAR(50))")
-        
+    dataBaseController = DataBaseController(127,"superzebre");
+    #dataBaseController.runCommand("CREATE TABLE test (id INTEGER PRIMARY KEY, name VARCHAR(50), email VARCHAR(50))")
+    dataBaseController.readValueFromKey("project","mofo")
+    dataBaseController.writeKeyValue("project", "mofo", "fdgfdghfd  fsg fdghfdhd fd")
