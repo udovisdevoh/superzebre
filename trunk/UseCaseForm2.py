@@ -25,7 +25,7 @@ class UseCaseForm(object):
         self.canvas.pack()
     
     def previous(self):
-        if self.index != 0:
+        if self.index != 0 and self.index != -1:
             self.index -= 1
             self.updateText()
     
@@ -35,7 +35,7 @@ class UseCaseForm(object):
             self.tabTitle.append(self.useCaseTitle.get(1.0, END))
             self.tabDefinition.append(self.useCaseDefinition.get(1.0, END))
             self.useCaseTitle.delete(1.0, END)
-            self.useCaseDefinition.delete(1.0, END)
+            self.useCaseDefinition.delete(1.0, END)        
         else:
             self.updateText() 
           
