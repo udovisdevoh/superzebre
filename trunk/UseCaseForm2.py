@@ -6,7 +6,7 @@ class UseCaseForm(object):
         self.initGraphicsComponents(root, title)
         self.tabTitle = []
         self.tabDefinition = []
-        self.index = -1
+        self.index = 0
     
     def initGraphicsComponents(self, root, title):
         root.minsize(800, 600)
@@ -25,19 +25,27 @@ class UseCaseForm(object):
         self.canvas.pack(anchor = CENTER, padx = 100, pady = 100)
     
     def previous(self):
-        if self.index <= 0:
+        if self.index > 0:
             self.index -= 1
             self.updateText()
     
     def next(self):
-        self.index += 1
-        if self.index == len(self.tabTitle):
-            self.tabTitle.append(self.useCaseTitle.get(1.0, END))
-            self.tabDefinition.append(self.useCaseDefinition.get(1.0, END))
-            self.useCaseTitle.delete(1.0, END)
-            self.useCaseDefinition.delete(1.0, END)        
+        if self.useCaseTitle.get(1.0,END)!="\n":
+            if self.index == len(self.tabTitle):
+                self.tabTitle.append(self.useCaseTitle.get(1.0, END))
+                self.tabDefinition.append(self.useCaseDefinition.get(1.0, END))        
+            else:
+                self.tabTitle[self.index] = self.useCaseTitle.get(1.0, END)
+                self.tabDefinition[self.index] = self.useCaseDefinition.get(1.0, END)
+            self.index += 1
+            if self.index == len(self.tabTitle):
+                self.useCaseTitle.delete(1.0, END)
+                self.useCaseDefinition.delete(1.0, END)
+            else:
+                self.updateText()
         else:
-            self.updateText() 
+            print "entrez un titre"
+            
           
     def updateText(self):
         self.useCaseTitle.delete(1.0, END)
