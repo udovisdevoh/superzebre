@@ -32,11 +32,15 @@ class UseCaseForm(object):
     def next(self):
         if self.useCaseTitle.get(1.0,END)!="\n":
             if self.index == len(self.tabTitle):
-                self.tabTitle.append(self.useCaseTitle.get(1.0, END))
-                self.tabDefinition.append(self.useCaseDefinition.get(1.0, END))        
+                text = self.useCaseTitle.get(1.0, END)
+                self.tabTitle.append(text[:-1])
+                text =self.useCaseDefinition.get(1.0, END) 
+                self.tabDefinition.append(text[:-1])        
             else:
-                self.tabTitle[self.index] = self.useCaseTitle.get(1.0, END)
-                self.tabDefinition[self.index] = self.useCaseDefinition.get(1.0, END)
+                text = self.useCaseTitle.get(1.0, END)
+                self.tabTitle[self.index] = text[:-1]
+                text =self.useCaseDefinition.get(1.0, END)
+                self.tabDefinition[self.index] = text[:-1]
             self.index += 1
             if self.index == len(self.tabTitle):
                 self.useCaseTitle.delete(1.0, END)
