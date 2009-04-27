@@ -38,7 +38,8 @@ class Client:
         if self.currentProject != None and self.currentProject.text != None:
             text = self.currentProject.text
             sortedWords = self.currentProject.sortedWords
-            self.currentProject.sortedWords = self.gui.getSortedWordsFromTextAnalysisForm(text, sortedWords)             
+            projectName = self.currentProject.name
+            self.currentProject.sortedWords = self.gui.getSortedWordsFromTextAnalysisForm(projectName,text, sortedWords)             
         elif self.currentProject != None and howManyTry == 0:
             self.tryLoadTextFileIntoProject()
             self.tryPerformTextAnalysis(1)
@@ -51,7 +52,8 @@ class Client:
     def tryPerformUseCase(self):
         if self.currentProject != None and self.currentProject.text != None:
             useCaseTab = self.currentProject.useCase
-            self.currentProject.useCase = self.gui.getUseCaseFromUseCaseForm(useCaseTab)
+            projectName = self.currentProject.name
+            self.currentProject.useCase = self.gui.getUseCaseFromUseCaseForm(projectName,useCaseTab)
     
     def saveCurrentProject(self):
         if self.currentProject != None:
