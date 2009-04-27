@@ -12,7 +12,6 @@ class UseCaseForm(object):
 
     def initGraphicsComponents(self, root, title):
         root.minsize(800, 600)
-        root.maxsize(800, 600)
         self.canvas = Canvas(root, width = 600, height = 400, bg = "blue")
         self.useCaseTitle = Text(self.canvas, width = 50, height = 1)
         self.useCaseDefinition = Text(self.canvas, height = 10)
