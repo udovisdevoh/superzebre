@@ -78,7 +78,7 @@ class Gui:
         msg = Message(messageBox, text=text,width=300)
         msg.pack()
         button = Button(messageBox, text = "Fermer", command=messageBox.destroy)
-        button.pack()
+        button.pack(pady = 5)
         
     def getSortedWordsFromTextAnalysisForm(self, projectName, text, sortedWords):
         textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle - "+projectName, text, sortedWords)
