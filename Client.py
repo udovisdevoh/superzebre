@@ -48,7 +48,11 @@ class Client:
             self.gui.loadProject()
             self.tryPerformTextAnalysis()
             #self.gui.showMessage("Erreur","Vous devez charger ou créer un projet avant de faire l'analyse textuelle")
-
+    def tryPerformUseCase(self):
+        if self.currentProject != None and self.currentProject.text != None:
+            useCaseTab = self.currentProject.useCase
+            self.currentProject.useCase = self.gui.getUseCaseFromUseCaseForm(useCaseTab)
+    
     def saveCurrentProject(self):
         if self.currentProject != None:
             serializedProject = pickle.dumps(self.currentProject)
