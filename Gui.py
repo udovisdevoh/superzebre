@@ -15,21 +15,27 @@ class Gui:
         self.root.title("SuperZèbre")
         
     def showMainMenu(self):
-        menu = Menu(self.root)
-        self.root.config(menu=menu)
-        filemenu = Menu(menu)
-        menu.add_cascade(label="File", menu=filemenu)
-        filemenu.add_command(label="New", command=self.createNewProject)
-        filemenu.add_command(label="Load...", command=self.loadProject)
-        filemenu.add_command(label="Save", command=self.saveCurrentProject)
-        filemenu.add_command(label="Importer un texte", command=self.loadText)
-        filemenu.add_command(label="Faire/Modifier l'analyse textuelle", command=self.tryBeginPerformTextAnalysis)
-        filemenu.add_command(label="Faire/Modifier les cas d'usages", command=self.tryBeginPerformUseCase)
+        self.menu = Menu(self.root)
+        self.root.config(menu=self.menu)
+        filemenu = Menu(self.menu , tearoff=0)
+        self.menu.add_cascade(label="Fichier", menu=filemenu)
+        filemenu.add_command(label="Nouveau", command=self.createNewProject)
+        filemenu.add_command(label="Charger", command=self.loadProject)
+        filemenu.add_command(label="Enregistrer", command=self.saveCurrentProject)
         filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=sys.exit)
-        helpmenu = Menu(menu)
-        menu.add_cascade(label="Help", menu=helpmenu)
-        helpmenu.add_command(label="About...", command=self.showAboutWindow)
+        filemenu.add_command(label="Quitter", command=sys.exit)
+        
+        editmenu = Menu(self.menu , tearoff=0)
+        self.menu.add_cascade(label="Modifier", menu=editmenu)
+        editmenu.add_command(label="Importer un texte", command=self.loadText)
+        editmenu.add_command(label="Faire/Modifier l'analyse textuelle", command=self.tryBeginPerformTextAnalysis)
+        editmenu.add_command(label="Faire/Modifier les cas d'usages", command=self.tryBeginPerformUseCase)
+
+        helpmenu = Menu(self.menu , tearoff=0)
+        self.menu.add_cascade(label="Aide", menu=helpmenu)
+        helpmenu.add_command(label="À propos...", command=self.showAboutWindow)
+        
+        self.menu.entryconfig(2,state = DISABLED)
     
     def createNewProject(self):
         projectName = self.getInputDialog("Project name:")
@@ -37,6 +43,9 @@ class Gui:
             self.showMessage("Erreur","Vous devez entrer un nom valide")
             return
         self.parentClient.createNewProject(projectName)
+        self.menu.entryconfig(2,state = ACTIVE)
+        self.root.title("SuperZèbre - " + projectName)
+
     
     def loadProject(self):
         projectName = self.getInputDialog("Project name:")
@@ -44,6 +53,9 @@ class Gui:
             self.showMessage("Erreur","Vous devez entrer un nom valide")
             return
         self.parentClient.loadProject(projectName)
+        self.menu.entryconfig(2,state = ACTIVE)
+        self.root.title("SuperZèbre - " + projectName)
+
     
     def saveCurrentProject(self):
         self.parentClient.saveCurrentProject()
@@ -58,7 +70,7 @@ class Gui:
         self.parentClient.tryPerformUseCase()
     
     def showAboutWindow(self):
-        self.showMessage("About","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
+        self.showMessage("À propos","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
         
     def showMessage(self,title,text):
         messageBox = Toplevel(self.root)
@@ -68,12 +80,12 @@ class Gui:
         button = Button(messageBox, text = "Fermer", command=messageBox.destroy)
         button.pack()
         
-    def getSortedWordsFromTextAnalysisForm(self, text, sortedWords):
-        textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle", text, sortedWords)
+    def getSortedWordsFromTextAnalysisForm(self, projectName, text, sortedWords):
+        textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle - "+projectName, text, sortedWords)
         return textAnalysisForm.sortedWords
     
-    def getUseCaseFromUseCaseForm(self,useCaseTab):
-        useCaseForm = UseCaseForm(self.root , "Cas D'Usage",useCaseTab)
+    def getUseCaseFromUseCaseForm(self, projectName, useCaseTab):
+        useCaseForm = UseCaseForm(self.root , "Cas D'Usage - "+projectName,useCaseTab)
         return useCaseForm.useCaseTab
     
     def getInputDialog(self,message):
