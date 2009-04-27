@@ -5,6 +5,7 @@ from Tkinter import *
 from TextForm import *
 from FileForm import *
 from TextAnalysisForm import *
+from UseCaseForm import *
 
 class Gui:
     def __init__(self, parentClient):
@@ -22,7 +23,8 @@ class Gui:
         filemenu.add_command(label="Load...", command=self.loadProject)
         filemenu.add_command(label="Save", command=self.saveCurrentProject)
         filemenu.add_command(label="Importer un texte", command=self.loadText)
-        filemenu.add_command(label="Faire/Modifier analyse textuelle", command=self.tryBeginPerformTextAnalysis)
+        filemenu.add_command(label="Faire/Modifier l'analyse textuelle", command=self.tryBeginPerformTextAnalysis)
+        filemenu.add_command(label="Faire/Modifier les cas d'usages", command=self.tryBeginPerformUseCase)
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=sys.exit)
         helpmenu = Menu(menu)
@@ -51,6 +53,9 @@ class Gui:
     
     def tryBeginPerformTextAnalysis(self):
         self.parentClient.tryPerformTextAnalysis()
+        
+    def tryBeginPerformUseCase(self):
+        self.parentClient.tryPerformUseCase()
     
     def showAboutWindow(self):
         self.showMessage("About","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
@@ -66,6 +71,10 @@ class Gui:
     def getSortedWordsFromTextAnalysisForm(self, text, sortedWords):
         textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle", text, sortedWords)
         return textAnalysisForm.sortedWords
+    
+    def getUseCaseFromUseCaseForm(self,useCaseTab):
+        useCaseForm = UseCaseForm(self.root , "Cas D'Usage",useCaseTab)
+        return useCaseForm.useCaseTab
     
     def getInputDialog(self,message):
         textForm = TextForm(self.root,message)
