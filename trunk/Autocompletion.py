@@ -4,7 +4,7 @@
 File : Autocompletion.py
 Author : François Pelletier
 Date Created : 20/04/09
-Last Edited : 29/04/09
+Last Edited : 30/04/09
 """
 
 from Tkinter import *
@@ -16,7 +16,6 @@ class Autocompletion(object):
     An Object Autocompletion has the following methods :
     
     __init__(self, root, lists, textBox)
-    
     getWordStart(self)
     getWordEnd(self)
     findPrefix(self)
@@ -33,21 +32,40 @@ class Autocompletion(object):
         self.lists = lists
         self.textBox = textBox
         self.completionBox = Listbox(self.root, borderwidth = 0, height = 3, width = 25)
-        
         #self.root.bind("<FocusOut>", self.checkFocus)
-        #self.textBox.bind("<Control-space>", self.)
+        self.textBox.bind("<Control-space>", self.testing)
         self.textBox.bind("<KeyRelease>", self.fillCompletionBox)
         self.completionBox.bind("<Double-1>",self.completeWord)
         self.completionBox.bind("<Return>",self.completeWord)
 
-    def getWordStart(self):
+    def testing(self, event):
+        """
+        This method is used only to test some concepts and methods, it should not be used 
+        in the final version of the product.
+        """
+#        if event.type("<Control-space>"):
+ #           print "yay"
+  #      else:
+   #         print event.type("<Control-space>")
+        
+        self.completionBox.pack()
+        for currentList in self.lists:
+            for currentElement in currentList:
+                if currentList.index(currentElement) == 0:
+                    self.symbol = currentElement
+                else:
+                    self.completionBox.insert(END, self.symbol + " - " + currentElement)
+            
+
+
+    def getWordStart(self):    
         """
         This method is called by the method findPrefix() and is used to get the index of
         the beginning letter of the word the insert index is currently in.
-        """        
+        """   
         insertIndex = self.textBox.index(INSERT)   
         text = self.textBox.get("1.0", END)
-        separator = "0.0"
+        separator = "1.0"
         row = 1
         col = 0
         for char in text:
@@ -62,19 +80,7 @@ class Autocompletion(object):
                 separator = currentPosition
             if currentPosition == insertIndex:
                 return separator
-        return "0.0"
-
-    def findPrefix(self):
-        """
-        This method is called by the methods fillCompletionBox or completeWord, it is
-        used to determine what the user is currently typing and return it as a prefix.
-        """
-        wordStart = self.getWordStart()
-        prefix = self.textBox.get(wordStart, INSERT)
-        if prefix == "":
-            return False
-        else:
-            return prefix.capitalize()
+        return "1.0"
     
     def getWordEnd(self):
         """
@@ -94,6 +100,18 @@ class Autocompletion(object):
             if char in separators:
                 return str(row) + "." + str(col - 1)
         return END
+    
+    def findPrefix(self):
+        """
+        This method is called by the methods fillCompletionBox or completeWord, it is
+        used to determine what the user is currently typing and return it as a prefix.
+        """
+        wordStart = self.getWordStart()
+        prefix = self.textBox.get(wordStart, INSERT)
+        if prefix == "":
+            return False
+        else:
+            return prefix.lower()
         
     def completeWord(self, event):
         """
@@ -108,7 +126,7 @@ class Autocompletion(object):
         select = self.completionBox.get(ACTIVE)
         partition = select.partition(" - ")
         suffix = partition[2].split(prefix)
-        self.textBox.insert(INSERT, suffix[len(suffix) - 1])
+        self.textBox.insert(INSERT, suffix[1])
         
         self.completionBox.pack_forget()   
          
@@ -118,11 +136,8 @@ class Autocompletion(object):
         if any of the words in the lists fits the prefix, if so they are added to the completionBox,
         if none fit, then there is no use for the completionBox.
         """
-        print event.getKeysym
-        
         self.completionBox.pack()
         self.completionBox.delete(0, END)
-        
         prefix = self.findPrefix()
         if not prefix:
             self.completionBox.pack_forget()
@@ -137,9 +152,9 @@ class Autocompletion(object):
                         self.completionBox.insert(END, symbol + " - " + currentElement)
             if empty:
                 self.completionBox.pack_forget()
-             
+        """     
     def checkFocus(self, event):
-        """
+        
         This method is called when a widget, in the Autocompletion's root, loses focus,
         if the completionBox does not have the focus, it means the user is not using it
         
@@ -147,14 +162,13 @@ class Autocompletion(object):
         print monobjet#.cget("text")
         
         if self.completionBox #DOESN'T HAVE FOCUS:
-            self.completionBox.pack_forget()
-        """         
-        pass
-
+            self.completionBox.pack_forget()      
+        """
+          
 if __name__ == "__main__":
     print "Testing the GUI..."
     root = Tk() 
-    lists = [["Nom","Banane","Voiture"],["Adjectif","Atomique","Géant"],["Verbe","Bouger","Finir"],["#","1","2","3","4","5","6","7","8","9","10"]]
+    lists = [["nom","banane","voiture"],["adjectif","atomique","géant"],["verbe","bouger","finir"],["#","1","2","3","4","5","6","7","8","9","10"]]
     root.minsize(800,600)
     root.title("Autocompletion Unit Test")
     root.text = Text(root)
@@ -162,3 +176,14 @@ if __name__ == "__main__":
     
     autocompletion = Autocompletion(root, lists, root.text)
     root.mainloop()
+
+"""
+Useful web sites to understand events in TKinter, the TKinter ListBox Widget and Focus in TKinter.
+
+http://effbot.org/tkinterbook/listbox.htm#Tkinter.Listbox.config-method
+http://www.pythonware.com/library/tkinter/introduction/events-and-bindings.htm
+http://www.velocityreviews.com/forums/t497604-focus-trap-in-tkinter.html
+http://docs.python.org/dev/py3k/library/tkinter.ttk.html
+http://tkinter.unpy.net/wiki/TileWrapper
+http://www.commentcamarche.net/forum/affich-12241500-besoin-d-aide-focus-python
+"""
