@@ -94,7 +94,7 @@ class Autocompletion(object):
             if char in separators:
                 return str(row) + "." + str(col - 1)
         return END
-           
+        
     def completeWord(self, event):
         """
         This method is called when the user double clicks in the completionBox, the word
