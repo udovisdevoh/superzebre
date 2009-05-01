@@ -6,6 +6,7 @@ class CrcForm(object):
         self.initGraphicsComponents(root, title)
         self.tabTitle = []
         self.tabResponsability = []
+        self.tabColaborators = []
         self.index = 0
     
     def initGraphicsComponents(self, root, title):
@@ -38,17 +39,22 @@ class CrcForm(object):
             if self.index == len(self.tabTitle):
                 text = self.crcClass.get(1.0, END)
                 self.tabTitle.append(text[:-1])
-                text =self.crcResponsability.get(1.0, END) 
-                self.tabResponsability.append(text[:-1])        
+                text = self.crcResponsability.get(1.0, END) 
+                self.tabResponsability.append(text[:-1])
+                text = self.crcColaborators.get(1.0, END)
+                self.tabColaborators.append(text[:-1])       
             else:
                 text = self.crcClass.get(1.0, END)
                 self.tabTitle[self.index] = text[:-1]
-                text =self.crcResponsability.get(1.0, END)
+                text = self.crcResponsability.get(1.0, END)
                 self.tabResponsability[self.index] = text[:-1]
+                text = self.crcColaborators.get(1.0, END)
+                self.tabColaborators[self.index] = text[:-1]
             self.index += 1
             if self.index == len(self.tabTitle):
                 self.crcClass.delete(1.0, END)
                 self.crcResponsability.delete(1.0, END)
+                self.crcColaborators.delete(1.0, END)
             else:
                 self.updateText()
         else:
@@ -58,8 +64,10 @@ class CrcForm(object):
     def updateText(self):
         self.crcClass.delete(1.0, END)
         self.crcResponsability.delete(1.0, END)
+        self.crcColaborators.delete(1.0, END)
         self.crcClass.insert(1.0, self.tabTitle[self.index])
         self.crcResponsability.insert(1.0, self.tabResponsability[self.index])
+        self.crcColaborators.insert(1.0, self.tabColaborators[self.index])
         
     def apply(self):
         self.tab = {}
