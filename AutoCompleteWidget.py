@@ -28,8 +28,8 @@ class AutoCompletion(object):
         """
         When initialized, an object AutoCompletion requires its TKinter root, a list (or list of lists)
         of strings (the strings have to be lowered), the symbols argument has to be True if symbols have
-        been inserted into the lists, if not, it has to be Falsethe Text Widget to which it is assigned
-        and the height and width of the Listbox Widget.
+        been inserted into the lists, if not, it has to be False, it needs the Text Widget to which it
+        is assigned and the height and width of the Listbox Widget.
         """
         self.root = root
         self.lists = lists
