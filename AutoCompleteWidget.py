@@ -24,14 +24,16 @@ class AutoCompletion(object):
     showAllWords(self, event)
     removeCompletionBox(self, event)
     """
-    def __init__(self, root, lists, textBox, height, width):
+    def __init__(self, root, lists, symbols, textBox, height, width):
         """
         When initialized, an object AutoCompletion requires its TKinter root, a list (or list of lists)
-        of strings (the strings have to be lowered), the Text Widget to which it is assigned and the
-        height and width of the Listbox Widget.
+        of strings (the strings have to be lowered), the symbols argument has to be True if symbols have
+        been inserted into the lists, if not, it has to be Falsethe Text Widget to which it is assigned
+        and the height and width of the Listbox Widget.
         """
         self.root = root
         self.lists = lists
+        self.symbols = symbols
         self.textBox = textBox
         self.ignoreKey = 0
         self.completionBox = Listbox(self.root, height = height, width = width)
@@ -41,17 +43,17 @@ class AutoCompletion(object):
         self.completionBox.bind("<Return>",self.completeWord)
         self.completionBox.bind("<FocusOut>", self.removeCompletionBox)
         
-        self.textBox.bind("<FocusOut>", self.testing)
-        self.completionBox.bind("<FocusIn>", self.testing2)
+        #self.textBox.bind("<FocusOut>", self.testingOut)
+        #self.completionBox.bind("<FocusIn>", self.testingIn)
         
-    def testing(self, event):
+    def testingOut(self, event):
         """
         This method is used only to test some concepts and methods, it should not be used 
         in the final version of the product.
         """
         print "out"
     
-    def testing2(self, event):
+    def testingIn(self, event):
         """
         This method is used only to test some concepts and methods, it should not be used 
         in the final version of the product.
@@ -125,22 +127,28 @@ class AutoCompletion(object):
         
         prefix = self.findPrefix()
         select = self.completionBox.get(ACTIVE)
-        partition = select.partition(" - ")
-        if not prefix:
-            self.textBox.insert(INSERT, partition[2])
+        if self.symbols:
+            partition = select.partition(" - ")
+            if not prefix:
+                self.textBox.insert(INSERT, partition[2])
+            else:
+                suffix = partition[2].split(prefix)
+                self.textBox.insert(INSERT, suffix[len(suffix) - 1])
         else:
-            suffix = partition[2].split(prefix)
-            self.textBox.insert(INSERT, suffix[len(suffix) - 1])
+            if not prefix:
+                self.textBox.insert(INSERT, select)
+            else:
+                suffix = select.split(prefix)
+                self.textBox.insert(INSERT, suffix[len(suffix) - 1])
         self.completionBox.pack_forget()
         self.textBox.focus_set()
-         
+ 
     def fillCompletionBox(self, event):
         """
         This method is called whenever the user types a key while in the textBox, it then checks
         if any of the words in the lists fits the prefix, if so they are added to the completionBox,
         if none fit, then there is no use for the completionBox.
         """
-        
         if self.ignoreKey in [1,2]:
             self.ignoreKey -= 1
         else:
@@ -153,11 +161,15 @@ class AutoCompletion(object):
                 empty = True
                 for currentList in self.lists:
                     for currentElement in currentList:
-                        if currentList.index(currentElement) == 0:
-                            symbol = currentElement
+                        if self.symbols:
+                            if currentList.index(currentElement) == 0:
+                                symbol = currentElement
+                            elif currentElement.startswith(prefix):
+                                empty = False
+                                self.completionBox.insert(END, symbol + " - " + currentElement)
                         elif currentElement.startswith(prefix):
-                            empty = False
-                            self.completionBox.insert(END, symbol + " - " + currentElement)
+                                empty = False
+                                self.completionBox.insert(END, currentElement)            
                 if empty:
                     self.completionBox.pack_forget()
     
@@ -172,10 +184,13 @@ class AutoCompletion(object):
         self.completionBox.delete(0, END)
         for currentList in self.lists:
             for currentElement in currentList:
-                if currentList.index(currentElement) == 0:
-                    self.symbol = currentElement
+                if self.symbols:
+                    if currentList.index(currentElement) == 0:
+                        self.symbol = currentElement
+                    else:
+                        self.completionBox.insert(END, self.symbol + " - " + currentElement)
                 else:
-                    self.completionBox.insert(END, self.symbol + " - " + currentElement)
+                    self.completionBox.insert(END, currentElement)
     
     def removeCompletionBox(self, event):
         """
@@ -189,14 +204,15 @@ class AutoCompletion(object):
 if __name__ == "__main__":
     print "Testing the GUI..."
     root = Tk() 
-    lists = [["nom","banane","voiture"],["adjectif","atomique","géant"],["verbe","bouger","finir"],["#","1","2","3","4","5","6","7","8","9","10"]]
+    list1 = [["nom","banane","voiture"],["adjectif","atomique","géant"],["verbe","bouger","finir"],["#","1","2","3","4","5","6","7","8","9","10"]]
+    list2 = [["banane","voiture"],["atomique","géant"],["bouger","finir"],["1","2","3","4","5","6","7","8","9","10"]]
     root.minsize(800,600)
     root.title("AutoCompletion Unit Test")
     root.text = Text(root, height = 10, width = 30)
     root.text.pack()
-    autoCompletion = AutoCompletion(root, lists, root.text, 5, 50)
+    autoCompletion = AutoCompletion(root, list1, True, root.text, 5, 50)
     
     root.text2 = Text(root, height = 10, width = 30)
     root.text2.pack()
-    autoCompletion = AutoCompletion(root, lists, root.text2, 5, 50)
+    autoCompletion = AutoCompletion(root, list2, False, root.text2, 5, 50)
     root.mainloop()
