@@ -39,6 +39,7 @@ class AutoCompletion(object):
         self.completionBox = Listbox(self.root, height = height, width = width)
         self.textBox.bind("<Control-space>", self.showAllWords)
         self.textBox.bind("<KeyRelease>", self.fillCompletionBox)
+        self.textBox.bind("<ButtonRelease-1>", self.fillCompletionBox)
         self.completionBox.bind("<Double-1>",self.completeWord)
         self.completionBox.bind("<Return>",self.completeWord)
         self.completionBox.bind("<FocusOut>", self.removeCompletionBox)
