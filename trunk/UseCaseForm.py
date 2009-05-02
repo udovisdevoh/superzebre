@@ -1,12 +1,16 @@
 #-*- coding: iso-8859-1 -*-
 from Tkinter import *
+from UseCaseList import *
 
-class UseCaseForm(object):
-    def __init__(self, root, title):
+class UseCaseForm:
+    def __init__(self, root, title, useCaseList):
+        self.useCaseList = useCaseList;
         self.initGraphicsComponents(root, title)
         self.tabTitle = []
         self.tabDefinition = []
         self.index = 0
+        self.addToFields(useCaseList)
+        self.updateText()
     
     def initGraphicsComponents(self, root, title):
         root.minsize(800, 600)
@@ -24,47 +28,57 @@ class UseCaseForm(object):
         self.buttonApply.pack(side = RIGHT, padx = 25, ipadx = 30, ipady = 5)
         self.canvas.pack(anchor = CENTER, padx = 100, pady = 100)
     
+    def addToFields(self,useCaseList):
+        for currentUseCase in useCaseList.useCase:
+            self.tabTitle.append(currentUseCase.name)
+            self.tabDefinition.append(currentUseCase.description)
+    
     def previous(self):
         if self.index > 0:
             self.index -= 1
             self.updateText()
     
     def next(self):
-        if self.useCaseTitle.get(1.0,END)!="\n":
-            if self.index == len(self.tabTitle):
-                text = self.useCaseTitle.get(1.0, END)
-                self.tabTitle.append(text[:-1])
-                text =self.useCaseDefinition.get(1.0, END) 
-                self.tabDefinition.append(text[:-1])        
-            else:
-                text = self.useCaseTitle.get(1.0, END)
-                self.tabTitle[self.index] = text[:-1]
-                text =self.useCaseDefinition.get(1.0, END)
-                self.tabDefinition[self.index] = text[:-1]
-            self.index += 1
-            if self.index == len(self.tabTitle):
-                self.useCaseTitle.delete(1.0, END)
-                self.useCaseDefinition.delete(1.0, END)
-            else:
-                self.updateText()
+        if self.index == len(self.tabTitle):
+            text = self.useCaseTitle.get(1.0, END)
+            self.tabTitle.append(text[:-1])
+            text =self.useCaseDefinition.get(1.0, END) 
+            self.tabDefinition.append(text[:-1])        
         else:
-            print "entrez un titre"
-            
+            text = self.useCaseTitle.get(1.0, END)
+            self.tabTitle[self.index] = text[:-1]
+            text =self.useCaseDefinition.get(1.0, END)
+            self.tabDefinition[self.index] = text[:-1]
+        self.index += 1
+        if self.index == len(self.tabTitle):
+            self.useCaseTitle.delete(1.0, END)
+            self.useCaseDefinition.delete(1.0, END)
+        else:
+            self.updateText()
           
     def updateText(self):
-        self.useCaseTitle.delete(1.0, END)
-        self.useCaseDefinition.delete(1.0, END)
-        self.useCaseTitle.insert(1.0, self.tabTitle[self.index])
-        self.useCaseDefinition.insert(1.0, self.tabDefinition[self.index])
+        try:
+            self.useCaseTitle.delete(1.0, END)
+            self.useCaseDefinition.delete(1.0, END)
+            self.useCaseTitle.insert(1.0, self.tabTitle[self.index])
+            self.useCaseDefinition.insert(1.0, self.tabDefinition[self.index])
+        except IndexError:
+            pass
         
     def apply(self):
-        self.tab = {}
-        for i in range(len(self.tabTitle)+1):
-            self.tab[self.tabTitle[i]] = self.tabDefinition[i]
-        return self.tab
+        self.next()
+        self.useCaseList.useCase=[]
+        i = 0
+        for title in self.tabTitle:
+            self.useCaseList.useCase.append(UseCase(title,self.tabDefinition[i]))
+            i += 1
+        self.canvas.destroy()
     
 if __name__ == "__main__":
     root = Tk()
-    useCaseForm = UseCaseForm(root, "test")
+    useCaseList = UseCaseList()
+    useCaseList.add(UseCase("fdgfdg","fdhgfhgfhgfhgf"))
+    useCaseList.add(UseCase("fdgfdg2","fdhgfhgfhgfhgf2"))
+    useCaseForm = UseCaseForm(root, "test", useCaseList)
     useCaseForm.top = Toplevel(root)
     root.wait_window(useCaseForm.top)
