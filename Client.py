@@ -38,8 +38,7 @@ class Client:
         if self.currentProject != None and self.currentProject.text != None:
             text = self.currentProject.text
             sortedWords = self.currentProject.sortedWords
-            projectName = self.currentProject.name
-            self.currentProject.sortedWords = self.gui.getSortedWordsFromTextAnalysisForm(projectName,text, sortedWords)             
+            self.currentProject.sortedWords = self.gui.getSortedWordsFromTextAnalysisForm(text, sortedWords)             
         elif self.currentProject != None and howManyTry == 0:
             self.tryLoadTextFileIntoProject()
             self.tryPerformTextAnalysis(1)
@@ -49,11 +48,24 @@ class Client:
             self.gui.loadProject()
             self.tryPerformTextAnalysis()
             #self.gui.showMessage("Erreur","Vous devez charger ou créer un projet avant de faire l'analyse textuelle")
-    def tryPerformUseCase(self):
-        if self.currentProject != None and self.currentProject.text != None:
-            useCaseTab = self.currentProject.useCase
-            projectName = self.currentProject.name
-            self.currentProject.useCase = self.gui.getUseCaseFromUseCaseForm(projectName,useCaseTab)
+
+    def tryEditUseCases(self):
+        if self.currentProject != None:
+            useCaseList = self.currentProject.useCaseList
+            self.currentProject.useCaseList = self.gui.getUseCaseListFromUseCaseForm(useCaseList)
+        else:
+            self.gui.loadProject()
+            self.tryEditUseCases()
+
+    def tryEditCrcs(self):
+        if self.currentProject != None:
+            crcList = self.currentProject.crcList
+            self.currentProject.crcList = self.gui.getCrcListFromCrcForm(crcList)
+        pass
+    
+    def tryEditScrums(self):
+        print "Implement Client.tryEditScrums()"
+        pass
     
     def saveCurrentProject(self):
         if self.currentProject != None:
