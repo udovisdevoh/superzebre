@@ -21,6 +21,7 @@ class AutoCompletion(object):
     findPrefix(self)
     completeWord(self)
     fillCompletionBox(self, event)
+    showAllWords(self, event)
     removeCompletionBox(self, event)
     """
     def __init__(self, root, lists, textBox, height, width):
@@ -39,32 +40,23 @@ class AutoCompletion(object):
         self.completionBox.bind("<Double-1>",self.completeWord)
         self.completionBox.bind("<Return>",self.completeWord)
         self.completionBox.bind("<FocusOut>", self.removeCompletionBox)
-
-    def showAllWords(self, event):
-        self.ignoreKey = 2
-        self.completionBox.pack()
-        self.completionBox.delete(0, END)
-        for currentList in self.lists:
-            for currentElement in currentList:
-                if currentList.index(currentElement) == 0:
-                    self.symbol = currentElement
-                else:
-                    self.completionBox.insert(END, self.symbol + " - " + currentElement)
+        
+        self.textBox.bind("<FocusOut>", self.testing)
+        self.completionBox.bind("<FocusIn>", self.testing2)
         
     def testing(self, event):
         """
         This method is used only to test some concepts and methods, it should not be used 
         in the final version of the product.
         """
-        print event.type
-        
-        self.completionBox.pack()
-        for currentList in self.lists:
-            for currentElement in currentList:
-                if currentList.index(currentElement) == 0:
-                    self.symbol = currentElement
-                else:
-                    self.completionBox.insert(END, self.symbol + " - " + currentElement)
+        print "out"
+    
+    def testing2(self, event):
+        """
+        This method is used only to test some concepts and methods, it should not be used 
+        in the final version of the product.
+        """
+        print "in"
             
     def getWordStart(self):    
         """
@@ -84,9 +76,7 @@ class AutoCompletion(object):
                 currentPosition = str(row) + "." + str(col)
                 separator = currentPosition
             currentPosition = str(row) + "." + str(col)
-            if char == " ":
-                separator = currentPosition
-            if char == "\t":
+            if char in [" ", "\t"]:
                 separator = currentPosition
             if currentPosition == insertIndex:
                 return separator
@@ -170,6 +160,22 @@ class AutoCompletion(object):
                             self.completionBox.insert(END, symbol + " - " + currentElement)
                 if empty:
                     self.completionBox.pack_forget()
+    
+    def showAllWords(self, event):
+        """
+        This method is called by a <Control-space> event in the textBox. It is used to show all the words
+        of the lists in the completionBox. Since a <Control-space> event also generates two <KeyRelease>
+        event, it sets the ignoreKey to 2 else, the fillCompletionBox would cancel the effects of this method.
+        """
+        self.ignoreKey = 2
+        self.completionBox.pack()
+        self.completionBox.delete(0, END)
+        for currentList in self.lists:
+            for currentElement in currentList:
+                if currentList.index(currentElement) == 0:
+                    self.symbol = currentElement
+                else:
+                    self.completionBox.insert(END, self.symbol + " - " + currentElement)
     
     def removeCompletionBox(self, event):
         """
