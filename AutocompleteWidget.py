@@ -1,19 +1,19 @@
 # -*- coding: cp1252 -*-
 
 """
-File : Autocompletion.py
+File : AutoCompleteWidget.py
 Author : François Pelletier
 Date Created : 20/04/09
-Last Edited : 30/04/09
+Last Edited : 02/05/09
 """
 
 from Tkinter import *
 
-class Autocompletion(object):
+class AutoCompletion(object):
     """
-    The Autocompletion object is used on a TKinter TextBox and suggests to the user the use of 
+    The AutoCompletion object is used on a TKinter TextBox and suggests to the user the use of 
     specific words through a ListBox filled with words matching the prefix the user entered.
-    An Object Autocompletion has the following methods :
+    An Object AutoCompletion has the following methods :
     
     __init__(self, root, lists, textBox)
     getWordStart(self)
@@ -21,32 +21,30 @@ class Autocompletion(object):
     findPrefix(self)
     completeWord(self)
     fillCompletionBox(self, event)
-    checkFocus(self, event)
+    removeCompletionBox(self, event)
     """
-    def __init__(self, root, lists, textBox):
+    def __init__(self, root, lists, textBox, height, width):
         """
-        When initialized, an object Autocompletion requires its TKinter root, a list
-        (or list of lists) of strings and the TKinter TextBox to which it is assigned.
+        When initialized, an object AutoCompletion requires its TKinter root, a list (or list of lists)
+        of strings (the strings have to be lowered), the Text Widget to which it is assigned and the
+        height and width of the Listbox Widget.
         """
         self.root = root
         self.lists = lists
         self.textBox = textBox
-        self.completionBox = Listbox(self.root, borderwidth = 0, height = 3, width = 25)
-        #self.root.bind("<FocusOut>", self.checkFocus)
+        self.completionBox = Listbox(self.root, height = height, width = width)
         self.textBox.bind("<Control-space>", self.testing)
         self.textBox.bind("<KeyRelease>", self.fillCompletionBox)
         self.completionBox.bind("<Double-1>",self.completeWord)
         self.completionBox.bind("<Return>",self.completeWord)
+        self.completionBox.bind("<FocusOut>", self.removeCompletionBox)
 
     def testing(self, event):
         """
         This method is used only to test some concepts and methods, it should not be used 
         in the final version of the product.
         """
-#        if event.type("<Control-space>"):
- #           print "yay"
-  #      else:
-   #         print event.type("<Control-space>")
+        print event.type
         
         self.completionBox.pack()
         for currentList in self.lists:
@@ -56,8 +54,6 @@ class Autocompletion(object):
                 else:
                     self.completionBox.insert(END, self.symbol + " - " + currentElement)
             
-
-
     def getWordStart(self):    
         """
         This method is called by the method findPrefix() and is used to get the index of
@@ -78,6 +74,8 @@ class Autocompletion(object):
             currentPosition = str(row) + "." + str(col)
             if char == " ":
                 separator = currentPosition
+            if char == "\t":
+                separator = currentPosition
             if currentPosition == insertIndex:
                 return separator
         return "1.0"
@@ -90,14 +88,14 @@ class Autocompletion(object):
         """
         insertIndex = self.textBox.index(INSERT)
         text = self.textBox.get(insertIndex, END)
-        separators = [" ", "\n", ".", ",", "!", "?", ":", ";", "(", ")", "$"]
+        separatorList = [" ", "\n", "\t", ".", ",", "!", "?", ":", ";", "(", ")", "$"]
         separator = insertIndex
         partition = insertIndex.partition(".")
         row = int(partition[0])
         col = int(partition[2])
         for char in text:
             col += 1
-            if char in separators:
+            if char in separatorList:
                 return str(row) + "." + str(col - 1)
         return END
     
@@ -105,6 +103,7 @@ class Autocompletion(object):
         """
         This method is called by the methods fillCompletionBox or completeWord, it is
         used to determine what the user is currently typing and return it as a prefix.
+        If there is no prefix, the method returns False.
         """
         wordStart = self.getWordStart()
         prefix = self.textBox.get(wordStart, INSERT)
@@ -128,7 +127,8 @@ class Autocompletion(object):
         suffix = partition[2].split(prefix)
         self.textBox.insert(INSERT, suffix[1])
         
-        self.completionBox.pack_forget()   
+        self.completionBox.pack_forget()
+        self.textBox.focus_set()
          
     def fillCompletionBox(self, event):
         """
@@ -152,38 +152,23 @@ class Autocompletion(object):
                         self.completionBox.insert(END, symbol + " - " + currentElement)
             if empty:
                 self.completionBox.pack_forget()
-        """     
-    def checkFocus(self, event):
-        
-        This method is called when a widget, in the Autocompletion's root, loses focus,
-        if the completionBox does not have the focus, it means the user is not using it
-        
-        monobjet=self.root.focus_get()
-        print monobjet#.cget("text")
-        
-        if self.completionBox #DOESN'T HAVE FOCUS:
-            self.completionBox.pack_forget()      
+    
+    def removeCompletionBox(self, event):
         """
+        This method is called when the completionBox lost the focus, this means that the user first clicked on the
+        completionBox and then clicked elsewhere, probably in the textBox, then there is no use for the completionBox.
+        Since an event binding calls a method with the event as parameters, it was essential to call this method
+        instead of the unpacking method directly.
+        """
+        self.completionBox.pack_forget()
           
 if __name__ == "__main__":
     print "Testing the GUI..."
     root = Tk() 
     lists = [["nom","banane","voiture"],["adjectif","atomique","géant"],["verbe","bouger","finir"],["#","1","2","3","4","5","6","7","8","9","10"]]
     root.minsize(800,600)
-    root.title("Autocompletion Unit Test")
+    root.title("AutoCompletion Unit Test")
     root.text = Text(root)
     root.text.pack()
-    
-    autocompletion = Autocompletion(root, lists, root.text)
+    autoCompletion = AutoCompletion(root, lists, root.text, 5, 50)
     root.mainloop()
-
-"""
-Useful web sites to understand events in TKinter, the TKinter ListBox Widget and Focus in TKinter.
-
-http://effbot.org/tkinterbook/listbox.htm#Tkinter.Listbox.config-method
-http://www.pythonware.com/library/tkinter/introduction/events-and-bindings.htm
-http://www.velocityreviews.com/forums/t497604-focus-trap-in-tkinter.html
-http://docs.python.org/dev/py3k/library/tkinter.ttk.html
-http://tkinter.unpy.net/wiki/TileWrapper
-http://www.commentcamarche.net/forum/affich-12241500-besoin-d-aide-focus-python
-"""
