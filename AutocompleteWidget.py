@@ -98,7 +98,7 @@ class AutoCompletion(object):
             if char in separatorList:
                 return str(row) + "." + str(col - 1)
         return END
-    
+     
     def findPrefix(self):
         """
         This method is called by the methods fillCompletionBox or completeWord, it is
