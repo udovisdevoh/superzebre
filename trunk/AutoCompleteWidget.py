@@ -4,7 +4,7 @@
 File : AutoCompleteWidget.py
 Author : François Pelletier
 Date Created : 20/04/09
-Last Edited : 02/05/09
+Last Edited : 03/05/09
 """
 
 from Tkinter import *
@@ -43,23 +43,7 @@ class AutoCompletion(object):
         self.completionBox.bind("<Double-1>",self.completeWord)
         self.completionBox.bind("<Return>",self.completeWord)
         self.completionBox.bind("<FocusOut>", self.removeCompletionBox)
-        
-        #self.textBox.bind("<FocusOut>", self.testingOut)
-        #self.completionBox.bind("<FocusIn>", self.testingIn)
-        
-    def testingOut(self, event):
-        """
-        This method is used only to test some concepts and methods, it should not be used 
-        in the final version of the product.
-        """
-        print "out"
-    
-    def testingIn(self, event):
-        """
-        This method is used only to test some concepts and methods, it should not be used 
-        in the final version of the product.
-        """
-        print "in"
+        #self.root.bind("<FocusIn>", self.checkFocus)
             
     def getWordStart(self):    
         """
@@ -201,7 +185,20 @@ class AutoCompletion(object):
         instead of the unpacking method directly.
         """
         self.completionBox.pack_forget()
-          
+        
+    """   
+    def checkFocus(self, event):
+        
+        This method is called by a <FocusIn> event in the AutoCompletion's root. If both the completionBox
+        and the textBox are unfocused then there is no use for the completionBox.
+
+        #if event.widget not "completionBox" and event.widget not "textBox"
+        
+        #or
+        
+        #if root.focus_get() not "completionBox" and root.focus_get() not "textBox"
+    """
+    
 if __name__ == "__main__":
     print "Testing the GUI..."
     root = Tk() 
