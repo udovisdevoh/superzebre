@@ -193,9 +193,7 @@ class AutoCompletion(object):
         and the textBox are unfocused then there is no use for the completionBox.
 
         #if event.widget not "completionBox" and event.widget not "textBox"
-        
-        #or
-        
+        #OR        
         #if root.focus_get() not "completionBox" and root.focus_get() not "textBox"
     """
     
