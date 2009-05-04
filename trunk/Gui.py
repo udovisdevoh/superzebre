@@ -80,12 +80,15 @@ class Gui:
         self.showMessage("À propos","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
         
     def showMessage(self,title,text):
-        messageBox = Toplevel(self.root)
-        messageBox.title(title)
-        msg = Message(messageBox, text=text,width=300)
-        msg.pack()
-        button = Button(messageBox, text = "Fermer", command=messageBox.destroy)
-        button.pack()
+        try:
+            messageBox = Toplevel(self.root)
+            messageBox.title(title)
+            msg = Message(messageBox, text=text,width=300)
+            msg.pack()
+            button = Button(messageBox, text = "Fermer", command=messageBox.destroy)
+            button.pack()
+        except TclError:
+            pass
         
     def getSortedWordsFromTextAnalysisForm(self, projectName, text, sortedWords):
         textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle - "+projectName, text, sortedWords)
