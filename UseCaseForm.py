@@ -24,9 +24,11 @@ class UseCaseForm:
         self.updateText()
     
     def initGraphicsComponents(self, root, title,wordList):
+        for i in root.pack_slaves():
+            i.destroy()
         root.minsize(800, 600)
         root.title(title)
-        self.canvas = Canvas(root, width = 600, height = 400, bg = "blue")
+        self.canvas = Canvas(root, width = 600, height = 400)
         self.useCaseTitle = Text(self.canvas, width = 50, height = 1)
         self.useCaseDefinition = Text(self.canvas, height = 10)
         self.useCaseTitle.pack(side=TOP, padx = 25, pady = 10, anchor = W)
