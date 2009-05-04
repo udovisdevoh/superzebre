@@ -15,7 +15,7 @@ class CrcForm(object):
     
     def initGraphicsComponents(self, root, title):
         root.minsize(800, 600)
-        root.maxsize(800, 600)
+        root.title(title)
         self.canvas = Canvas(root, width = 700, height = 500, bg = "blue")
         self.textFrame = Frame(self.canvas, width = 600, height = 400)
         self.crcClass = Text(self.textFrame, width = 50, height = 1)
