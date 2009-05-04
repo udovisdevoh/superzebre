@@ -17,23 +17,26 @@ class Gui:
         #self.showImage()
             
     def showMainMenu(self):
-        menu = Menu(self.root)
-        self.root.config(menu=menu)
-        filemenu = Menu(menu)
-        menu.add_cascade(label="File", menu=filemenu)
-        filemenu.add_command(label="New", command=self.createNewProject)
-        filemenu.add_command(label="Load...", command=self.loadProject)
-        filemenu.add_command(label="Save", command=self.saveCurrentProject)
-        filemenu.add_command(label="Importer un texte", command=self.loadText)
-        filemenu.add_command(label="Faire/Modifier analyse textuelle", command=self.tryBeginPerformTextAnalysis)
-        filemenu.add_command(label="Modifier les cas d'usage", command=self.tryEditUseCases)
-        filemenu.add_command(label="Modifier les CRCs", command=self.tryEditCrcs)
-        filemenu.add_command(label="SCRUM", command=self.tryEditScrums)
+        self.menu = Menu(self.root)
+        self.root.config(menu=self.menu)
+        filemenu = Menu(self.menu,tearoff=0)
+        editmenu = Menu(self.menu,tearoff=0)
+        self.menu.add_cascade(label="Fichier", menu=filemenu)
+        self.menu.add_cascade(label="Édition", menu=editmenu)
+        filemenu.add_command(label="Nouveau Projet", command=self.createNewProject)
+        filemenu.add_command(label="Charger un Projet", command=self.loadProject)
+        filemenu.add_command(label="Enregistrer un Projet", command=self.saveCurrentProject)
+        editmenu.add_command(label="Importer un texte", command=self.loadText)
+        editmenu.add_command(label="Faire/Modifier l'analyse textuelle", command=self.tryBeginPerformTextAnalysis)
+        editmenu.add_command(label="Faire/Modifier les cas d'usage", command=self.tryEditUseCases)
+        editmenu.add_command(label="Faire/Modifier les CRCs", command=self.tryEditCrcs)
+        editmenu.add_command(label="Faire/Modifier les SCRUM", command=self.tryEditScrums)
         filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=sys.exit)
-        helpmenu = Menu(menu)
-        menu.add_cascade(label="Help", menu=helpmenu)
-        helpmenu.add_command(label="About...", command=self.showAboutWindow)
+        filemenu.add_command(label="Quitter", command=sys.exit)
+        helpmenu = Menu(self.menu,tearoff=0)
+        self.menu.add_cascade(label="Aide", menu=helpmenu)
+        helpmenu.add_command(label="À Propos...", command=self.showAboutWindow)
+        self.menu.entryconfig(2,state=DISABLED)
     
     def showImage(self):
         self.img = PhotoImage(file = "zebre.gif")
@@ -41,18 +44,22 @@ class Gui:
         self.imgLabel.pack(side = TOP)
         
     def createNewProject(self):
-        projectName = self.getInputDialog("Project name:")
+        projectName = self.getInputDialog("Nom du Projet:")
         if projectName.strip() == "":
             self.showMessage("Erreur","Vous devez entrer un nom valide")
             return
         self.parentClient.createNewProject(projectName)
+        self.menu.entryconfig(2,state=NORMAL)
+        self.root.title("SuperZèbre - "+projectName)
     
     def loadProject(self):
-        projectName = self.getInputDialog("Project name:")
+        projectName = self.getInputDialog("Nom du Projet:")
         if projectName.strip() == "":
             self.showMessage("Erreur","Vous devez entrer un nom valide")
             return
         self.parentClient.loadProject(projectName)
+        self.menu.entryconfig(2,state=NORMAL)
+        self.root.title("SuperZèbre - "+projectName)
     
     def saveCurrentProject(self):
         self.parentClient.saveCurrentProject()
@@ -73,7 +80,7 @@ class Gui:
         self.parentClient.tryEditScrums()
     
     def showAboutWindow(self):
-        self.showMessage("About","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
+        self.showMessage("À propos","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
         
     def showMessage(self,title,text):
         messageBox = Toplevel(self.root)
@@ -83,16 +90,16 @@ class Gui:
         button = Button(messageBox, text = "Fermer", command=messageBox.destroy)
         button.pack()
         
-    def getSortedWordsFromTextAnalysisForm(self, text, sortedWords):
-        textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle", text, sortedWords)
+    def getSortedWordsFromTextAnalysisForm(self, projectName, text, sortedWords):
+        textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle - "+projectName, text, sortedWords)
         return textAnalysisForm.sortedWords
     
-    def getUseCaseListFromUseCaseForm(self,useCaseList):
-        useCaseForm = UseCaseForm(self.root, "Cas d'usage", useCaseList)
+    def getUseCaseListFromUseCaseForm(self,projectName,useCaseList):
+        useCaseForm = UseCaseForm(self.root, "Cas d'usage - "+projectName, useCaseList)
         return useCaseForm.useCaseList
     
-    def getCrcListFromCrcForm(self,crcList):
-        crcForm = CrcForm(self.root,"CRC",crcList)
+    def getCrcListFromCrcForm(self,projectName,crcList):
+        crcForm = CrcForm(self.root,"CRC - "+projectName,crcList)
         return crcForm.crcList
     
     def getInputDialog(self,message):
