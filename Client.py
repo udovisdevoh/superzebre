@@ -52,7 +52,8 @@ class Client:
     def tryEditUseCases(self):
         if self.currentProject != None:
             useCaseList = self.currentProject.useCaseList
-            self.currentProject.useCaseList = self.gui.getUseCaseListFromUseCaseForm(self.currentProject.name,useCaseList)
+            sortedWords = self.currentProject.sortedWords
+            self.currentProject.useCaseList = self.gui.getUseCaseListFromUseCaseForm(self.currentProject.name,useCaseList,sortedWords)
         else:
             self.gui.loadProject()
             self.tryEditUseCases()
@@ -60,7 +61,8 @@ class Client:
     def tryEditCrcs(self):
         if self.currentProject != None:
             crcList = self.currentProject.crcList
-            self.currentProject.crcList = self.gui.getCrcListFromCrcForm(self.currentProject.name,crcList)
+            sortedWords = self.currentProject.sortedWords
+            self.currentProject.crcList = self.gui.getCrcListFromCrcForm(self.currentProject.name,crcList,sortedWords)
         pass
     
     def tryEditScrums(self):
