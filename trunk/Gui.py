@@ -36,7 +36,6 @@ class Gui:
         helpmenu = Menu(self.menu,tearoff=0)
         self.menu.add_cascade(label="Aide", menu=helpmenu)
         helpmenu.add_command(label="À Propos...", command=self.showAboutWindow)
-        self.menu.entryconfig(2,state=DISABLED)
     
     def showImage(self):
         self.img = PhotoImage(file = "zebre.gif")
@@ -49,7 +48,6 @@ class Gui:
             self.showMessage("Erreur","Vous devez entrer un nom valide")
             return
         self.parentClient.createNewProject(projectName)
-        self.menu.entryconfig(2,state=NORMAL)
         self.root.title("SuperZèbre - "+projectName)
     
     def loadProject(self):
@@ -58,7 +56,6 @@ class Gui:
             self.showMessage("Erreur","Vous devez entrer un nom valide")
             return
         self.parentClient.loadProject(projectName)
-        self.menu.entryconfig(2,state=NORMAL)
         self.root.title("SuperZèbre - "+projectName)
     
     def saveCurrentProject(self):
@@ -94,12 +91,12 @@ class Gui:
         textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle - "+projectName, text, sortedWords)
         return textAnalysisForm.sortedWords
     
-    def getUseCaseListFromUseCaseForm(self,projectName,useCaseList):
-        useCaseForm = UseCaseForm(self.root, "Cas d'usage - "+projectName, useCaseList)
+    def getUseCaseListFromUseCaseForm(self,projectName,useCaseList,sortedWords):
+        useCaseForm = UseCaseForm(self.root, "Cas d'usage - "+projectName, useCaseList,sortedWords)
         return useCaseForm.useCaseList
     
-    def getCrcListFromCrcForm(self,projectName,crcList):
-        crcForm = CrcForm(self.root,"CRC - "+projectName,crcList)
+    def getCrcListFromCrcForm(self,projectName,crcList,sortedWords):
+        crcForm = CrcForm(self.root,"CRC - "+projectName,crcList,sortedWords)
         return crcForm.crcList
     
     def getInputDialog(self,message):
