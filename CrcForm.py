@@ -1,11 +1,22 @@
 #-*- coding: iso-8859-1 -*-
 from Tkinter import *
 from CrcList import *
+from AutoCompleteWidget import *
 
 class CrcForm(object):
-    def __init__(self, root, title, crcList):
+    def __init__(self, root, title, crcList,sortedWords):
         self.crcList = crcList
-        self.initGraphicsComponents(root, title)
+        wordList = []
+        listName = sortedWords.noms[:]
+        listName.insert(0,"Noms")
+        wordList.append(listName)
+        listName = sortedWords.adjectifs[:]
+        listName.insert(0,"Adjectif")
+        wordList.append(listName)
+        listName = sortedWords.verbes[:]
+        listName.insert(0,"Verbes")
+        wordList.append(listName)
+        self.initGraphicsComponents(root, title,wordList)
         self.tabTitle = []
         self.tabResponsability = []
         self.tabColaborators = []
@@ -13,7 +24,7 @@ class CrcForm(object):
         self.addToFields(crcList)
         self.updateText()
     
-    def initGraphicsComponents(self, root, title):
+    def initGraphicsComponents(self, root, title,wordList):
         root.minsize(800, 600)
         root.title(title)
         self.canvas = Canvas(root, width = 700, height = 500, bg = "blue")
@@ -32,6 +43,9 @@ class CrcForm(object):
         self.buttonNext.pack(side = LEFT, padx = 25, ipadx = 20, ipady = 5)
         self.buttonApply.pack(side = RIGHT, padx = 25, ipadx = 30, ipady = 5)
         self.canvas.pack(anchor = CENTER, padx = 25, pady = 25)
+        self.autoCompletionClass = AutoCompletion(root,wordList,True,self.crcClass,5,50)
+        self.autoCompletionResponsability = AutoCompletion(root,wordList,True,self.crcResponsability,5,50)
+        self.autoCompletionColaborators = AutoCompletion(root,wordList,True,self.crcColaborators,5,50)
         
     def addToFields(self,crcList):
         for currentCrc in crcList.crc:
