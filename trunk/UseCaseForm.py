@@ -1,18 +1,29 @@
 #-*- coding: iso-8859-1 -*-
 from Tkinter import *
 from UseCaseList import *
+from AutoCompleteWidget import *
 
 class UseCaseForm:
-    def __init__(self, root, title, useCaseList):
+    def __init__(self, root, title, useCaseList,sortedWords):
         self.useCaseList = useCaseList;
-        self.initGraphicsComponents(root, title)
+        wordList = []
+        listName = sortedWords.noms[:]
+        listName.insert(0,"Noms")
+        wordList.append(listName)
+        listName = sortedWords.adjectifs[:]
+        listName.insert(0,"Adjectif")
+        wordList.append(listName)
+        listName = sortedWords.verbes[:]
+        listName.insert(0,"Verbes")
+        wordList.append(listName)
+        self.initGraphicsComponents(root, title,wordList)
         self.tabTitle = []
         self.tabDefinition = []
         self.index = 0
         self.addToFields(useCaseList)
         self.updateText()
     
-    def initGraphicsComponents(self, root, title):
+    def initGraphicsComponents(self, root, title,wordList):
         root.minsize(800, 600)
         root.title(title)
         self.canvas = Canvas(root, width = 600, height = 400, bg = "blue")
@@ -27,6 +38,8 @@ class UseCaseForm:
         self.buttonNext.pack(side = LEFT, padx = 25, ipadx = 20, ipady = 5)
         self.buttonApply.pack(side = RIGHT, padx = 25, ipadx = 30, ipady = 5)
         self.canvas.pack(anchor = CENTER, padx = 100, pady = 100)
+        self.autoCompletionTitle = AutoCompletion(root,wordList,True,self.useCaseTitle,5,50)
+        self.autoCompletionDefinition = AutoCompletion(root,wordList,True,self.useCaseDefinition,5,50)
     
     def addToFields(self,useCaseList):
         for currentUseCase in useCaseList.useCase:
