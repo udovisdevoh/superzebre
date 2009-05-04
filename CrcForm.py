@@ -25,9 +25,11 @@ class CrcForm(object):
         self.updateText()
     
     def initGraphicsComponents(self, root, title,wordList):
+        for i in root.pack_slaves():
+            i.destroy()
         root.minsize(800, 600)
         root.title(title)
-        self.canvas = Canvas(root, width = 700, height = 500, bg = "blue")
+        self.canvas = Canvas(root, width = 700, height = 500)
         self.textFrame = Frame(self.canvas, width = 600, height = 400)
         self.crcClass = Text(self.textFrame, width = 50, height = 1)
         self.crcResponsability = Text(self.textFrame, height = 10, width = 30)
@@ -42,7 +44,7 @@ class CrcForm(object):
         self.buttonPrevious.pack(side = LEFT, padx = 25, ipadx = 16, ipady = 5)
         self.buttonNext.pack(side = LEFT, padx = 25, ipadx = 20, ipady = 5)
         self.buttonApply.pack(side = RIGHT, padx = 25, ipadx = 30, ipady = 5)
-        self.canvas.pack(anchor = CENTER, padx = 25, pady = 25)
+        self.canvas.pack(anchor = CENTER, padx = 25, pady = 100)
         self.autoCompletionClass = AutoCompletion(root,wordList,True,self.crcClass,5,50)
         self.autoCompletionResponsability = AutoCompletion(root,wordList,True,self.crcResponsability,5,50)
         self.autoCompletionColaborators = AutoCompletion(root,wordList,True,self.crcColaborators,5,50)
