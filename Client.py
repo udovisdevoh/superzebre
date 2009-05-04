@@ -38,7 +38,7 @@ class Client:
         if self.currentProject != None and self.currentProject.text != None:
             text = self.currentProject.text
             sortedWords = self.currentProject.sortedWords
-            self.currentProject.sortedWords = self.gui.getSortedWordsFromTextAnalysisForm(text, sortedWords)             
+            self.currentProject.sortedWords = self.gui.getSortedWordsFromTextAnalysisForm(self.currentProject.name,text, sortedWords)             
         elif self.currentProject != None and howManyTry == 0:
             self.tryLoadTextFileIntoProject()
             self.tryPerformTextAnalysis(1)
@@ -52,7 +52,7 @@ class Client:
     def tryEditUseCases(self):
         if self.currentProject != None:
             useCaseList = self.currentProject.useCaseList
-            self.currentProject.useCaseList = self.gui.getUseCaseListFromUseCaseForm(useCaseList)
+            self.currentProject.useCaseList = self.gui.getUseCaseListFromUseCaseForm(self.currentProject.name,useCaseList)
         else:
             self.gui.loadProject()
             self.tryEditUseCases()
@@ -60,7 +60,7 @@ class Client:
     def tryEditCrcs(self):
         if self.currentProject != None:
             crcList = self.currentProject.crcList
-            self.currentProject.crcList = self.gui.getCrcListFromCrcForm(crcList)
+            self.currentProject.crcList = self.gui.getCrcListFromCrcForm(self.currentProject.name,crcList)
         pass
     
     def tryEditScrums(self):
