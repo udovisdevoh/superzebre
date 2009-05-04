@@ -10,7 +10,8 @@ class TextAnalysisForm:
         self.moveSelectionToNextWord()
     
     def initGraphicComponents(self,root,title,text):
-        self.fermer()
+        for i in root.pack_slaves():
+            i.destroy()
         root.title(title)
         self.frameTop = Frame(root)
         self.frameBouton= Frame(root)
