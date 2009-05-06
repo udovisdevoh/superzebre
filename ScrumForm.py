@@ -1,19 +1,23 @@
 from Tkinter import *
 from ScrumList import *
+from AutoCompleteWidget import *
 import time
 import datetime  
 import os
 
 class ScrumForm: 
-    def __init__(self, root,scrumList):
+    def __init__(self,root,title,scrumList):
         self.scrumList = scrumList
         self.root = root
         self.today = datetime.date.today()
-        self.initGraphicComponents()
+        self.initGraphicComponents(root,title)
         self.graphicalScrumList = self.getGraphicalScrumList(scrumList)
         self.loadbyDate()
     
-    def initGraphicComponents(self):
+    def initGraphicComponents(self,root,title):
+        for i in root.pack_slaves():
+            i.destroy()
+        root.title(title)
         self.frameTop = Frame()
         self.frameMiddle = Frame()
         self.frameButtons = Frame()
@@ -22,8 +26,8 @@ class ScrumForm:
         self.frameDate.pack(side=TOP, fill= X,pady=20)
         self.frameTop.pack(side=TOP, pady = 10, padx =10)
         self.frameMiddle.pack(pady = 10)
-        self.frameButtons.pack(side=BOTTOM, pady = 20, fill=BOTH)
-        self.frameBottom.pack(side=BOTTOM, pady = 10)
+        self.frameBottom.pack(side=TOP, pady = 10)
+        self.frameButtons.pack(side=TOP, pady = 20, fill=BOTH)
         self.buttonOk = Button(self.frameButtons,text = "OK", command=self.commandApply, width = 10)
         self.buttonPrecedent= Button(self.frameButtons,text = "Precedent", command=self.commandPrecedent,width = 10)
         self.buttonSuivant = Button(self.frameButtons,text = "Suivant", command=self.commandSuivant,width = 10)
@@ -73,7 +77,7 @@ class ScrumForm:
         self.addToScrumList()
         self.labelAppliquer.pack()
         self.scrumList = self.getScrumListFromGraphicalScrumList(self.graphicalScrumList)
-        print "todo: enlever tous les composantes graphiques sauf le menu"
+        #print "todo: enlever tous les composantes graphiques sauf le menu"
         #todo: enlever tous les composantes graphiques sauf le menu
         
     def loadbyDate(self):
