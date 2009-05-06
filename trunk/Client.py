@@ -66,7 +66,9 @@ class Client:
         pass
     
     def tryEditScrums(self):
-        print "Implement Client.tryEditScrums()"
+        if self.currentProject != None:
+            scrumList = self.currentProject.scrumList
+            self.currentProject.scrumList = self.gui.getScrumListFromScrumForm(self.currentProject.name,scrumList)
         pass
     
     def saveCurrentProject(self):

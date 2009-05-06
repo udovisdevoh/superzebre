@@ -7,6 +7,7 @@ from FileForm import *
 from TextAnalysisForm import *
 from UseCaseForm import *
 from CrcForm import *
+from ScrumForm import *
 
 class Gui:
     def __init__(self, parentClient):
@@ -14,7 +15,7 @@ class Gui:
         self.root = Tk()
         self.root.minsize(800,600)
         self.root.title("SuperZèbre")
-        #self.showImage()
+        self.showImage()
             
     def showMainMenu(self):
         self.menu = Menu(self.root)
@@ -38,7 +39,7 @@ class Gui:
         helpmenu.add_command(label="À Propos...", command=self.showAboutWindow)
     
     def showImage(self):
-        self.img = PhotoImage(file = "zebre.gif")
+        self.img = PhotoImage(file = "zebre2.gif")
         self.imgLabel = Label(self.root,image=self.img)
         self.imgLabel.pack(side = TOP)
         
@@ -102,6 +103,10 @@ class Gui:
         crcForm = CrcForm(self.root,"CRC - "+projectName,crcList,sortedWords)
         return crcForm.crcList
     
+    def getScrumListFromScrumForm(self,projectName,scrumList):
+        scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList)
+        return scrumForm.scrumList
+        
     def getInputDialog(self,message):
         textForm = TextForm(self.root,message)
         self.root.wait_window(textForm.top)
