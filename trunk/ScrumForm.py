@@ -150,9 +150,7 @@ class ScrumForm:
         self.textMiddle.delete(1.0, END)
         self.textBottom.delete(1.0, END)
                 
-
 if __name__ == "__main__":
-    
     scrumList = ScrumList();
     scrumList.scrum.append(Scrum("2009-05-01","dfggd","sdfgdfgas","dfgdgf","ghsdafdfh"))
     scrumList.scrum.append(Scrum("2009-05-02","dgd","sdfgfdsdfgdfgas","dfgf","gdafdfh"))
@@ -160,5 +158,4 @@ if __name__ == "__main__":
     root.config(width =600, height = 800)
     root.title("Formulaire de Scrum") 
     scrumForm = ScrumForm(root,scrumList)
-    #scrumForm.loadScrums()
     root.mainloop()
