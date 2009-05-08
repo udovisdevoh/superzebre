@@ -13,6 +13,8 @@ class TreeView:
         self.project = project
     
     def show(self):
+        for i in self.root.pack_slaves():
+            i.destroy()
         self.root.minsize(800, 600)
         self.canvas = Canvas(self.root, width = 800, height = 600)
         self.canvas.pack(anchor="nw")
