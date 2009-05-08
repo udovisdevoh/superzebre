@@ -3,6 +3,10 @@ from Project import *
 
 class TreeView:
     def __init__(self,root,project):
+        self.textSizeH1 = 14
+        self.textSizeH2 = 13
+        self.textSizeH3 = 9
+        self.textSizeH4 = 8
         self.root = root
         self.project = project
     
@@ -18,38 +22,38 @@ class TreeView:
         self.canvas.destroy();
     
     def _showTitle(self,title):
-        projectNameLabel = Label(self.canvas, text=title, font=("Helvetica", 17))
+        projectNameLabel = Label(self.canvas, text=title, font=("Helvetica", self.textSizeH1))
         projectNameLabel.pack(anchor="nw")
         
     def _showSortedWords(self,sortedWords):
-        sortedWordsTitleLabel = Label(self.canvas, text="Analyse Textuelle", font=("Helvetica", 15), justify="left")
+        sortedWordsTitleLabel = Label(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left")
         sortedWordsTitleLabel.pack(anchor="nw", ipadx=30)         
         self.__showSortedWordsForCategory("Noms", sortedWords.noms)
         self.__showSortedWordsForCategory("Adjectifs", sortedWords.adjectifs)
         self.__showSortedWordsForCategory("Verbes", sortedWords.verbes)
         
     def __showSortedWordsForCategory(self,categoryName,wordList):
-        categoryLabel = Label(self.canvas, text=categoryName, font=("Helvetica", 13), justify="left")
+        categoryLabel = Label(self.canvas, text=categoryName, font=("Helvetica", self.textSizeH3), justify="left")
         categoryLabel.pack(anchor="nw", ipadx=60) 
         words=""
         for word in wordList:
             words += word + ", "
         if words=="":
             words="liste vide"
-        wordLabel = Label(self.canvas, text = words, font=("Helvetica", 9), justify="left")
+        wordLabel = Label(self.canvas, text = words, font=("Helvetica", self.textSizeH4), justify="left")
         wordLabel.pack(anchor="nw", ipadx=90)
     
     def _showUseCaseList(self,useCaseList):
-        titleLabel = Label(self.canvas, text="Cas d'usage", font=("Helvetica", 15), justify="left")
+        titleLabel = Label(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left")
         titleLabel.pack(anchor="nw", ipadx=30)
         for useCase in useCaseList.useCase:
             self.__showUseCase(useCase)
     
     def __showUseCase(self,useCase):
-        titleLabel = Label(self.canvas, text=useCase.name, font=("Helvetica", 13), justify="left")
+        titleLabel = Label(self.canvas, text=useCase.name, font=("Helvetica", self.textSizeH3), justify="left")
         titleLabel.pack(anchor="nw", ipadx=60)
         
-        textLabel = Label(self.canvas, text=useCase.description, font=("Helvetica", 9), justify="left")
+        textLabel = Label(self.canvas, text=useCase.description, font=("Helvetica", self.textSizeH4), justify="left")
         textLabel.pack(anchor="nw", ipadx=90)
         
         pass
