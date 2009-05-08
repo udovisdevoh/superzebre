@@ -62,7 +62,7 @@ class Gui:
             return
         self.parentClient.loadProject(projectName)
         self.root.title("SuperZèbre - "+projectName)
-        self.tryShowTreeView()
+        #self.tryShowTreeView()
     
     def saveCurrentProject(self):
         self.parentClient.saveCurrentProject()
