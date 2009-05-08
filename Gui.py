@@ -7,6 +7,7 @@ from FileForm import *
 from TextAnalysisForm import *
 from UseCaseForm import *
 from CrcForm import *
+from TreeView import *
 from ScrumForm import *
 
 class Gui:
@@ -42,7 +43,10 @@ class Gui:
         self.img = PhotoImage(file = "zebre2.gif")
         self.imgLabel = Label(self.root,image=self.img)
         self.imgLabel.pack(side = TOP)
-        
+    
+    def tryShowTreeView(self):
+        self.parentClient.tryShowTreeView()
+
     def createNewProject(self):
         projectName = self.getInputDialog("Nom du Projet:")
         if projectName.strip() == "":
@@ -58,6 +62,7 @@ class Gui:
             return
         self.parentClient.loadProject(projectName)
         self.root.title("SuperZèbre - "+projectName)
+        self.tryShowTreeView()
     
     def saveCurrentProject(self):
         self.parentClient.saveCurrentProject()
@@ -79,7 +84,11 @@ class Gui:
     
     def showAboutWindow(self):
         self.showMessage("À propos","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
-        
+    
+    def showTreeView(self,project):
+        treeView = TreeView(self.root, project)
+        treeView.show()    
+    
     def showMessage(self,title,text):
         try:
             messageBox = Toplevel(self.root)
