@@ -71,6 +71,10 @@ class Client:
             self.currentProject.scrumList = self.gui.getScrumListFromScrumForm(self.currentProject.name,scrumList)
         pass
     
+    def tryShowTreeView(self):
+        if self.currentProject != None:
+            self.gui.showTreeView(self.currentProject)
+    
     def saveCurrentProject(self):
         if self.currentProject != None:
             serializedProject = pickle.dumps(self.currentProject)
