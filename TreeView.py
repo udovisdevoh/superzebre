@@ -81,7 +81,7 @@ class TreeView:
             self.__showCrc(crc)
     
     def __showCrc(self,crc):
-        titleLabel = Label(self.canvas, text=crc.name + ": " + scrum.user, font=("Helvetica", self.textSizeH3), justify="left")
+        titleLabel = Label(self.canvas, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
         titleLabel.pack(anchor="nw", ipadx=60)
         textLabel = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
         textLabel.pack(anchor="nw", ipadx=90)
@@ -105,7 +105,7 @@ if __name__ == "__main__":
     project.useCaseList.add(UseCase("Lancer du nain","On lance le nain"))
     project.useCaseList.add(UseCase("Lancer du trefle","On lance le trefle"))    
     project.scrumList.scrum.append(Scrum("2009-01-02","Boris","Faire du café","Café fait","Il n'en restait plus"))
-    
+    project.crcList.crc.append(Crc("Tableau","Marcel","Contenir les cases","Case"))
     treeView = TreeView(root, project)
     treeView.show()
     root.mainloop()
