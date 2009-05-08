@@ -33,6 +33,7 @@ class Gui:
         editmenu.add_command(label="Faire/Modifier les cas d'usage", command=self.tryEditUseCases)
         editmenu.add_command(label="Faire/Modifier les CRCs", command=self.tryEditCrcs)
         editmenu.add_command(label="Faire/Modifier les SCRUM", command=self.tryEditScrums)
+        editmenu.add_command(label="Afficher l'information sur le projet", command=self.tryShowTreeView)
         filemenu.add_separator()
         filemenu.add_command(label="Quitter", command=sys.exit)
         helpmenu = Menu(self.menu,tearoff=0)
@@ -62,7 +63,7 @@ class Gui:
             return
         self.parentClient.loadProject(projectName)
         self.root.title("SuperZèbre - "+projectName)
-        #self.tryShowTreeView()
+        self.tryShowTreeView()
     
     def saveCurrentProject(self):
         self.parentClient.saveCurrentProject()
