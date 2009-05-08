@@ -14,6 +14,9 @@ class TreeView:
     def showTitle(self,title):
         projectNameLabel = Label(self.root, text=title, font=("Helvetica", 16))
         projectNameLabel.pack();
+        
+    def showSortedWords(self,sortedWords):
+        pass
     
 if __name__ == "__main__":
     root = Tk()
