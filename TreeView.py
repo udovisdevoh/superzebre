@@ -8,7 +8,7 @@ class TreeView:
     
     def show(self):
         self.root.minsize(800, 600)
-        self.canvas = Canvas(root, width = 800, height = 500)
+        self.canvas = Canvas(root, width = 800, height = 600)
         self.canvas.pack(anchor="nw")
         self._showTitle(self.project.name)
         self._showSortedWords(self.project.sortedWords)
