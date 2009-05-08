@@ -4,6 +4,7 @@ from Project import *
 
 class TreeView:
     def __init__(self,root,project):
+        self.root = root
         self.textSizeH1 = 14
         self.textSizeH2 = 13
         self.textSizeH3 = 9
@@ -13,7 +14,7 @@ class TreeView:
     
     def show(self):
         self.root.minsize(800, 600)
-        self.canvas = Canvas(root, width = 800, height = 600)
+        self.canvas = Canvas(self.root, width = 800, height = 600)
         self.canvas.pack(anchor="nw")
         self._showTitle(self.project.name)
         self._showSortedWords(self.project.sortedWords)
