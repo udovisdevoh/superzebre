@@ -72,7 +72,9 @@ class Client:
         pass
     
     def tryShowTreeView(self):
-        if self.currentProject != None:
+        if self.currentProject == None:
+            self.gui.showMessage("Erreur","Vous devez charger un projet")
+        else:
             self.gui.showTreeView(self.currentProject)
     
     def saveCurrentProject(self):
