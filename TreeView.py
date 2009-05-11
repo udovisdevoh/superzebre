@@ -3,7 +3,7 @@ from Tkinter import *
 from Project import *
 
 class TreeView:
-    def __init__(self,root,project):
+    def __init__(self,root,project, parentClient=""):
         self.root = root
         self.textSizeH1 = 14
         self.textSizeH2 = 13
@@ -11,6 +11,7 @@ class TreeView:
         self.textSizeH4 = 8
         self.root = root
         self.project = project
+        self.parentClient = parentClient
     
     def show(self):
         for i in self.root.pack_slaves():
@@ -32,66 +33,84 @@ class TreeView:
         projectNameLabel.pack(anchor="nw")
         
     def _showSortedWords(self,sortedWords):
-        sortedWordsTitleLabel = Label(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left")
-        sortedWordsTitleLabel.pack(anchor="nw", ipadx=30)         
+        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryBeginPerformTextAnalysis)
+        buttonSortedWordsTitle.pack(anchor="nw", padx=30)         
         self.__showSortedWordsForCategory("Noms", sortedWords.noms)
         self.__showSortedWordsForCategory("Adjectifs", sortedWords.adjectifs)
         self.__showSortedWordsForCategory("Verbes", sortedWords.verbes)
         
     def __showSortedWordsForCategory(self,categoryName,wordList):
-        categoryLabel = Label(self.canvas, text=categoryName, font=("Helvetica", self.textSizeH3), justify="left")
-        categoryLabel.pack(anchor="nw", ipadx=60) 
+        buttonCategory = Label(self.canvas, text=categoryName, font=("Helvetica", self.textSizeH3), justify="left")
+        buttonCategory.pack(anchor="nw", padx=60) 
         words=""
         for word in wordList:
             words += word + ", "
         if words=="":
             words="liste vide"
-        wordLabel = Label(self.canvas, text = words, font=("Helvetica", self.textSizeH4), justify="left")
-        wordLabel.pack(anchor="nw", ipadx=90)
+        buttonWord = Label(self.canvas, text = words, font=("Helvetica", self.textSizeH4), justify="left")
+        buttonWord.pack(anchor="nw", padx=90)
     
     def _showUseCaseList(self,useCaseList):
-        titleLabel = Label(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left")
-        titleLabel.pack(anchor="nw", ipadx=30)
+        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditUseCases)
+        buttonTitle.pack(anchor="nw", padx=30)
         for useCase in useCaseList.useCase:
             self.__showUseCase(useCase)
     
     def __showUseCase(self,useCase):
-        titleLabel = Label(self.canvas, text=useCase.name, font=("Helvetica", self.textSizeH3), justify="left")
-        titleLabel.pack(anchor="nw", ipadx=60)
-        textLabel = Label(self.canvas, text=useCase.description, font=("Helvetica", self.textSizeH4), justify="left")
-        textLabel.pack(anchor="nw", ipadx=90)
+        buttonTitle = Button(self.canvas, text=useCase.name, font=("Helvetica", self.textSizeH3), justify="left", command=self.foundUseCase)
+        buttonTitle.pack(anchor="nw", padx=60)
+        buttonText = Label(self.canvas, text=useCase.description, font=("Helvetica", self.textSizeH4), justify="left")
+        buttonText.pack(anchor="nw", padx=90)
     
     def _showScrumList(self,scrumList):
-        titleLabel = Label(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left")
-        titleLabel.pack(anchor="nw", ipadx=30)
+        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditScrum)
+        buttonTitle.pack(anchor="nw", padx=30)
         for scrum in scrumList.scrum:
             self.__showScrum(scrum)
             
     def __showScrum(self, scrum):
-        titleLabel = Label(self.canvas, text=scrum.date + ": " + scrum.user, font=("Helvetica", self.textSizeH3), justify="left")
-        titleLabel.pack(anchor="nw", ipadx=60)
-        textLabel = Label(self.canvas, text=scrum.todo, font=("Helvetica", self.textSizeH4), justify="left")
-        textLabel.pack(anchor="nw", ipadx=90)
-        textLabel = Label(self.canvas, text=scrum.done, font=("Helvetica", self.textSizeH4), justify="left")
-        textLabel.pack(anchor="nw", ipadx=90)
-        textLabel = Label(self.canvas, text=scrum.problem, font=("Helvetica", self.textSizeH4), justify="left")
-        textLabel.pack(anchor="nw", ipadx=90)
+        buttonTitle = Button(self.canvas, text=scrum.date + ": " + scrum.user, font=("Helvetica", self.textSizeH3), justify="left", command=self.foundScrum)
+        buttonTitle.pack(anchor="nw", padx=60)
+        buttonText = Label(self.canvas, text=scrum.todo, font=("Helvetica", self.textSizeH4), justify="left")
+        buttonText.pack(anchor="nw", padx=90)
+        ButtonText = Label(self.canvas, text=scrum.done, font=("Helvetica", self.textSizeH4), justify="left")
+        buttonText.pack(anchor="nw", padx=90)
+        ButtonText = Label(self.canvas, text=scrum.problem, font=("Helvetica", self.textSizeH4), justify="left")
+        ButtonText.pack(anchor="nw", padx=90)
         
     def _showCrcList(self,crcList):
-        titleLabel = Label(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left")
-        titleLabel.pack(anchor="nw", ipadx=30)
+        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditCrcs)
+        buttonTitle.pack(anchor="nw", padx=30)
         for crc in crcList.crc:
             self.__showCrc(crc)
     
     def __showCrc(self,crc):
-        titleLabel = Label(self.canvas, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
-        titleLabel.pack(anchor="nw", ipadx=60)
-        textLabel = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
-        textLabel.pack(anchor="nw", ipadx=90)
-        textLabel = Label(self.canvas, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
-        textLabel.pack(anchor="nw", ipadx=90)        
-        textLabel = Label(self.canvas, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")
-        textLabel.pack(anchor="nw", ipadx=90)  
+        buttonTitle = Button(self.canvas, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
+        buttonTitle.pack(anchor="nw", padx=60)
+        buttonText = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
+        buttonText.pack(anchor="nw", padx=90)
+        buttonText = Label(self.canvas, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
+        buttonText.pack(anchor="nw", padx=90)        
+        buttonText = Label(self.canvas, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")
+        buttonText.pack(anchor="nw", padx=90) 
+        
+    def  tryBeginPerformTextAnalysis(self):
+        self.parentClient.tryPerformTextAnalysis()
+    
+    def tryEditUseCases(self):
+        self.parentClient.tryEditUseCases()
+    
+    def foundUseCase(self):
+        pass
+    
+    def tryEditScrum(self):
+        self.parentClient.tryEditScrums()
+    
+    def foundScrum(self):
+        pass
+    
+    def tryEditCrcs(self):
+        self.parentClient.tryEditCrcs()
 
 if __name__ == "__main__":
     root = Tk()
