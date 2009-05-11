@@ -3,6 +3,7 @@ class TextForm:
     def __init__(self, parent, message):
         self.outputValue = ""
         top = self.top = Toplevel(parent)
+        top.iconbitmap("zebra.ico")
         Label(top, text=message).pack()
         self.e = Entry(top)
         self.e.pack(padx=5)
