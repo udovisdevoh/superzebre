@@ -8,7 +8,6 @@ class FileForm:
     def __init__(self,root,title,fileType,fileExtension):
         #self.file = tkFileDialog.askopenfile(parent = root,filetypes=[(fileType,fileExtension)],initialdir="c:\\",mode='rb',title=title)
         self.file = tkFileDialog.askopenfile(parent = root,filetypes=[(fileType,fileExtension)],mode='rb',title=title)
-        self.file.iconbitmap("zebra.ico")
         if self.file != None:
             self.fileContent = self.file.read()
             self.fileContent = str(self.fileContent)
