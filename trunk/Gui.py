@@ -87,8 +87,8 @@ class Gui:
     def showAboutWindow(self):
         self.showMessage("À propos","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
     
-    def showTreeView(self,project):
-        treeView = TreeView(self.root, project)
+    def showTreeView(self,project, parentClient):
+        treeView = TreeView(self.root, project, parentClient)
         treeView.show()    
     
     def showMessage(self,title,text):
