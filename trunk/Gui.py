@@ -16,6 +16,7 @@ class Gui:
         self.root = Tk()
         self.root.minsize(800,600)
         self.root.title("SuperZèbre")
+        self.root.iconbitmap("zebra.ico")
         self.showImage()
             
     def showMainMenu(self):
@@ -94,6 +95,7 @@ class Gui:
         try:
             messageBox = Toplevel(self.root)
             messageBox.title(title)
+            messageBox.iconbitmap("zebra.ico")
             msg = Message(messageBox, text=text,width=300)
             msg.pack()
             button = Button(messageBox, text = "Fermer", command=messageBox.destroy)
