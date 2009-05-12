@@ -13,52 +13,121 @@ class WordCheck(object):
     """
     
     """
-    def __init__(self, lists, texts):
+    def __init__(self, lists, texts, root):
         """
-        When initialized, an object WordCheck requires a list (or list of lists) of strings (the strings have to be lowered),
-        and a list of Text Widgets it has to check.
+        When initialized, an object WordCheck requires a list of lists of strings (the strings have to be lowered),
+        a list of Text Widgets it has to check and its TKinter root.
         """
+        self.lists = lists
+        self.texts = texts
         self.checkList = []
-        self.wordList = []
-        
-        fillCheckList(lists)
-        fillWordList(texts)
-        
+        self.textWords = []
+        self.root = root
+        self.status = None #Status changes to True if 
     
-    def fillCheckList(self, lists):
-        for currentList in lists:
+    def activate(self):
+        """
+        """
+        self.fillCheckList()
+        self.fillTextWords()
+        self.removeUsedWords()
+        if len(self.checkList) > 0:
+            self.showMessageBox()
+        return self.status
+                
+    def fillCheckList(self):
+        """
+        """
+        for currentList in self.lists:
             for currentElement in currentList:
                 self.checkList.append(currentElement)
     
-    def fillWordList(self, texts):
-        for currentText in texts:
+    def fillTextWords(self):
+        """
+        """
+        for currentText in self.texts:
             text = currentText.get("1.0", END)
             text = text.splitlines()
             for line in text:
                 line = line.strip(".,!?:;()$/\|#*&%_<>[]")
                 line = line.split(" ")
                 for word in line:
-                    self.wordList.append(word)
+                    self.textWords.append(word)
     
-    def compareLists(self):
-        for check in self.checkList:
-            for word in self.wordList:
-                if check == word:
-                    self.checkList.remove(check)
-                    
+    def removeUsedWords(self):
+        """
+        """
+        usedWords = []
+        for checkWord in self.checkList:
+            for word in self.textWords:
+                if checkWord == word:
+                    usedWords.append(word)
+        if len(usedWords) > 0:
+            for word in usedWords:
+                self.checkList.remove(word)
+                
+    def showMessageBox(self):
+        """
+        """
+        self.toplevel = Toplevel(self.root, width = 300)
+        self.toplevel.title("Mots Inutilisés")
+        self.toplevel.iconbitmap("zebra.ico")
+        
+        text = "Certains mots de votre analyse textuelle sont inutilisés dans cette partie du projet. En voici la liste :\n"
+        message = Message(self.toplevel, text = text, width = 300)
+        message.pack()
+        
+        listbox = Listbox(self.toplevel, height = 3, width = 30)
+        listbox.delete(0, END)
+        for word in self.checkList:
+            listbox.insert(END, word)
+        listbox.pack()
+        
+        text = """\nSouhaitez-vous continuer et être avertit plus tard (section en jaune),
+                ignorer ce message (section en vert) ou bien annuler pour ré-éditer cette partie du projet?\n"""
+        message = Message(self.toplevel, text = text, width = 300)
+        message.pack()
+        
+        frameButton= Frame(self.toplevel)
+        frameButton.pack()
+        
+        buttonContinue = Button(frameButton, text = "Continuer", command = self.actionContinue)
+        buttonContinue.pack(side = LEFT)
+        buttonIgnore = Button(frameButton, text = "Ignorer", command = self.actionIgnore)
+        buttonIgnore.pack(side = LEFT)
+        buttonCancel = Button(frameButton, text = "Annuler", command = self.actionCancel)
+        buttonCancel.pack(side = LEFT)
+        
+    def actionContinue(self):
+        self.toplevel.destroy()
+        self.status = False
+        
+    
+    def actionIgnore(self):
+        self.toplevel.destroy()
+        self.status = True
+        
+    def actionCancel(self):
+        self.toplevel.destroy()
+        self.status = None
     
 if __name__ == "__main__":
     print "Testing the GUI..."
     root = Tk() 
-    list1 = [["nom","banane","voiture"],["adjectif","atomique","géant"],["verbe","bouger","finir"],["#","1","2","3","4","5","6","7","8","9","10"]]
-    list2 = [["banane","voiture"],["atomique","géant"],["bouger","finir"],["1","2","3","4","5","6","7","8","9","10"]]
+    lists = [["banane","voiture"],["atomique","géant"],["bouger","finir"],["1","2","3","4","5","6","7","8","9","10"]]
     root.minsize(800,600)
-    root.title("AutoCompletion Unit Test")
-    root.text = Text(root, height = 10, width = 30)
-    root.text.pack()
-    autoCompletion = AutoCompletion(root, list1, True, root.text, 5, 50)
-    
+    root.title("WordCheck Unit Test")
+    root.iconbitmap("zebra.ico")
+    root.text1 = Text(root, height = 10, width = 30)
+    root.text1.pack()
     root.text2 = Text(root, height = 10, width = 30)
     root.text2.pack()
-    autoCompletion = AutoCompletion(root, list2, False, root.text2, 5, 50)
+    
+    wordCheck = WordCheck(lists, [root.text1,root.text2], root)
+    
+    b = Button(root, text="OK", command=wordCheck.activate)
+    b.pack()
+
+    
     root.mainloop()
+    
