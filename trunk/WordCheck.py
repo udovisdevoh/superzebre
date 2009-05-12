@@ -11,7 +11,6 @@ from Tkinter import *
 
 class WordCheck(object):
     """
-    
     """
     def __init__(self, lists, texts, root):
         """
@@ -23,17 +22,21 @@ class WordCheck(object):
         self.checkList = []
         self.textWords = []
         self.root = root
-        self.status = None #Status changes to True if 
+        self.status = None
     
     def activate(self):
         """
+        This method checks if all the words of the lists have been used in the texts, if they have, it returns True,
+        if not it calls showMessageBox() and return status (either True, False of None)
         """
         self.fillCheckList()
         self.fillTextWords()
         self.removeUsedWords()
         if len(self.checkList) > 0:
             self.showMessageBox()
-        return self.status
+            return self.status
+        else:
+            return True
                 
     def fillCheckList(self):
         """
@@ -60,10 +63,12 @@ class WordCheck(object):
         usedWords = []
         for checkWord in self.checkList:
             for word in self.textWords:
+                word = word.lower()
                 if checkWord == word:
                     usedWords.append(word)
         if len(usedWords) > 0:
             for word in usedWords:
+                word = word.lower()
                 self.checkList.remove(word)
                 
     def showMessageBox(self):
@@ -83,8 +88,7 @@ class WordCheck(object):
             listbox.insert(END, word)
         listbox.pack()
         
-        text = """\nSouhaitez-vous continuer et être avertit plus tard (section en jaune),
-                ignorer ce message (section en vert) ou bien annuler pour ré-éditer cette partie du projet?\n"""
+        text = "\nSouhaitez-vous continuer et être avertit plus tard (section en jaune), ignorer ce message (section en vert) ou bien annuler pour ré-éditer cette partie du projet?\n"
         message = Message(self.toplevel, text = text, width = 300)
         message.pack()
         
@@ -99,17 +103,25 @@ class WordCheck(object):
         buttonCancel.pack(side = LEFT)
         
     def actionContinue(self):
+        """
+        """
         self.toplevel.destroy()
         self.status = False
         
     
     def actionIgnore(self):
+        """
+        """
         self.toplevel.destroy()
         self.status = True
         
     def actionCancel(self):
+        """
+        """
         self.toplevel.destroy()
         self.status = None
+        self.checkList = []
+        self.textWords = []
     
 if __name__ == "__main__":
     print "Testing the GUI..."
@@ -122,12 +134,8 @@ if __name__ == "__main__":
     root.text1.pack()
     root.text2 = Text(root, height = 10, width = 30)
     root.text2.pack()
-    
     wordCheck = WordCheck(lists, [root.text1,root.text2], root)
-    
     b = Button(root, text="OK", command=wordCheck.activate)
     b.pack()
-
-    
     root.mainloop()
     
