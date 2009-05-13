@@ -20,9 +20,14 @@ class LoadProjectForm:
         buttonLoad = Button(self.canvas, text="Charger", command=self.userClickLoad)
         buttonLoad.pack()
     
+    def clear(self):
+        self.canvas.destroy()
+    
     def userClickLoad(self):
         try:
-            print self.listbox.curselection()[0]
+            selection = self.listbox.curselection()[0]
+            self.selectedProjectName = self.listbox.get(int(selection), int(selection) + 1)[0]
+            print self.selectedProjectName
             #self.selectedProjectName = self.listbox[self.listbox.curselection()[0]]
         except IndexError:
             pass
