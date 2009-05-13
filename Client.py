@@ -82,7 +82,10 @@ class Client:
             serializedProject = pickle.dumps(self.currentProject)
             self.server.sendProject(serializedProject)
         else:
-            self.gui.showMessage("Erreur","Vous devez créer ou charger un projet pour le sauvegarder")
+           self.gui.showMessage("Erreur","Vous devez créer ou charger un projet pour le sauvegarder")
+    
+    def getProjectNameList(self):
+        pass
 
 if __name__ == "__main__":
     print "Main program started"
