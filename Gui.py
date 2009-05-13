@@ -59,8 +59,8 @@ class Gui:
         self.root.title("SuperZèbre - "+projectName)
     
     def tryLoadProject(self):
-        projectList = self.parentClient.getProjectList()
-        loadProjectForm = LoadProjectForm(self.root, "Charger un projet", projectList)
+        projectNameList = self.parentClient.getProjectNameList()
+        loadProjectForm = LoadProjectForm(self.root, "Charger un projet", projectNameList)
         wait_variable(loadProjectForm.selectedProjectName)
         self.parentClient.loadProject(loadProjectForm.selectedProjectName)
         self.root.title("SuperZèbre - "+projectName)
