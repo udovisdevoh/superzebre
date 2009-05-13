@@ -25,6 +25,7 @@ class TreeView:
         self._showSortedWords(self.project.sortedWords)
         self._showUseCaseList(self.project.useCaseList)
         self._showCrcList(self.project.crcList)
+        self._showSprintList(self.project.sprintList)
         self._showScrumList(self.project.scrumList)
         
     def hide(self):
@@ -118,9 +119,27 @@ class TreeView:
         labelText = Label(self.canvas, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)        
         labelText = Label(self.canvas, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")
-        labelText.pack(anchor="nw", padx=90) 
+        labelText.pack(anchor="nw", padx=90)
         
-    def  tryBeginPerformTextAnalysis(self):
+    def _showSprintList(self,sprintList):
+        if sprintList == None:
+            color = self.colorNotOk
+        elif len(sprintList.sprint) < 4:
+            color = self.colorPending
+        else:
+            color = self.colorOk
+        buttonTitle = Button(self.canvas, text="Planning game", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditSprints)
+        buttonTitle.pack(anchor="nw", padx=30)
+        for sprint in sprintList.sprint:
+            self.__showSprint(sprint)
+            
+    def __showSprint(self,sprint):
+        labelTitle = Label(self.canvas, text=sprint.startingDate + " " + sprint.endingDate, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle.pack(anchor="nw", padx=60)
+        labelText = Label(self.canvas, text=sprint.description, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)
+        
+    def tryBeginPerformTextAnalysis(self):
         self.parentClient.tryPerformTextAnalysis()
     
     def tryEditUseCases(self):
@@ -131,6 +150,9 @@ class TreeView:
     
     def tryEditScrum(self):
         self.parentClient.tryEditScrums()
+    
+    def tryEditSprints(self):
+        self.parentClient.tryEditSprints()
     
     def foundScrum(self):
         pass
@@ -154,6 +176,8 @@ if __name__ == "__main__":
     project.useCaseList.add(UseCase("Lancer du trefle","On lance le trefle"))    
     project.scrumList.scrum.append(Scrum("2009-01-02","Boris","Faire du café","Café fait","Il n'en restait plus"))
     project.crcList.crc.append(Crc("Tableau","Marcel","Contenir les cases","Case"))
+    project.sprintList.add(Sprint("date1","date2","fdhfghfghsdf"))
+    project.sprintList.add(Sprint("date1b","date2b","fdh vch fghfghsdf"))
     treeView = TreeView(root, project)
     treeView.show()
     root.mainloop()
