@@ -11,7 +11,7 @@ class SprintForm:
         self.index = 0
 
     def initGraphicComponents(self,root,title):
-        for i in root.pack_slaves():
+        for i in self.root.pack_slaves():
             i.destroy()
         root.title(title)
         
@@ -24,8 +24,8 @@ class SprintForm:
         self.endingDateLabel = Label(self.frameDateName,text="Date de fin          ")
         
         self.description = Text(self.frameGlobal,height = 10)
-        if len(self.sprintList.sprint)>0:
-            self.description.insert(1.0,self.sprintList.sprint[index].description)
+        #if len(self.sprintList.sprint)>0:
+        #    self.description.insert(1.0,self.sprintList.sprint[self.index].description)
         self.startingDate = Date(self.frameDate,LEFT)
         self.endingDate = Date(self.frameDate,RIGHT)
         self.buttonPrevious = Button(self.frameButton, text = "<<Précédent", bd = 5, command = self.previous)
@@ -71,7 +71,7 @@ class SprintForm:
             pass
     def apply(self):
         self.next()
-        for i in root.pack_slaves():
+        for i in self.root.pack_slaves():
             i.destroy()
     
 if __name__ == "__main__":
