@@ -4,18 +4,18 @@
 File : AutoCompleteWidget.py
 Author : François Pelletier
 Date Created : 20/04/09
-Last Edited : 03/05/09
+Last Edited : 12/05/09
 """
 
 from Tkinter import *
 
 class AutoCompletion(object):
     """
-    The AutoCompletion object is used on a TKinter TextBox and suggests to the user the use of 
+    The AutoCompletion object is used on a TKinter Text Widgets and suggests to the user the use of 
     specific words through a ListBox filled with words matching the prefix the user entered.
     An Object AutoCompletion has the following methods :
     
-    __init__(self, root, lists, textBox)
+    __init__(self, root, lists, symbols, textBox, height, width)
     getWordStart(self)
     getWordEnd(self)
     findPrefix(self)
