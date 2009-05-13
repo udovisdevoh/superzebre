@@ -4,13 +4,26 @@
 File : WordCheck.py
 Author : François Pelletier
 Date Created : 20/04/09
-Last Edited : 11/05/09
+Last Edited : 12/05/09
 """
 
 from Tkinter import *
 
 class WordCheck(object):
     """
+    The WordCheck object is used on a list of TKinter Text Widgets and checks if all words from a list have been used in those
+    texts if not, it informs the user and asks for what as to be done. It then returns the user's answer to its master.
+    An Object WordCheck has the following methods :
+    
+    __init__(self, lists, texts, root)
+    activate(self)
+    fillCheckList(self)
+    fillTextWords(self)
+    removeUsedWords(self)
+    showMessageBox(self)
+    actionContinue(self)
+    actionIgnore(self)
+    actionCancel(self)
     """
     def __init__(self, lists, texts, root):
         """
@@ -27,7 +40,10 @@ class WordCheck(object):
     def activate(self):
         """
         This method checks if all the words of the lists have been used in the texts, if they have, it returns True,
-        if not it calls showMessageBox() and return status (either True, False of None)
+        if not it calls showMessageBox() and return status. The status is either True, False of None and indicates what
+        the master of a WordCheck object has to do. If True, then destroy all widgets, and set this project part to green
+        in the treeView, if False, same but with yellow treeView and if None, do nothing. This method also returns True if
+        all the words from the lists have been used in the texts.
         """
         self.fillCheckList()
         self.fillTextWords()
@@ -40,6 +56,7 @@ class WordCheck(object):
                 
     def fillCheckList(self):
         """
+        This method is used to make checkList, a list of words, starting with a list of lists of words.
         """
         for currentList in self.lists:
             for currentElement in currentList:
@@ -47,6 +64,7 @@ class WordCheck(object):
     
     def fillTextWords(self):
         """
+        This method is used to separate all the words used in the texts and put them into the new list textWords.
         """
         for currentText in self.texts:
             text = currentText.get("1.0", END)
@@ -59,6 +77,7 @@ class WordCheck(object):
     
     def removeUsedWords(self):
         """
+        This method is called by the activate method, it is used to remove the words from the checkList if they are in textWords.
         """
         usedWords = []
         for checkWord in self.checkList:
@@ -73,6 +92,8 @@ class WordCheck(object):
                 
     def showMessageBox(self):
         """
+        This method is called if some words in the lists were not used in the texts, it shows a toplevel window which asks
+        the user if he wants to continue, ignore or cancel. All unused words are shown in a listbox.
         """
         self.toplevel = Toplevel(self.root, width = 300)
         self.toplevel.title("Mots Inutilisés")
@@ -104,6 +125,8 @@ class WordCheck(object):
         
     def actionContinue(self):
         """
+        This method is called if the user presses the buttonContinue, it destroys the toplevel and sets the status to False,
+        this will change the status to yellow in the treeView.
         """
         self.toplevel.destroy()
         self.status = False
@@ -111,12 +134,16 @@ class WordCheck(object):
     
     def actionIgnore(self):
         """
+        This method is called if the user presses the buttonIgnore, it destroys the toplevel and sets the status to True,
+        this will change the status to green in the treeView.
         """
         self.toplevel.destroy()
         self.status = True
         
     def actionCancel(self):
         """
+        This method is called if the user presses the buttonCancel, it destroys the toplevel and sets the status to None
+        so the user can continue editing the current page.
         """
         self.toplevel.destroy()
         self.status = None
