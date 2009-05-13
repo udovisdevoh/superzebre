@@ -60,11 +60,11 @@ class Gui:
     
     def tryLoadProject(self):
         projectNameList = self.parentClient.getProjectNameList()
-        loadProjectForm = LoadProjectForm(self.root, "Charger un projet", projectNameList)
-        wait_variable(loadProjectForm.selectedProjectName)
-        self.parentClient.loadProject(loadProjectForm.selectedProjectName)
+        loadProjectForm = LoadProjectForm(self.root, "Charger un projet", projectNameList, self.loadProject)
+    
+    def loadProject(self, projectName):
+        self.parentClient.loadProject(projectName)
         self.root.title("SuperZèbre - "+projectName)
-        loadProjectForm.destroy()
         self.tryShowTreeView()
     
     def saveCurrentProject(self):
