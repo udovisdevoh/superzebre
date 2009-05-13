@@ -9,6 +9,7 @@ from UseCaseForm import *
 from CrcForm import *
 from TreeView import *
 from ScrumForm import *
+from LoadProjectForm import *
 
 class Gui:
     def __init__(self, parentClient):
@@ -27,7 +28,7 @@ class Gui:
         self.menu.add_cascade(label="Fichier", menu=filemenu)
         self.menu.add_cascade(label="Édition", menu=editmenu)
         filemenu.add_command(label="Nouveau Projet", command=self.createNewProject)
-        filemenu.add_command(label="Charger un Projet", command=self.loadProject)
+        filemenu.add_command(label="Charger un Projet", command=self.tryLoadProject)
         filemenu.add_command(label="Enregistrer un Projet", command=self.saveCurrentProject)
         editmenu.add_command(label="Importer un texte", command=self.loadText)
         editmenu.add_command(label="Faire/Modifier l'analyse textuelle", command=self.tryBeginPerformTextAnalysis)
@@ -57,13 +58,13 @@ class Gui:
         self.parentClient.createNewProject(projectName)
         self.root.title("SuperZèbre - "+projectName)
     
-    def loadProject(self):
-        projectName = self.getInputDialog("Nom du Projet:")
-        if projectName.strip() == "":
-            self.showMessage("Erreur","Vous devez entrer un nom valide")
-            return
-        self.parentClient.loadProject(projectName)
+    def tryLoadProject(self):
+        projectList = self.parentClient.getProjectList()
+        loadProjectForm = LoadProjectForm(self.root, "Charger un projet", projectList)
+        wait_variable(loadProjectForm.selectedProjectName)
+        self.parentClient.loadProject(loadProjectForm.selectedProjectName)
         self.root.title("SuperZèbre - "+projectName)
+        loadProjectForm.destroy()
         self.tryShowTreeView()
     
     def saveCurrentProject(self):
