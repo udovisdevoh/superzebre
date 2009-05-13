@@ -9,9 +9,11 @@ class TreeView:
         self.textSizeH2 = 13
         self.textSizeH3 = 9
         self.textSizeH4 = 8
-        self.root = root
         self.project = project
         self.parentClient = parentClient
+        self.colorOk = "#0F0"
+        self.colorPending = "#FF0"
+        self.colorNotOk = "#F00"
     
     def show(self):
         for i in self.root.pack_slaves():
@@ -33,66 +35,90 @@ class TreeView:
         projectNameLabel.pack(anchor="nw")
         
     def _showSortedWords(self,sortedWords):
-        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryBeginPerformTextAnalysis)
+        if sortedWords == None:
+            color = self.colorNotOk
+        elif len(sortedWords.noms) < 4 or len(sortedWords.adjectifs) < 4 or len(sortedWords.verbes) < 4:
+            color = self.colorPending
+        else:
+            color = self.colorOk
+        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryBeginPerformTextAnalysis, background=color)
         buttonSortedWordsTitle.pack(anchor="nw", padx=30)         
         self.__showSortedWordsForCategory("Noms", sortedWords.noms)
         self.__showSortedWordsForCategory("Adjectifs", sortedWords.adjectifs)
         self.__showSortedWordsForCategory("Verbes", sortedWords.verbes)
         
     def __showSortedWordsForCategory(self,categoryName,wordList):
-        buttonCategory = Label(self.canvas, text=categoryName, font=("Helvetica", self.textSizeH3), justify="left")
-        buttonCategory.pack(anchor="nw", padx=60) 
+        labelCategory = Label(self.canvas, text=categoryName, font=("Helvetica", self.textSizeH3), justify="left")
+        labelCategory.pack(anchor="nw", padx=60) 
         words=""
         for word in wordList:
             words += word + ", "
         if words=="":
             words="liste vide"
-        buttonWord = Label(self.canvas, text = words, font=("Helvetica", self.textSizeH4), justify="left")
-        buttonWord.pack(anchor="nw", padx=90)
+        labelWord = Label(self.canvas, text = words, font=("Helvetica", self.textSizeH4), justify="left")
+        labelWord.pack(anchor="nw", padx=90)
     
     def _showUseCaseList(self,useCaseList):
-        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditUseCases)
+        if useCaseList == None:
+            color = self.colorNotOk
+        elif len(useCaseList.useCase) < 4:
+            color = self.colorPending
+        else:
+            color = self.colorOk
+        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditUseCases, background=color)
         buttonTitle.pack(anchor="nw", padx=30)
         for useCase in useCaseList.useCase:
             self.__showUseCase(useCase)
     
     def __showUseCase(self,useCase):
-        buttonTitle = Button(self.canvas, text=useCase.name, font=("Helvetica", self.textSizeH3), justify="left", command=self.foundUseCase)
-        buttonTitle.pack(anchor="nw", padx=60)
-        buttonText = Label(self.canvas, text=useCase.description, font=("Helvetica", self.textSizeH4), justify="left")
-        buttonText.pack(anchor="nw", padx=90)
+        labelTitle = Label(self.canvas, text=useCase.name, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle.pack(anchor="nw", padx=60)
+        labelText = Label(self.canvas, text=useCase.description, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)
     
     def _showScrumList(self,scrumList):
-        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditScrum)
+        if scrumList == None:
+            color = self.colorNotOk
+        elif len(scrumList.scrum) < 4:
+            color = self.colorPending
+        else:
+            color = self.colorOk 
+        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditScrum, background=color)
         buttonTitle.pack(anchor="nw", padx=30)
         for scrum in scrumList.scrum:
             self.__showScrum(scrum)
             
     def __showScrum(self, scrum):
-        buttonTitle = Button(self.canvas, text=scrum.date + ": " + scrum.user, font=("Helvetica", self.textSizeH3), justify="left", command=self.foundScrum)
-        buttonTitle.pack(anchor="nw", padx=60)
-        buttonText = Label(self.canvas, text=scrum.todo, font=("Helvetica", self.textSizeH4), justify="left")
-        buttonText.pack(anchor="nw", padx=90)
-        ButtonText = Label(self.canvas, text=scrum.done, font=("Helvetica", self.textSizeH4), justify="left")
-        buttonText.pack(anchor="nw", padx=90)
-        ButtonText = Label(self.canvas, text=scrum.problem, font=("Helvetica", self.textSizeH4), justify="left")
-        ButtonText.pack(anchor="nw", padx=90)
+        labelTitle = Label(self.canvas, text=scrum.date + ": " + scrum.user, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle.pack(anchor="nw", padx=60)
+        labelText = Label(self.canvas, text=scrum.todo, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)
+        labelText = Label(self.canvas, text=scrum.done, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)
+        labelText = Label(self.canvas, text=scrum.problem, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)
         
     def _showCrcList(self,crcList):
-        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditCrcs)
+        if crcList == None:
+            color = self.colorNotOk
+        elif len(crcList.crc) < 4:
+            color = self.colorPending
+        else:
+            color = self.colorOk            
+        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditCrcs, background=color)
         buttonTitle.pack(anchor="nw", padx=30)
         for crc in crcList.crc:
             self.__showCrc(crc)
     
     def __showCrc(self,crc):
-        buttonTitle = Button(self.canvas, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
-        buttonTitle.pack(anchor="nw", padx=60)
-        buttonText = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
-        buttonText.pack(anchor="nw", padx=90)
-        buttonText = Label(self.canvas, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
-        buttonText.pack(anchor="nw", padx=90)        
-        buttonText = Label(self.canvas, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")
-        buttonText.pack(anchor="nw", padx=90) 
+        labelTitle = Label(self.canvas, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle.pack(anchor="nw", padx=60)
+        labelText = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)
+        labelText = Label(self.canvas, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)        
+        labelText = Label(self.canvas, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90) 
         
     def  tryBeginPerformTextAnalysis(self):
         self.parentClient.tryPerformTextAnalysis()
