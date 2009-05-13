@@ -22,7 +22,8 @@ class Server:
         self.dataBaseController.writeKeyValue("project",key,value)
     
     def getProjectNameList(self):
-        return self.dataBaseController.getAllKeys("project")
+        projectNameList = self.dataBaseController.getAllKeys("project")
+        return pickle.dumps(projectNameList)
     
 if __name__ == "__main__":
     server = SimpleXMLRPCServer(("localhost", 8006),
