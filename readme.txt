@@ -1,4 +1,4 @@
-1er mai 2009
+13 mai 2009
 
 Nom du projet:
 	Super Zèbre
@@ -17,6 +17,8 @@ Fonctionnalités disponibles:
 	Analyse textuelle automatisée
 	Création et modification de CRCs
 	Création et modification de cas d'usage
+	Création et modification des scrums
+	Autocompletion pour chaque formulaire
 	Application en mode serveur-client
 	Couche persistante permettant de sauvegarder son projet sur le seveur
 
