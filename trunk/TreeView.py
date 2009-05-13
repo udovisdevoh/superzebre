@@ -41,7 +41,7 @@ class TreeView:
             color = self.colorPending
         else:
             color = self.colorOk
-        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryBeginPerformTextAnalysis, background=color)
+        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryBeginPerformTextAnalysis)
         buttonSortedWordsTitle.pack(anchor="nw", padx=30)         
         self.__showSortedWordsForCategory("Noms", sortedWords.noms)
         self.__showSortedWordsForCategory("Adjectifs", sortedWords.adjectifs)
@@ -65,7 +65,7 @@ class TreeView:
             color = self.colorPending
         else:
             color = self.colorOk
-        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditUseCases, background=color)
+        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditUseCases)
         buttonTitle.pack(anchor="nw", padx=30)
         for useCase in useCaseList.useCase:
             self.__showUseCase(useCase)
@@ -83,7 +83,7 @@ class TreeView:
             color = self.colorPending
         else:
             color = self.colorOk 
-        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditScrum, background=color)
+        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditScrum)
         buttonTitle.pack(anchor="nw", padx=30)
         for scrum in scrumList.scrum:
             self.__showScrum(scrum)
@@ -105,7 +105,7 @@ class TreeView:
             color = self.colorPending
         else:
             color = self.colorOk            
-        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", command=self.tryEditCrcs, background=color)
+        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditCrcs)
         buttonTitle.pack(anchor="nw", padx=30)
         for crc in crcList.crc:
             self.__showCrc(crc)
