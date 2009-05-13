@@ -2,13 +2,16 @@
 from Tkinter import *
 
 class LoadProjectForm:
-    def __init__(self, root, title, projectList):
+    def __init__(self, root, title, projectList, resultFunctionPointer):
         self.root = root
         self.projectList = projectList
         self.selectedProjectName = None
         self.initGraphicComponents(root,title)
+        self.resultFunctionPointer = resultFunctionPointer
     
     def initGraphicComponents(self,root,title):
+        for component in root.pack_slaves():
+            component.destroy()
         self.canvas = Canvas(self.root, width = 800, height = 600)
         self.canvas.pack(anchor="nw")
         projectNameLabel = Label(self.canvas, text=title, font=("Helvetica", 17))
@@ -27,8 +30,8 @@ class LoadProjectForm:
         try:
             selection = self.listbox.curselection()[0]
             self.selectedProjectName = self.listbox.get(int(selection), int(selection) + 1)[0]
-            print self.selectedProjectName
             #self.selectedProjectName = self.listbox[self.listbox.curselection()[0]]
+            self.resultFunctionPointer(self.selectedProjectName)
         except IndexError:
             pass
     
