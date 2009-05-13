@@ -85,7 +85,7 @@ class Client:
            self.gui.showMessage("Erreur","Vous devez créer ou charger un projet pour le sauvegarder")
     
     def getProjectNameList(self):
-        pass
+        return self.server.getProjectNameList()
 
 if __name__ == "__main__":
     print "Main program started"
