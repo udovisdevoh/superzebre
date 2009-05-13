@@ -11,4 +11,5 @@ class Project:
         self.crcList = CrcList()
         self.scrumList = ScrumList()
         self.useCaseList = UseCaseList()
+        self.sprintList = SprintList()
         self.text = None
