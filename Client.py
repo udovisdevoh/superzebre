@@ -85,7 +85,8 @@ class Client:
            self.gui.showMessage("Erreur","Vous devez créer ou charger un projet pour le sauvegarder")
     
     def getProjectNameList(self):
-        return self.server.getProjectNameList()
+        projectNameList = self.server.getProjectNameList()
+        return pickle.loads(projectNameList)
 
 if __name__ == "__main__":
     print "Main program started"
