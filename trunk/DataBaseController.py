@@ -51,11 +51,23 @@ class DataBaseController:
         value = base64.urlsafe_b64encode(value)
         key = key.strip()
         key = key.lower()
-        self.cursor.execute("REPLACE into 'project' (id,data) values ('" + key + "','" + value + "');");
+        self.cursor.execute("DELETE from '" + tableName + "' WHERE id = '" + key + "'");
+        self.cursor.execute("REPLACE into '" + tableName + "' (id,data) values ('" + key + "','" + value + "');");
         self.dataBase.commit()
+        
+    def getAllKeys(self,tableName):
+        keyList = []
+        self.cursor.execute("SELECT id FROM '" + tableName + "' ORDER BY id")
+        for row in self.cursor:
+            print row[0]
+            keyList.append(row[0])
+        return keyList
     
 if __name__ == '__main__':
     dataBaseController = DataBaseController(127,"superzebre");
     #dataBaseController.runCommand("CREATE TABLE test (id INTEGER PRIMARY KEY, name VARCHAR(50), email VARCHAR(50))")
     dataBaseController.readValueFromKey("project","mofo")
     dataBaseController.writeKeyValue("project", "mofo", "fdgfdghfd  fsg fdghfdhd fd")
+    dataBaseController.getAllKeys("project")
+    
+    
