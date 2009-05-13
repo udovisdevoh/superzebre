@@ -77,6 +77,6 @@ class SprintForm:
 if __name__ == "__main__":
     root = Tk()
     root.minsize(800, 600)
-    s = SprintList()
-    sp = SprintForm(root,"test",s)
+    sprintList = SprintList()
+    sprintForm = SprintForm(root,"test",sprintList)
     root.mainloop()        
