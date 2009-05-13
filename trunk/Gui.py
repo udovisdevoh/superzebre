@@ -9,6 +9,7 @@ from UseCaseForm import *
 from CrcForm import *
 from TreeView import *
 from ScrumForm import *
+from SprintForm import *
 from LoadProjectForm import *
 
 class Gui:
@@ -34,6 +35,7 @@ class Gui:
         editmenu.add_command(label="Faire/Modifier l'analyse textuelle", command=self.tryBeginPerformTextAnalysis)
         editmenu.add_command(label="Faire/Modifier les cas d'usage", command=self.tryEditUseCases)
         editmenu.add_command(label="Faire/Modifier les CRCs", command=self.tryEditCrcs)
+        editmenu.add_command(label="Faire/Modifier le planning game", command=self.tryEditSprints)
         editmenu.add_command(label="Faire/Modifier les SCRUM", command=self.tryEditScrums)
         editmenu.add_command(label="Afficher l'information sur le projet", command=self.tryShowTreeView)
         filemenu.add_separator()
@@ -84,6 +86,9 @@ class Gui:
         
     def tryEditScrums(self):
         self.parentClient.tryEditScrums()
+        
+    def tryEditSprints(self):
+        self.parentClient.tryEditSprints()
     
     def showAboutWindow(self):
         self.showMessage("À propos","Fait par:\n\t-Guillaume Lacasse\n\t-Étienne-Joseph Charles\n\t-Frédérik Pion\n\t-François Pelletier\n\t-Kevin Melançon\n\n\tCopyright 2009\n")
@@ -119,6 +124,10 @@ class Gui:
     def getScrumListFromScrumForm(self,projectName,scrumList):
         scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList)
         return scrumForm.scrumList
+    
+    def getSprintListFromSprintForm(self,projectName,sprintList):
+        sprintForm = SprintForm(self.root,"PLANNING GAME - "+projectName,sprintList)
+        return sprintForm.sprintList
         
     def getInputDialog(self,message):
         textForm = TextForm(self.root,message)
