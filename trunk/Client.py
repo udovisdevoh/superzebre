@@ -71,6 +71,11 @@ class Client:
             self.currentProject.scrumList = self.gui.getScrumListFromScrumForm(self.currentProject.name,scrumList)
         pass
     
+    def tryEditSprints(self):
+        if self.currentProject != None:
+            sprintList = self.currentProject.sprintList
+            self.currentProject.sprintList = self.gui.getSprintListFromSprintForm(self.currentProject.name, self.currentProject.sprintList)
+    
     def tryShowTreeView(self):
         if self.currentProject == None:
             self.gui.showMessage("Erreur","Vous devez charger un projet")
