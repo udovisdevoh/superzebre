@@ -3,6 +3,7 @@ from SortedWords import *
 from CrcList import *
 from ScrumList import *
 from UseCaseList import *
+from SprintList import *
 
 class Project:
     def __init__(self,name):
