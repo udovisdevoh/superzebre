@@ -4,7 +4,7 @@
 File : WordCheck.py
 Author : François Pelletier
 Date Created : 20/04/09
-Last Edited : 12/05/09
+Last Edited : 14/05/09
 """
 
 from Tkinter import *
@@ -35,7 +35,7 @@ class WordCheck(object):
         self.checkList = []
         self.textWords = []
         self.root = root
-        self.status = None
+        self.status = 0
     
     def activate(self):
         """
@@ -50,9 +50,10 @@ class WordCheck(object):
         self.removeUsedWords()
         if len(self.checkList) > 0:
             self.showMessageBox()
+            self.root.wait_window(self.toplevel)
             return self.status
         else:
-            return True
+            return 1
                 
     def fillCheckList(self):
         """
@@ -68,7 +69,7 @@ class WordCheck(object):
         """
         for currentText in self.texts:
             #text = currentText.get("1.0", END)
-            text = text.splitlines()
+            text = currentText.splitlines()
             for line in text:
                 line = line.strip(".,!?:;()$/\|#*&%_<>[]")
                 line = line.split(" ")
@@ -128,27 +129,26 @@ class WordCheck(object):
         This method is called if the user presses the buttonContinue, it destroys the toplevel and sets the status to False,
         this will change the status to yellow in the treeView.
         """
+        self.status = -1
         self.toplevel.destroy()
-        self.status = False
-        
     
     def actionIgnore(self):
         """
         This method is called if the user presses the buttonIgnore, it destroys the toplevel and sets the status to True,
         this will change the status to green in the treeView.
         """
+        self.status = 1
         self.toplevel.destroy()
-        self.status = True
         
     def actionCancel(self):
         """
         This method is called if the user presses the buttonCancel, it destroys the toplevel and sets the status to None
         so the user can continue editing the current page.
         """
-        self.toplevel.destroy()
-        self.status = None
+        self.status = 0
         self.checkList = []
         self.textWords = []
+        self.toplevel.destroy()
     
 if __name__ == "__main__":
     print "Testing the GUI..."
