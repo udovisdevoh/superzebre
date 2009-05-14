@@ -51,12 +51,7 @@ class TreeView:
         labelWord.pack(anchor="nw", padx=90)
     
     def _showUseCaseList(self,useCaseList):
-        if useCaseList == None:
-            color = self.colorNotOk
-        elif len(useCaseList.useCase) < 4:
-            color = self.colorPending
-        else:
-            color = self.colorOk
+
         buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorUseCase, command=self.tryEditUseCases)
         buttonTitle.pack(anchor="nw", padx=30)
         for useCase in useCaseList.useCase:
@@ -85,12 +80,7 @@ class TreeView:
         labelText.pack(anchor="nw", padx=90)
         
     def _showCrcList(self,crcList):
-        if crcList == None:
-            color = self.colorNotOk
-        elif len(crcList.crc) < 4:
-            color = self.colorPending
-        else:
-            color = self.colorOk            
+          
         buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorCRC, command=self.tryEditCrcs)
         buttonTitle.pack(anchor="nw", padx=30)
         for crc in crcList.crc:
@@ -107,12 +97,7 @@ class TreeView:
         labelText.pack(anchor="nw", padx=90)
         
     def _showSprintList(self,sprintList):
-        if sprintList == None:
-            color = self.colorNotOk
-        elif len(sprintList.sprint) < 4:
-            color = self.colorPending
-        else:
-            color = self.colorOk
+
         buttonTitle = Button(self.canvas, text="Planning game", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorSprint, command=self.tryEditSprints)
         buttonTitle.pack(anchor="nw", padx=30)
         for sprint in sprintList.sprint:
