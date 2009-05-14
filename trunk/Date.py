@@ -42,6 +42,13 @@ class Date:
         self.dateText.delete(1.0,END)
         self.dateText.insert(1.0,self.date)
     
+    def getDate(self):
+        return self.date
+         
+    def setDate(self,date):
+        self.date=date
+        self.updateDate()
+    
 if __name__ == "__main__":
     root = Tk()
     d=Date(root,TOP)
