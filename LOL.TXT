@@ -1,4 +1,4 @@
-def apply(self):
+    def apply(self):
         self.next()
         
         textList = []
@@ -7,11 +7,11 @@ def apply(self):
             
         wordCheck = WordCheck(listName, textList, self.root)
         wtf = wordCheck.activate()
-        if wtf not in None:
+        if wtf != None:
             for i in self.root.pack_slaves():
                 i.destroy()
             if wtf:
                 self.project.colorSprint = self.project.colorOk
             else:
                 self.project.colorSprint = self.project.colorPending
-            self.client.tryShowTreeView(self.project)
+            self.client.tryShowTreeView()
