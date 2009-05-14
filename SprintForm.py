@@ -9,10 +9,28 @@ from WordCheck import *
 
 
 class SprintForm:
-    def __init__(self,root,title,sprintList):
+    def __init__(self,root,title,sprintList, project, client):
+        self.client = client
+        self.project = project
         self.sprintList = sprintList
         self.root = root
         self.index = 0
+        
+        wordList = []
+        self.checkList = []
+        listName = sortedWords.noms[:]
+        self.checkList.append(listName)
+        listName.insert(0,"Noms")
+        wordList.append(listName)
+        listName = sortedWords.adjectifs[:]
+        self.checkList.append(listName)
+        listName.insert(0,"Adjectif")
+        wordList.append(listName)
+        listName = sortedWords.verbes[:]
+        self.checkList.append(listName)
+        listName.insert(0,"Verbes")
+        wordList.append(listName)
+        
         self.initGraphicComponents(root,title)
         
     def initGraphicComponents(self,root,title):
@@ -89,8 +107,8 @@ class SprintForm:
         self.next()
         
         textList = []
-        for zebre in self.sprintList:
-            textList.append(zebre.sprint.description)
+        for zebre in self.sprintList.sprint:
+            textList.append(zebre.description)
             
         wordCheck = WordCheck(listName, textList, self.root)
         wtf = wordCheck.activate()

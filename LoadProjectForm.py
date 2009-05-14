@@ -22,9 +22,14 @@ class LoadProjectForm:
             self.listbox.insert(END, item)
         buttonLoad = Button(self.canvas, text="Charger", command=self.userClickLoad)
         buttonLoad.pack()
+        
+        self.listbox.bind("<Double-1>", self.doubleClick)
     
     def clear(self):
         self.canvas.destroy()
+    
+    def doubleClick(self, event):
+        self.userClickLoad()
     
     def userClickLoad(self):
         try:
