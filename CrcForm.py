@@ -4,7 +4,9 @@ from CrcList import *
 from AutoCompleteWidget import *
 
 class CrcForm(object):
-    def __init__(self, root, title, crcList,sortedWords):
+    def __init__(self, root, title, crcList,sortedWords, project, client):
+        self.client = client
+        self.project = project
         self.crcList = crcList
         wordList = []
         listName = sortedWords.noms[:]
@@ -101,8 +103,23 @@ class CrcForm(object):
         for title in self.tabTitle:
             self.crcList.crc.append(Crc(title,"",self.tabResponsability[i],self.tabColaborators[i]))
             i += 1
-        self.canvas.destroy()
-    
+            
+        textList = []
+        for zebre in self.crcList:
+            textList.append(zebre.crc.title)
+            textList.append(zebre.useCase.tabResponsability)
+            textList.append(zebre.useCase.tabColaborators)
+            
+        wordCheck = WordCheck(listName, textList, self.root)
+        wtf = wordCheck.activate()
+        if wtf != None:
+            self.canvas.destroy()
+            if wtf:
+                self.project.colorCRC = self.project.colorOk
+            else:
+                self.project.colorCRC= self.project.colorPending
+            self.client.tryShowTreeView()
+            
 if __name__ == "__main__":
     root = Tk()
     crcList = CrcList()
