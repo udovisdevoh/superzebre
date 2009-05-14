@@ -110,23 +110,23 @@ class Gui:
             pass
         
     def getSortedWordsFromTextAnalysisForm(self, projectName, text, sortedWords):
-        textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle - "+projectName, text, sortedWords)
+        textAnalysisForm = TextAnalysisForm(self.root, "Analyse Textuelle - "+projectName, text, sortedWords, self.parentClient.currentProject, self.parentClient)
         return textAnalysisForm.sortedWords
     
     def getUseCaseListFromUseCaseForm(self,projectName,useCaseList,sortedWords):
-        useCaseForm = UseCaseForm(self.root, "Cas d'usage - "+projectName, useCaseList,sortedWords)
+        useCaseForm = UseCaseForm(self.root, "Cas d'usage - "+projectName, useCaseList,sortedWords, self.parentClient.currentProject, self.parentClient)
         return useCaseForm.useCaseList
     
     def getCrcListFromCrcForm(self,projectName,crcList,sortedWords):
-        crcForm = CrcForm(self.root,"CRC - "+projectName,crcList,sortedWords)
+        crcForm = CrcForm(self.root,"CRC - "+projectName,crcList,sortedWords, self.parentClient.currentProject, self.parentClient)
         return crcForm.crcList
     
     def getScrumListFromScrumForm(self,projectName,scrumList):
-        scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList)
+        scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList, self.parentClient.currentProject, self.parentClient)
         return scrumForm.scrumList
     
     def getSprintListFromSprintForm(self,projectName,sprintList):
-        sprintForm = SprintForm(self.root,"PLANNING GAME - "+projectName,sprintList)
+        sprintForm = SprintForm(self.root,"PLANNING GAME - "+projectName,sprintList, self.parentClient.currentProject, self.parentClient)
         return sprintForm.sprintList
         
     def getInputDialog(self,message):
