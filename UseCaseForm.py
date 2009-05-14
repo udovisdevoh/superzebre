@@ -11,13 +11,17 @@ class UseCaseForm:
         self.project = project
         self.useCaseList = useCaseList;
         wordList = []
+        self.checkList = []
         listName = sortedWords.noms[:]
+        self.checkList.append(listName)
         listName.insert(0,"Noms")
         wordList.append(listName)
         listName = sortedWords.adjectifs[:]
+        self.checkList.append(listName)
         listName.insert(0,"Adjectif")
         wordList.append(listName)
         listName = sortedWords.verbes[:]
+        self.checkList.append(listName)
         listName.insert(0,"Verbes")
         wordList.append(listName)
         self.initGraphicsComponents(root, title,wordList)
@@ -98,13 +102,13 @@ class UseCaseForm:
             textList.append(zebre.name)
             textList.append(zebre.description)
             
-        wordCheck = WordCheck(listName, textList, self.root)
+        wordCheck = WordCheck(self.checkList, textList, self.root)
         wtf = wordCheck.activate()
-        if wtf != None:
+        if wtf != 0:
             self.canvas.destroy()
-            if wtf:
+            if wtf == 1:
                 self.project.colorUseCase = self.project.colorOk
-            else:
+            elif wtf == -1:
                 self.project.colorUseCase = self.project.colorPending
             self.client.tryShowTreeView()
                 
