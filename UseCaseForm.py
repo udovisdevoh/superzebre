@@ -95,8 +95,8 @@ class UseCaseForm:
             i += 1
         textList = []
         for zebre in self.useCaseList.useCase:
-            textList.append(zebre.useCase.name)
-            textList.append(zebre.useCase.description)
+            textList.append(zebre.name)
+            textList.append(zebre.description)
             
         wordCheck = WordCheck(listName, textList, self.root)
         wtf = wordCheck.activate()
