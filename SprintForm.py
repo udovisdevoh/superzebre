@@ -2,14 +2,18 @@
 from Tkinter import *
 from SprintList import *
 from Date import *
+from datetime import timedelta
+import time
+import datetime  
+
 
 class SprintForm:
     def __init__(self,root,title,sprintList):
         self.sprintList = sprintList
         self.root = root
-        self.initGraphicComponents(root,title)
         self.index = 0
-
+        self.initGraphicComponents(root,title)
+        
     def initGraphicComponents(self,root,title):
         for i in self.root.pack_slaves():
             i.destroy()
@@ -23,11 +27,15 @@ class SprintForm:
         self.startingDateLabel = Label(self.frameDateName,text="Date de commencement")
         self.endingDateLabel = Label(self.frameDateName,text="Date de fin          ")
         
-        self.description = Text(self.frameGlobal,height = 10)
-        #if len(self.sprintList.sprint)>0:
-        #    self.description.insert(1.0,self.sprintList.sprint[self.index].description)
         self.startingDate = Date(self.frameDate,LEFT)
         self.endingDate = Date(self.frameDate,RIGHT)
+        self.endingDate.next()
+        
+        self.description = Text(self.frameGlobal,height = 10)
+        if len(self.sprintList.sprint)>0:
+            self.description.insert(1.0,self.sprintList.sprint[self.index].description)
+            self.startingDate.setDate(self.sprintList.sprint[self.index].startingDate)
+            self.endingDate.setDate(self.sprintList.sprint[self.index].endingDate)
         self.buttonPrevious = Button(self.frameButton, text = "<<Précédent", bd = 5, command = self.previous)
         self.buttonNext = Button(self.frameButton, text = "Suivant>>", bd = 5, command = self.next)
         self.buttonApply = Button(self.frameButton, text = "Valider", bd = 5, command = self.apply)
@@ -53,6 +61,8 @@ class SprintForm:
             sprint = Sprint()
             text = self.description.get(1.0, END)
             sprint.description = text[:-1]
+            sprint.startingDate = self.startingDate.getDate()
+            sprint.endingDate = self.endingDate.getDate()
             self.sprintList.add(sprint)
         else:
             text = self.description.get(1.0, END)
@@ -60,6 +70,9 @@ class SprintForm:
         self.index += 1
         if self.index == len(self.sprintList.sprint):
             self.description.delete(1.0, END)
+            self.startingDate.setDate(self.endingDate.getDate()+ timedelta(days=1))
+            self.endingDate.next()
+            self.endingDate.next()
         else:
             self.updateText()
     
@@ -67,6 +80,8 @@ class SprintForm:
         try:
             self.description.delete(1.0, END)
             self.description.insert(1.0, self.sprintList.sprint[self.index].description)
+            self.startingDate.setDate(self.sprintList.sprint[self.index].startingDate)
+            self.endingDate.setDate(self.sprintList.sprint[self.index].endingDate)
         except IndexError:
             pass
     def apply(self):
@@ -78,5 +93,6 @@ if __name__ == "__main__":
     root = Tk()
     root.minsize(800, 600)
     sprintList = SprintList()
+    sprintList.add(Sprint(datetime.date.today(),datetime.date.today()+ timedelta(days = 1),"Keven est épais"))
     sprintForm = SprintForm(root,"test",sprintList)
     root.mainloop()        
