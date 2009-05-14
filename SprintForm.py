@@ -86,8 +86,21 @@ class SprintForm:
             pass
     def apply(self):
         self.next()
-        for i in self.root.pack_slaves():
-            i.destroy()
+        
+        textList = []
+        for zebre in self.sprintList:
+            textList.append(zebre.sprint.description)
+            
+        wordCheck = WordCheck(listName, textList, self.root)
+        wtf = wordCheck.activate()
+        if wtf != None:
+            for i in self.root.pack_slaves():
+                i.destroy()
+            if wtf:
+                self.project.colorSprint = self.project.colorOk
+            else:
+                self.project.colorSprint = self.project.colorPending
+            self.client.tryShowTreeView()
     
 if __name__ == "__main__":
     root = Tk()

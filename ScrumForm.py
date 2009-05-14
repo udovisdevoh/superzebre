@@ -6,7 +6,9 @@ import datetime
 import os
 
 class ScrumForm: 
-    def __init__(self,root,title,scrumList):
+    def __init__(self,root,title,scrumList, project, client):
+        self.project = project
+        self.client = client
         self.scrumList = scrumList
         self.root = root
         self.today = datetime.date.today()
@@ -78,7 +80,21 @@ class ScrumForm:
         self.labelAppliquer.pack()
         self.scrumList = self.getScrumListFromGraphicalScrumList(self.graphicalScrumList)
         #print "todo: enlever tous les composantes graphiques sauf le menu"
-        #todo: enlever tous les composantes graphiques sauf le menu
+
+        textList = []
+        for zebre in self.graphicalScrumList:
+            textList.append(zebre.sprint.description)
+            
+        wordCheck = WordCheck(listName, textList, self.root)
+        wtf = wordCheck.activate()
+        if wtf != None:
+            for i in self.root.pack_slaves():
+                i.destroy()
+            if wtf:
+                self.project.colorSCRUM = self.project.colorOk
+            else:
+                self.project.colorSCRUM = self.project.colorPending
+            self.client.tryShowTreeView()
         
     def loadbyDate(self):
         for scrum in self.graphicalScrumList:

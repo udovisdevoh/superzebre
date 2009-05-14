@@ -10,10 +10,7 @@ class TreeView:
         self.textSizeH3 = 9
         self.textSizeH4 = 8
         self.project = project
-        self.parentClient = parentClient
-        self.colorOk = "#0F0"
-        self.colorPending = "#FF0"
-        self.colorNotOk = "#F00"
+        self.parentClient = parentClient         
     
     def show(self):
         for i in self.root.pack_slaves():
@@ -36,13 +33,7 @@ class TreeView:
         projectNameLabel.pack(anchor="nw")
         
     def _showSortedWords(self,sortedWords):
-        if sortedWords == None:
-            color = self.colorNotOk
-        elif len(sortedWords.noms) < 4 or len(sortedWords.adjectifs) < 4 or len(sortedWords.verbes) < 4:
-            color = self.colorPending
-        else:
-            color = self.colorOk
-        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryBeginPerformTextAnalysis)
+        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorTextAnalysis, command=self.tryBeginPerformTextAnalysis)
         buttonSortedWordsTitle.pack(anchor="nw", padx=30)         
         self.__showSortedWordsForCategory("Noms", sortedWords.noms)
         self.__showSortedWordsForCategory("Adjectifs", sortedWords.adjectifs)
@@ -66,7 +57,7 @@ class TreeView:
             color = self.colorPending
         else:
             color = self.colorOk
-        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditUseCases)
+        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorUseCase, command=self.tryEditUseCases)
         buttonTitle.pack(anchor="nw", padx=30)
         for useCase in useCaseList.useCase:
             self.__showUseCase(useCase)
@@ -78,13 +69,7 @@ class TreeView:
         labelText.pack(anchor="nw", padx=90)
     
     def _showScrumList(self,scrumList):
-        if scrumList == None:
-            color = self.colorNotOk
-        elif len(scrumList.scrum) < 4:
-            color = self.colorPending
-        else:
-            color = self.colorOk 
-        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditScrum)
+        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorSCRUM, command=self.tryEditScrum)
         buttonTitle.pack(anchor="nw", padx=30)
         for scrum in scrumList.scrum:
             self.__showScrum(scrum)
@@ -106,7 +91,7 @@ class TreeView:
             color = self.colorPending
         else:
             color = self.colorOk            
-        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditCrcs)
+        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorCRC, command=self.tryEditCrcs)
         buttonTitle.pack(anchor="nw", padx=30)
         for crc in crcList.crc:
             self.__showCrc(crc)
@@ -128,7 +113,7 @@ class TreeView:
             color = self.colorPending
         else:
             color = self.colorOk
-        buttonTitle = Button(self.canvas, text="Planning game", font=("Helvetica", self.textSizeH2), justify="left", background=color, command=self.tryEditSprints)
+        buttonTitle = Button(self.canvas, text="Planning game", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorSprint, command=self.tryEditSprints)
         buttonTitle.pack(anchor="nw", padx=30)
         for sprint in sprintList.sprint:
             self.__showSprint(sprint)

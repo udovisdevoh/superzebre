@@ -3,7 +3,9 @@ from Tkinter import *
 from SortedWords import *
 
 class TextAnalysisForm:
-    def __init__(self, root, title, text, sortedWords):
+    def __init__(self, root, title, text, sortedWords, project, client):
+        self.client = client
+        self.project = project
         self.sortedWords = sortedWords       
         self.initGraphicComponents(root,title,text)
         self.fillWordTypeColumns()
@@ -98,6 +100,7 @@ class TextAnalysisForm:
         nounList = self.getWordListFromTextField(self.nom)
         adjList = self.getWordListFromTextField(self.adj)        
         self.sortedWords.setWordsTypes(verbList, nounList, adjList)
+        self.project.colorTextAnalysis = self.project.colorOk
         self.fermer()
         
     def fermer(self):
@@ -108,6 +111,7 @@ class TextAnalysisForm:
             self.frameSaute.destroy()
             self.frameBottom.destroy()
             self.frameBoutonValide.destroy()
+            self.client.tryShowTreeView()
         except AttributeError:
             pass
         
