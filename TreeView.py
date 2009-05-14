@@ -159,6 +159,9 @@ class TreeView:
     
     def tryEditCrcs(self):
         self.parentClient.tryEditCrcs()
+        
+    def foundCrcs(self):
+        pass
 
 if __name__ == "__main__":
     root = Tk()
@@ -176,6 +179,7 @@ if __name__ == "__main__":
     project.useCaseList.add(UseCase("Lancer du trefle","On lance le trefle"))    
     project.scrumList.scrum.append(Scrum("2009-01-02","Boris","Faire du café","Café fait","Il n'en restait plus"))
     project.crcList.crc.append(Crc("Tableau","Marcel","Contenir les cases","Case"))
+    project.crcList.crc.append(Crc("Tabledfgdfgau","Mardfgdfgcel","Contedfgdfgnir les cases","Case"))
     project.sprintList.add(Sprint("date1","date2","fdhfghfghsdf"))
     project.sprintList.add(Sprint("date1b","date2b","fdh vch fghfghsdf"))
     treeView = TreeView(root, project)
