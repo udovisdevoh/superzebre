@@ -2,20 +2,26 @@
 from Tkinter import *
 from CrcList import *
 from AutoCompleteWidget import *
+from WordCheck import *
 
 class CrcForm(object):
     def __init__(self, root, title, crcList,sortedWords, project, client):
+        self.root = root
         self.client = client
         self.project = project
         self.crcList = crcList
         wordList = []
+        self.checkList = []
         listName = sortedWords.noms[:]
+        self.checkList.append(listName)
         listName.insert(0,"Noms")
         wordList.append(listName)
         listName = sortedWords.adjectifs[:]
+        self.checkList.append(listName)
         listName.insert(0,"Adjectif")
         wordList.append(listName)
         listName = sortedWords.verbes[:]
+        self.checkList.append(listName)
         listName.insert(0,"Verbes")
         wordList.append(listName)
         self.initGraphicsComponents(root, title,wordList)
@@ -105,12 +111,12 @@ class CrcForm(object):
             i += 1
             
         textList = []
-        for zebre in self.crcList:
-            textList.append(zebre.crc.title)
-            textList.append(zebre.useCase.tabResponsability)
-            textList.append(zebre.useCase.tabColaborators)
+        for zebre in self.crcList.crc:
+            textList.append(zebre.name)
+            textList.append(zebre.responsibility)
+            textList.append(zebre.collaboration)
             
-        wordCheck = WordCheck(listName, textList, self.root)
+        wordCheck = WordCheck(self.checkList, textList, self.root)
         wtf = wordCheck.activate()
         if wtf != None:
             self.canvas.destroy()
