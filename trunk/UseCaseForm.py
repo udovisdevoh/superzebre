@@ -94,7 +94,7 @@ class UseCaseForm:
             self.useCaseList.useCase.append(UseCase(title,self.tabDefinition[i]))
             i += 1
         textList = []
-        for zebre in self.useCaseList:
+        for zebre in self.useCaseList.useCase:
             textList.append(zebre.useCase.name)
             textList.append(zebre.useCase.description)
             
