@@ -104,7 +104,7 @@ class TreeView:
             self.__showSprint(sprint)
             
     def __showSprint(self,sprint):
-        labelTitle = Label(self.canvas, text=sprint.startingDate + " " + sprint.endingDate, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle = Label(self.canvas, text="Début : " + str(sprint.startingDate) + "\tFin : " + str(sprint.endingDate), font=("Helvetica", self.textSizeH3), justify="left")
         labelTitle.pack(anchor="nw", padx=60)
         labelText = Label(self.canvas, text=sprint.description, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)
