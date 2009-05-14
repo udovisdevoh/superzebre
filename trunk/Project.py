@@ -14,3 +14,11 @@ class Project:
         self.useCaseList = UseCaseList()
         self.sprintList = SprintList()
         self.text = None
+        self.colorOk = "#0F0"
+        self.colorPending = "#FF0"
+        self.colorNotOk = "#F00"
+        self.colorTextAnalysis = self.colorNotOk
+        self.colorUseCase = self.colorNotOk
+        self.colorCRC = self.colorNotOk
+        self.colorSCRUM = self.colorNotOk
+        self.colorSprint = self.colorNotOk

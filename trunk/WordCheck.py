@@ -60,20 +60,20 @@ class WordCheck(object):
         """
         for currentList in self.lists:
             for currentElement in currentList:
-                self.checkList.append(currentElement)
+                self.checkList.append(currentElement.lower())
     
     def fillTextWords(self):
         """
         This method is used to separate all the words used in the texts and put them into the new list textWords.
         """
         for currentText in self.texts:
-            text = currentText.get("1.0", END)
+            #text = currentText.get("1.0", END)
             text = text.splitlines()
             for line in text:
                 line = line.strip(".,!?:;()$/\|#*&%_<>[]")
                 line = line.split(" ")
                 for word in line:
-                    self.textWords.append(word)
+                    self.textWords.append(word.lower())
     
     def removeUsedWords(self):
         """
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     root.text1.pack()
     root.text2 = Text(root, height = 10, width = 30)
     root.text2.pack()
-    wordCheck = WordCheck(lists, [root.text1,root.text2], root)
+    wordCheck = WordCheck(lists, [root.text1, root.text2], root)
     b = Button(root, text="OK", command=wordCheck.activate)
     b.pack()
     root.mainloop()

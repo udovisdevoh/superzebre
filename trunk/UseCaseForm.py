@@ -2,9 +2,13 @@
 from Tkinter import *
 from UseCaseList import *
 from AutoCompleteWidget import *
+from WordCheck import *
 
 class UseCaseForm:
-    def __init__(self, root, title, useCaseList,sortedWords):
+    def __init__(self, root, title, useCaseList,sortedWords, project, client):
+        self.client = client
+        self.root = root
+        self.project = project
         self.useCaseList = useCaseList;
         wordList = []
         listName = sortedWords.noms[:]
@@ -81,13 +85,29 @@ class UseCaseForm:
             pass
         
     def apply(self):
+        
         self.next()
         self.useCaseList.useCase=[]
+        
         i = 0
         for title in self.tabTitle:
             self.useCaseList.useCase.append(UseCase(title,self.tabDefinition[i]))
             i += 1
-        self.canvas.destroy()
+        textList = []
+        for zebre in self.useCaseList:
+            textList.append(zebre.useCase.name)
+            textList.append(zebre.useCase.description)
+            
+        wordCheck = WordCheck(listName, textList, self.root)
+        wtf = wordCheck.activate()
+        if wtf != None:
+            self.canvas.destroy()
+            if wtf:
+                self.project.colorUseCase = self.project.colorOk
+            else:
+                self.project.colorUseCase = self.project.colorPending
+            self.client.tryShowTreeView()
+                
     
 if __name__ == "__main__":
     root = Tk()
