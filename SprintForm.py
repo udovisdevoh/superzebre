@@ -9,7 +9,7 @@ from WordCheck import *
 
 
 class SprintForm:
-    def __init__(self,root,title,sprintList, project, client):
+    def __init__(self,root,title,sprintList, sortedWords, project, client):
         self.client = client
         self.project = project
         self.sprintList = sprintList
@@ -19,15 +19,15 @@ class SprintForm:
         wordList = []
         self.checkList = []
         listName = sortedWords.noms[:]
-        self.checkList.append(listName)
+        self.checkList.append(listName[:])
         listName.insert(0,"Noms")
         wordList.append(listName)
         listName = sortedWords.adjectifs[:]
-        self.checkList.append(listName)
+        self.checkList.append(listName[:])
         listName.insert(0,"Adjectif")
         wordList.append(listName)
         listName = sortedWords.verbes[:]
-        self.checkList.append(listName)
+        self.checkList.append(listName[:])
         listName.insert(0,"Verbes")
         wordList.append(listName)
         
@@ -107,15 +107,15 @@ class SprintForm:
         self.next()
         
         textList = []
-        for zebre in self.sprintList.sprint:
-            textList.append(zebre.description)
+        for element in self.sprintList.sprint:
+            textList.append(zebre.element)
             
-        wordCheck = WordCheck(listName, textList, self.root)
-        wtf = wordCheck.activate()
-        if wtf != None:
+        wordCheck = WordCheck(self.checkList, textList, self.root)
+        status = wordCheck.activate()
+        if status != None:
             for i in self.root.pack_slaves():
                 i.destroy()
-            if wtf:
+            if status:
                 self.project.colorSprint = self.project.colorOk
             else:
                 self.project.colorSprint = self.project.colorPending
