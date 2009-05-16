@@ -68,13 +68,15 @@ class Client:
     def tryEditScrums(self):
         if self.currentProject != None:
             scrumList = self.currentProject.scrumList
-            self.currentProject.scrumList = self.gui.getScrumListFromScrumForm(self.currentProject.name,scrumList)
+            sortedWords = self.currentProject.sortedWords
+            self.currentProject.scrumList = self.gui.getScrumListFromScrumForm(self.currentProject.name,scrumList,sortedWords)
         pass
     
     def tryEditSprints(self):
         if self.currentProject != None:
             sprintList = self.currentProject.sprintList
-            self.currentProject.sprintList = self.gui.getSprintListFromSprintForm(self.currentProject.name, self.currentProject.sprintList)
+            sortedWords = self.currentProject.sortedWords
+            self.currentProject.sprintList = self.gui.getSprintListFromSprintForm(self.currentProject.name, self.currentProject.sprintList,sortedWords)
     
     def tryShowTreeView(self):
         if self.currentProject == None:

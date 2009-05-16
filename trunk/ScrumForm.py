@@ -4,14 +4,31 @@ from AutoCompleteWidget import *
 import time
 import datetime  
 import os
+from WordCheck import *
 
 class ScrumForm: 
-    def __init__(self,root,title,scrumList, project, client):
+    def __init__(self,root,title,scrumList, sortedWords,project, client):
         self.project = project
         self.client = client
         self.scrumList = scrumList
         self.root = root
         self.today = datetime.date.today()
+        
+        wordList = []
+        self.checkList = []
+        listName = sortedWords.noms[:]
+        self.checkList.append(listName[:])
+        listName.insert(0,"Noms")
+        wordList.append(listName)
+        listName = sortedWords.adjectifs[:]
+        self.checkList.append(listName[:])
+        listName.insert(0,"Adjectif")
+        wordList.append(listName)
+        listName = sortedWords.verbes[:]
+        self.checkList.append(listName[:])
+        listName.insert(0,"Verbes")
+        wordList.append(listName)
+        
         self.initGraphicComponents(root,title)
         self.graphicalScrumList = self.getGraphicalScrumList(scrumList)
         self.loadbyDate()
@@ -79,18 +96,19 @@ class ScrumForm:
         self.addToScrumList()
         self.labelAppliquer.pack()
         self.scrumList = self.getScrumListFromGraphicalScrumList(self.graphicalScrumList)
-        #print "todo: enlever tous les composantes graphiques sauf le menu"
 
         textList = []
-        for zebre in self.graphicalScrumList:
-            textList.append(zebre.sprint.description)
+        for element in self.scrumList.scrum:
+            textList.append(element.todo)
+            textList.append(element.done)
+            textList.append(element.problem)
             
-        wordCheck = WordCheck(listName, textList, self.root)
-        wtf = wordCheck.activate()
-        if wtf != None:
+        wordCheck = WordCheck(self.checkList, textList, self.root)
+        status = wordCheck.activate()
+        if status != None:
             for i in self.root.pack_slaves():
                 i.destroy()
-            if wtf:
+            if status:
                 self.project.colorSCRUM = self.project.colorOk
             else:
                 self.project.colorSCRUM = self.project.colorPending

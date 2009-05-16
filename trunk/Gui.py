@@ -121,12 +121,12 @@ class Gui:
         crcForm = CrcForm(self.root,"CRC - "+projectName,crcList,sortedWords, self.parentClient.currentProject, self.parentClient)
         return crcForm.crcList
     
-    def getScrumListFromScrumForm(self,projectName,scrumList):
-        scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList, self.parentClient.currentProject, self.parentClient)
+    def getScrumListFromScrumForm(self,projectName,scrumList,sortedWords):
+        scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList, sortedWords,self.parentClient.currentProject, self.parentClient)
         return scrumForm.scrumList
     
-    def getSprintListFromSprintForm(self,projectName,sprintList):
-        sprintForm = SprintForm(self.root,"PLANNING GAME - "+projectName,sprintList, self.parentClient.currentProject, self.parentClient)
+    def getSprintListFromSprintForm(self,projectName,sprintList,sortedWords):
+        sprintForm = SprintForm(self.root,"PLANNING GAME - "+projectName,sprintList, sortedWords,self.parentClient.currentProject, self.parentClient)
         return sprintForm.sprintList
         
     def getInputDialog(self,message):

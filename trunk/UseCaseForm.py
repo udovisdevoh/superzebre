@@ -13,15 +13,15 @@ class UseCaseForm:
         wordList = []
         self.checkList = []
         listName = sortedWords.noms[:]
-        self.checkList.append(listName)
+        self.checkList.append(listName[:])
         listName.insert(0,"Noms")
         wordList.append(listName)
         listName = sortedWords.adjectifs[:]
-        self.checkList.append(listName)
+        self.checkList.append(listName[:])
         listName.insert(0,"Adjectif")
         wordList.append(listName)
         listName = sortedWords.verbes[:]
-        self.checkList.append(listName)
+        self.checkList.append(listName[:])
         listName.insert(0,"Verbes")
         wordList.append(listName)
         self.initGraphicsComponents(root, title,wordList)
@@ -98,15 +98,15 @@ class UseCaseForm:
             self.useCaseList.useCase.append(UseCase(title,self.tabDefinition[i]))
             i += 1
         textList = []
-        for zebre in self.useCaseList.useCase:
-            textList.append(zebre.name)
-            textList.append(zebre.description)
+        for element in self.useCaseList.useCase:
+            textList.append(element.name)
+            textList.append(element.description)
             
         wordCheck = WordCheck(self.checkList, textList, self.root)
-        wtf = wordCheck.activate()
-        if wtf != None:
+        status = wordCheck.activate()
+        if status != None:
             self.canvas.destroy()
-            if wtf:
+            if status:
                 self.project.colorUseCase = self.project.colorOk
             else:
                 self.project.colorUseCase = self.project.colorPending
