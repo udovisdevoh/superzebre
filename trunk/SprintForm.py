@@ -31,9 +31,9 @@ class SprintForm:
         listName.insert(0,"Verbes")
         wordList.append(listName)
         
-        self.initGraphicComponents(root,title)
+        self.initGraphicComponents(root,title, wordList)
         
-    def initGraphicComponents(self,root,title):
+    def initGraphicComponents(self,root,title, wordList):
         for i in self.root.pack_slaves():
             i.destroy()
         root.title(title)
@@ -69,6 +69,8 @@ class SprintForm:
         self.description.pack(side = TOP,pady=20)
         self.frameButton.pack(side = TOP,ipadx = 100)
         self.frameGlobal.pack(side = TOP,pady=160)
+        
+        self.autoCompletionDescription = AutoCompletion(root,wordList,True,self.description,5,50)
     
     def previous(self):
         if self.index > 0:
