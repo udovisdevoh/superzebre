@@ -100,7 +100,17 @@ class TextAnalysisForm:
         nounList = self.getWordListFromTextField(self.nom)
         adjList = self.getWordListFromTextField(self.adj)        
         self.sortedWords.setWordsTypes(verbList, nounList, adjList)
-        self.project.colorTextAnalysis = self.project.colorOk
+        empty = True
+        if len(verbList) > 0:
+            empty = False
+        elif len(nounList) > 0:
+            empty = False
+        elif len(adjList) > 0:
+            empty = False
+        if empty:
+            self.project.colorTextAnalysis = self.project.colorPending
+        else:
+            self.project.colorTextAnalysis = self.project.colorOk
         self.fermer()
         
     def fermer(self):

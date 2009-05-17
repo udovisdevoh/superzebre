@@ -89,8 +89,8 @@ class TreeView:
     def __showCrc(self,crc):
         labelTitle = Label(self.canvas, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
         labelTitle.pack(anchor="nw", padx=60)
-        labelText = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
-        labelText.pack(anchor="nw", padx=90)
+        """labelText = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText.pack(anchor="nw", padx=90)"""
         labelText = Label(self.canvas, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)        
         labelText = Label(self.canvas, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")

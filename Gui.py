@@ -59,6 +59,7 @@ class Gui:
             return
         self.parentClient.createNewProject(projectName)
         self.root.title("SuperZèbre - "+projectName)
+        self.tryShowTreeView()
     
     def tryLoadProject(self):
         projectNameList = self.parentClient.getProjectNameList()

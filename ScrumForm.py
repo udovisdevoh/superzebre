@@ -29,11 +29,11 @@ class ScrumForm:
         listName.insert(0,"Verbes")
         wordList.append(listName)
         
-        self.initGraphicComponents(root,title)
+        self.initGraphicComponents(root,title, wordList)
         self.graphicalScrumList = self.getGraphicalScrumList(scrumList)
         self.loadbyDate()
     
-    def initGraphicComponents(self,root,title):
+    def initGraphicComponents(self,root,title, wordList):
         for i in root.pack_slaves():
             i.destroy()
         root.title(title)
@@ -73,6 +73,10 @@ class ScrumForm:
         self.labBottom = Label(self.frameBottom, text="Problemes ")
         self.labBottom.pack(anchor=W)
         self.textBottom.pack()
+        
+        self.autoCompletionTop = AutoCompletion(root,wordList,True,self.textTop,5,50)
+        self.autoCompletionMiddle = AutoCompletion(root,wordList,True,self.textMiddle,5,50)
+        self.autoCompletionBottom = AutoCompletion(root,wordList,True,self.textBottom,5,50)
     
     def getGraphicalScrumList(self,scrumList):
         graphicalScrumList = []
