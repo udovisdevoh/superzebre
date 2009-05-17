@@ -108,7 +108,7 @@ class SprintForm:
         
         textList = []
         for element in self.sprintList.sprint:
-            textList.append(zebre.element)
+            textList.append(element.description)
             
         wordCheck = WordCheck(self.checkList, textList, self.root)
         status = wordCheck.activate()
