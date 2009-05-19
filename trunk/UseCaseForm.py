@@ -114,12 +114,14 @@ class UseCaseForm:
             
         wordCheck = WordCheck(self.checkList, textList, self.root)
         status = wordCheck.activate()
-        if status != None:
+        if status != 0:
             self.canvas.destroy()
-            if status:
+            if status == 1:
                 self.project.colorUseCase = self.project.colorOk
-            else:
+            elif staus == 2:
                 self.project.colorUseCase = self.project.colorPending
+            elif staus == 3:
+                self.project.colorUseCase = self.project.colorOrange
             self.client.tryShowTreeView()
                 
     
