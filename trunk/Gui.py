@@ -122,8 +122,8 @@ class Gui:
         crcForm = CrcForm(self.root,"CRC - "+projectName,crcList,sortedWords, self.parentClient.currentProject, self.parentClient)
         return crcForm.crcList
     
-    def getScrumListFromScrumForm(self,projectName,scrumList,sortedWords):
-        scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList, sortedWords,self.parentClient.currentProject, self.parentClient)
+    def getScrumListFromScrumForm(self,projectName,scrumList,sortedWords, sprintList):
+        scrumForm = ScrumForm(self.root,"SCRUMS - "+projectName,scrumList, sortedWords,self.parentClient.currentProject, self.parentClient, sprintList)
         return scrumForm.scrumList
     
     def getSprintListFromSprintForm(self,projectName,sprintList,sortedWords):
