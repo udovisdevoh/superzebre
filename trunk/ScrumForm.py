@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Tkinter import *
 from ScrumList import *
 from AutoCompleteWidget import *
@@ -7,7 +8,7 @@ import os
 from WordCheck import *
 
 class ScrumForm: 
-    def __init__(self,root,title,scrumList, sortedWords,project, client):
+    def __init__(self,root,title,scrumList, sortedWords,project, client, sprintList):
         self.project = project
         self.client = client
         self.scrumList = scrumList
@@ -28,6 +29,9 @@ class ScrumForm:
         self.checkList.append(listName[:])
         listName.insert(0,"Verbes")
         wordList.append(listName)
+        
+        self.sprints = []
+        self.sprints = sprintList
         
         self.initGraphicComponents(root,title, wordList)
         self.graphicalScrumList = self.getGraphicalScrumList(scrumList)
@@ -57,6 +61,9 @@ class ScrumForm:
         self.laDate = Text(self.frameDate, height = 1,width=20,)
         self.laDate.insert(INSERT, self.today)
         self.laDate.pack(anchor=W,padx=10,side=BOTTOM,)
+        self.listSprint = Listbox(self.frameDate)
+        self.listSprint.pack(side=RIGHT, padx=40)
+        
         self.labelAppliquer = Label(self.frameButtons, text = " Les changements ont ete appliques!", fg = "blue")
         self.labelDate.pack(anchor=W,padx=7,)
         self.laDate.config(state=DISABLED)
@@ -73,6 +80,12 @@ class ScrumForm:
         self.labBottom = Label(self.frameBottom, text="Problemes ")
         self.labBottom.pack(anchor=W)
         self.textBottom.pack()
+        
+        if len(self.sprints.sprint)  > 0:
+            for sprintLoop in self.sprints.sprint:
+                self.listSprint.insert(END, sprintLoop.description[1:10])
+        else:
+            self.listSprint.insert(END, "Rien de prévu")
         
         self.autoCompletionTop = AutoCompletion(root,wordList,True,self.textTop,5,50)
         self.autoCompletionMiddle = AutoCompletion(root,wordList,True,self.textMiddle,5,50)
@@ -109,13 +122,15 @@ class ScrumForm:
             
         wordCheck = WordCheck(self.checkList, textList, self.root)
         status = wordCheck.activate()
-        if status != None:
+        if status != 0:
             for i in self.root.pack_slaves():
                 i.destroy()
-            if status:
+            if status == 1:
                 self.project.colorSCRUM = self.project.colorOk
-            else:
+            elif status == 2:
                 self.project.colorSCRUM = self.project.colorPending
+            elif status == 3:
+                self.project.colorSCRUM = self.project.colorOrange
             self.client.tryShowTreeView()
         
     def loadbyDate(self):
