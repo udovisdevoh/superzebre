@@ -69,7 +69,7 @@ class Client:
         if self.currentProject != None:
             scrumList = self.currentProject.scrumList
             sortedWords = self.currentProject.sortedWords
-            self.currentProject.scrumList = self.gui.getScrumListFromScrumForm(self.currentProject.name,scrumList,sortedWords)
+            self.currentProject.scrumList = self.gui.getScrumListFromScrumForm(self.currentProject.name,scrumList,sortedWords, sprintList)
         pass
     
     def tryEditSprints(self):
