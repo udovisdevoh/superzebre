@@ -11,10 +11,12 @@ from TreeView import *
 from ScrumForm import *
 from SprintForm import *
 from LoadProjectForm import *
+import Tix
 
 class Gui:
     def __init__(self, parentClient):
         self.parentClient = parentClient
+        #self.root = Tix.Tk() à tester plus tard
         self.root = Tk()
         self.root.minsize(800,600)
         self.root.title("SuperZèbre")
