@@ -6,6 +6,7 @@ from datetime import timedelta
 import time
 import datetime  
 from WordCheck import *
+from AutoCompleteWidget import *
 
 
 class SprintForm:

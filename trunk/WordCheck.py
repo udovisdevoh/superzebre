@@ -89,7 +89,10 @@ class WordCheck(object):
         if len(usedWords) > 0:
             for word in usedWords:
                 word = word.lower()
-                self.checkList.remove(word)
+                try:
+                    self.checkList.remove(word)
+                except ValueError:
+                    pass
                 
     def showMessageBox(self):
         """
