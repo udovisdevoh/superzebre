@@ -35,7 +35,7 @@ class WordCheck(object):
         self.checkList = []
         self.textWords = []
         self.root = root
-        self.status = None
+        self.status = 0
     
     def activate(self):
         """
@@ -53,7 +53,7 @@ class WordCheck(object):
             self.root.wait_window(self.toplevel)
             return self.status
         else:
-            return True
+            return 1
                 
     def fillCheckList(self):
         """
@@ -132,7 +132,7 @@ class WordCheck(object):
         This method is called if the user presses the buttonContinue, it destroys the toplevel and sets the status to False,
         this will change the status to yellow in the treeView.
         """
-        self.status = False
+        self.status = 2
         self.toplevel.destroy()
     
     def actionIgnore(self):
@@ -140,7 +140,7 @@ class WordCheck(object):
         This method is called if the user presses the buttonIgnore, it destroys the toplevel and sets the status to True,
         this will change the status to green in the treeView.
         """
-        self.status = True
+        self.status = 3
         self.toplevel.destroy()
         
     def actionCancel(self):
@@ -148,7 +148,7 @@ class WordCheck(object):
         This method is called if the user presses the buttonCancel, it destroys the toplevel and sets the status to None
         so the user can continue editing the current page.
         """
-        self.status = None
+        self.status = 0
         self.checkList = []
         self.textWords = []
         self.toplevel.destroy()

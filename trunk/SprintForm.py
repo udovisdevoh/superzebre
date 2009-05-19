@@ -115,13 +115,15 @@ class SprintForm:
             
         wordCheck = WordCheck(self.checkList, textList, self.root)
         status = wordCheck.activate()
-        if status != None:
+        if status != 0:
             for i in self.root.pack_slaves():
                 i.destroy()
-            if status:
+            if status == 1:
                 self.project.colorSprint = self.project.colorOk
-            else:
+            elif status == 2:
                 self.project.colorSprint = self.project.colorPending
+            elif status == 3:
+                self.project.colorSprint = self.project.colorOrange
             self.client.tryShowTreeView()
     
 if __name__ == "__main__":
