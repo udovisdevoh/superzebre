@@ -1,11 +1,15 @@
-#Fri May 01 20:54:34 EDT 2009
+#Tue May 19 15:34:38 GMT 2009
 eclipse.preferences.version=1
+encoding/AutoCompleteWidget.py=cp1252
 encoding/Client.py=iso-8859-1
 encoding/CrcForm.py=iso-8859-1
 encoding/FileForm.py=iso-8859-1
 encoding/Gui.py=iso-8859-1
 encoding/Project.py=iso-8859-1
+encoding/ScrumForm.py=UTF-8
 encoding/Server.py=iso-8859-1
 encoding/SortedWords.py=iso-8859-1
+encoding/SprintForm.py=iso-8859-1
 encoding/TextAnalysisForm.py=iso-8859-1
+encoding/TreeView.py=iso-8859-1
 encoding/UseCaseForm.py=iso-8859-1
