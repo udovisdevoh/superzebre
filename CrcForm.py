@@ -118,12 +118,14 @@ class CrcForm(object):
             
         wordCheck = WordCheck(self.checkList, textList, self.root)
         status = wordCheck.activate()
-        if status != None:
+        if status != 0:
             self.canvas.destroy()
-            if status:
+            if status == 1:
                 self.project.colorCRC = self.project.colorOk
-            else:
+            elif status == 2:
                 self.project.colorCRC= self.project.colorPending
+            elif status == 3:
+                self.project.colorCRC= self.project.colorOrange
             self.client.tryShowTreeView()
             
 if __name__ == "__main__":
