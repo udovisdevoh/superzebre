@@ -2,10 +2,13 @@
 from Tkinter import *
 from ScrumList import *
 from AutoCompleteWidget import *
+from SortedWords import *
+from Project import *
 import time
 import datetime  
 import os
 from WordCheck import *
+from Client import *
 
 class ScrumForm: 
     def __init__(self,root,title,scrumList, sortedWords,project, client, sprintList):
@@ -210,5 +213,8 @@ if __name__ == "__main__":
     root = Tk()
     root.config(width =600, height = 800)
     root.title("Formulaire de Scrum") 
-    scrumForm = ScrumForm(root,scrumList)
+    sortedWords = SortedWords()
+    project = Project("hgh")
+    client = Client()
+    scrumForm = ScrumForm(root,"Scrum form",scrumList,sortedWords,project,client,sprintList)
     root.mainloop()
