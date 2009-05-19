@@ -113,7 +113,7 @@ class WordCheck(object):
             listbox.insert(END, word)
         listbox.pack()
         
-        text = "\nSouhaitez-vous continuer et être avertit plus tard (section en jaune), ignorer ce message (section en vert) ou bien annuler pour ré-éditer cette partie du projet?\n"
+        text = "\nSouhaitez-vous continuer et être avertit plus tard (section en jaune), ignorer ce message (section en orange) ou bien annuler pour ré-éditer cette partie du projet?\n"
         message = Message(self.toplevel, text = text, width = 300)
         message.pack()
         
