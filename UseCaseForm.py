@@ -118,9 +118,9 @@ class UseCaseForm:
             self.canvas.destroy()
             if status == 1:
                 self.project.colorUseCase = self.project.colorOk
-            elif staus == 2:
+            elif status == 2:
                 self.project.colorUseCase = self.project.colorPending
-            elif staus == 3:
+            elif status == 3:
                 self.project.colorUseCase = self.project.colorOrange
             self.client.tryShowTreeView()
                 
