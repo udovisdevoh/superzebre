@@ -58,6 +58,10 @@ class TextAnalysisForm:
         self.bNom.pack(side = LEFT) 
         self.bAdj.pack(side = LEFT)
         self.bSaute.pack(side=BOTTOM,anchor=W)
+        root.bind("<space>", self.spaceBar)
+    
+    def spaceBar(self, event):
+        self.moveSelectionToNextWord()
     
     def fillWordTypeColumns(self):
         for i in self.sortedWords.verbes:
