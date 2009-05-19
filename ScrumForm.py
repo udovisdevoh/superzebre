@@ -102,13 +102,14 @@ class ScrumForm:
             currentScrumData.append(currentScrum.done)
             currentScrumData.append(currentScrum.todo)
             currentScrumData.append(currentScrum.problem)
+            currentScrumData.append(currentScrum.sprint)
             graphicalScrumList.append(currentScrumData)
         return graphicalScrumList
     
     def getScrumListFromGraphicalScrumList(self, graphicalScrumList):
         self.scrumList.scrum = []
         for currentGraphicalScrum in graphicalScrumList:
-            currentScrum = Scrum(currentGraphicalScrum[0],"",currentGraphicalScrum[2],currentGraphicalScrum[1],currentGraphicalScrum[3])
+            currentScrum = Scrum(currentGraphicalScrum[0],"",currentGraphicalScrum[2],currentGraphicalScrum[1],currentGraphicalScrum[3],currentGraphicalScrum[4])
             self.scrumList.scrum.append(currentScrum)
         return self.scrumList
     
@@ -122,6 +123,7 @@ class ScrumForm:
             textList.append(element.todo)
             textList.append(element.done)
             textList.append(element.problem)
+            textList.append(element.sprint)
             
         wordCheck = WordCheck(self.checkList, textList, self.root)
         status = wordCheck.activate()
@@ -149,6 +151,7 @@ class ScrumForm:
                 self.textMiddle.insert(INSERT, tachesToBeMade)
                 self.textBottom.insert(INSERT, problems)
                 break
+            #self.listSprint.insert(END, scrum[4])
          
     def addToScrumList(self):
         list = []
@@ -160,6 +163,8 @@ class ScrumForm:
         list.append(textT)
         list.append(textM)
         list.append(textB)
+        list.append(self.listSprint.get(ACTIVE))
+        
         if len (self.graphicalScrumList) == 0 :
             self.graphicalScrumList.append(list)
         else : 
