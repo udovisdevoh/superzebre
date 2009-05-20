@@ -1,4 +1,5 @@
 #-*- coding: iso-8859-1 -*-
+import Tix
 from Tkinter import *
 from Project import *
 
@@ -16,8 +17,18 @@ class TreeView:
         for i in self.root.pack_slaves():
             i.destroy()
         self.root.minsize(800, 600)
-        self.canvas = Canvas(self.root, width = 800, height = 600)
-        self.canvas.pack(anchor="nw")
+        self.vsb = Scrollbar(self.root, orient=VERTICAL)
+        self.vsb.pack(side=RIGHT,fill=Y)
+        self.canvas = Canvas(self.root,width = 800 , height = 600,yscrollcommand=self.vsb.set)
+        self.vsb.config(command=self.canvas.yview)
+        self.frame = Frame(self.canvas, width = 800, height = 600)
+        self.canvas.pack(anchor="nw",side=LEFT)
+        self.canvas.create_window(0, 0,  window=self.frame,anchor="nw")
+
+        self.canvas.configure(yscrollcommand=self.vsb.set)
+        
+        
+
         self._showTitle(self.project.name)
         self._showSortedWords(self.project.sortedWords)
         self._showUseCaseList(self.project.useCaseList)
@@ -25,88 +36,91 @@ class TreeView:
         self._showSprintList(self.project.sprintList)
         self._showScrumList(self.project.scrumList)
         
+        self.frame.update_idletasks()
+        self.canvas.config(scrollregion=self.canvas.bbox("all"))
+        
     def hide(self):
-        self.canvas.destroy();
+        self.frame.destroy();
     
     def _showTitle(self,title):
-        projectNameLabel = Label(self.canvas, text=title, font=("Helvetica", self.textSizeH1))
+        projectNameLabel = Label(self.frame, text=title, font=("Helvetica", self.textSizeH1))
         projectNameLabel.pack(anchor="nw")
         
     def _showSortedWords(self,sortedWords):
-        buttonSortedWordsTitle = Button(self.canvas, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorTextAnalysis, command=self.tryBeginPerformTextAnalysis)
+        buttonSortedWordsTitle = Button(self.frame, text="Analyse Textuelle", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorTextAnalysis, command=self.tryBeginPerformTextAnalysis)
         buttonSortedWordsTitle.pack(anchor="nw", padx=30)         
         self.__showSortedWordsForCategory("Noms", sortedWords.noms)
         self.__showSortedWordsForCategory("Adjectifs", sortedWords.adjectifs)
         self.__showSortedWordsForCategory("Verbes", sortedWords.verbes)
         
     def __showSortedWordsForCategory(self,categoryName,wordList):
-        labelCategory = Label(self.canvas, text=categoryName, font=("Helvetica", self.textSizeH3), justify="left")
+        labelCategory = Label(self.frame, text=categoryName, font=("Helvetica", self.textSizeH3), justify="left")
         labelCategory.pack(anchor="nw", padx=60) 
         words=""
         for word in wordList:
             words += word + ", "
         if words=="":
             words="liste vide"
-        labelWord = Label(self.canvas, text = words, font=("Helvetica", self.textSizeH4), justify="left")
+        labelWord = Label(self.frame, text = words, font=("Helvetica", self.textSizeH4), justify="left")
         labelWord.pack(anchor="nw", padx=90)
     
     def _showUseCaseList(self,useCaseList):
 
-        buttonTitle = Button(self.canvas, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorUseCase, command=self.tryEditUseCases)
+        buttonTitle = Button(self.frame, text="Cas d'usage", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorUseCase, command=self.tryEditUseCases)
         buttonTitle.pack(anchor="nw", padx=30)
         for useCase in useCaseList.useCase:
             self.__showUseCase(useCase)
     
     def __showUseCase(self,useCase):
-        labelTitle = Label(self.canvas, text=useCase.name, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle = Label(self.frame, text=useCase.name, font=("Helvetica", self.textSizeH3), justify="left")
         labelTitle.pack(anchor="nw", padx=60)
-        labelText = Label(self.canvas, text=useCase.description, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText = Label(self.frame, text=useCase.description, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)
     
     def _showScrumList(self,scrumList):
-        buttonTitle = Button(self.canvas, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorSCRUM, command=self.tryEditScrum)
+        buttonTitle = Button(self.frame, text="Scrums", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorSCRUM, command=self.tryEditScrum)
         buttonTitle.pack(anchor="nw", padx=30)
         for scrum in scrumList.scrum:
             self.__showScrum(scrum)
             
     def __showScrum(self, scrum):
-        labelTitle = Label(self.canvas, text=scrum.date + ": " + scrum.user, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle = Label(self.frame, text=scrum.date + ": " + scrum.user, font=("Helvetica", self.textSizeH3), justify="left")
         labelTitle.pack(anchor="nw", padx=60)
-        labelText = Label(self.canvas, text=scrum.todo, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText = Label(self.frame, text=scrum.todo, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)
-        labelText = Label(self.canvas, text=scrum.done, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText = Label(self.frame, text=scrum.done, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)
-        labelText = Label(self.canvas, text=scrum.problem, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText = Label(self.frame, text=scrum.problem, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)
         
     def _showCrcList(self,crcList):
           
-        buttonTitle = Button(self.canvas, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorCRC, command=self.tryEditCrcs)
+        buttonTitle = Button(self.frame, text="CRCs", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorCRC, command=self.tryEditCrcs)
         buttonTitle.pack(anchor="nw", padx=30)
         for crc in crcList.crc:
             self.__showCrc(crc)
     
     def __showCrc(self,crc):
-        labelTitle = Label(self.canvas, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle = Label(self.frame, text=crc.name, font=("Helvetica", self.textSizeH3), justify="left")
         labelTitle.pack(anchor="nw", padx=60)
-        """labelText = Label(self.canvas, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
+        """labelText = Label(self.frame, text="Personne ressource: " + crc.ownerName, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)"""
-        labelText = Label(self.canvas, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText = Label(self.frame, text="Responsabilités: " + crc.responsibility, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)        
-        labelText = Label(self.canvas, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText = Label(self.frame, text="Collaborations: " + crc.collaboration, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)
         
     def _showSprintList(self,sprintList):
 
-        buttonTitle = Button(self.canvas, text="Planning game", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorSprint, command=self.tryEditSprints)
+        buttonTitle = Button(self.frame, text="Planning game", font=("Helvetica", self.textSizeH2), justify="left", background=self.project.colorSprint, command=self.tryEditSprints)
         buttonTitle.pack(anchor="nw", padx=30)
         for sprint in sprintList.sprint:
             self.__showSprint(sprint)
             
     def __showSprint(self,sprint):
-        labelTitle = Label(self.canvas, text="Début : " + str(sprint.startingDate) + "\tFin : " + str(sprint.endingDate), font=("Helvetica", self.textSizeH3), justify="left")
+        labelTitle = Label(self.frame, text="Début : " + str(sprint.startingDate) + "\tFin : " + str(sprint.endingDate), font=("Helvetica", self.textSizeH3), justify="left")
         labelTitle.pack(anchor="nw", padx=60)
-        labelText = Label(self.canvas, text=sprint.description, font=("Helvetica", self.textSizeH4), justify="left")
+        labelText = Label(self.frame, text=sprint.description, font=("Helvetica", self.textSizeH4), justify="left")
         labelText.pack(anchor="nw", padx=90)
         
     def tryBeginPerformTextAnalysis(self):
@@ -134,7 +148,7 @@ class TreeView:
         pass
 
 if __name__ == "__main__":
-    root = Tk()
+    root = Tix.Tk()
     project = Project("Dummy project")
     project.sortedWords.noms = []
     project.sortedWords.adjectifs = []
