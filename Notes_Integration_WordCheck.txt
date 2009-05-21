@@ -1,9 +1,0 @@
-Voici des notes pour me rappeller quoi faire pendant le cours de jeudi.
-Pour intégrer le wordcheck, il faut tout dabord que chaque partie du projet est un status (rouge, jaune, vert)
-Ce status sera reflété dans le treeview.
-Il faut créer un objet wordcheck lorsqu'on clique sur un bouton apply.
-La création d'un objet wordcheck requiert une liste de mots(la même que pour un AutocompleteWidget) et une liste de Text Widget
-il faut ensuite utiliser la méthode activate()
-la méthode activate() retourne soit True False ou None, si c'est None, il faut ne rien faire
-Si c'est True, il faut sauvegarder, détruire les widgets, retourner au treeview et changer le status pour vert
-Si c'est False, idem que True mais le status est en jaune
